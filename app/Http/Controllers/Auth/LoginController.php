@@ -15,6 +15,12 @@ class LoginController extends Controller
 
     public function loginPost(Request $request)
     {
+        // Validate the form data
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
         // Attempt to log in the user
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
