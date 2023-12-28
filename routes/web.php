@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/login', [LoginController::class, 'loginPost'])->name('login');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+Route::middleware(['auth', 'user_type:admin'])->group(function () {
+    Route::get('/role-management', 'RoleController@index');
 });

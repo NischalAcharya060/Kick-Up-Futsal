@@ -24,7 +24,12 @@ class LoginController extends Controller
         // Attempt to log in the user
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            // Check the user type and redirect accordingly
+            if (Auth::user()->user_type == 'admin') {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('dashboard');
+            }
         }
 
         // Authentication failed
