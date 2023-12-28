@@ -27,8 +27,8 @@ class LoginController extends Controller
             // Check the user type and redirect accordingly
             if (Auth::user()->user_type == 'admin') {
                 return redirect()->route('admin.dashboard');
-            } else {
-                return redirect()->route('dashboard');
+            } elseif (Auth::user()->user_type == 'user') {
+                return redirect()->route('user.dashboard');
             }
         }
 
@@ -40,6 +40,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect('/login')->with('success', 'Logout successful.');
+        return redirect()->route('login')->with('success', 'Logout successful.');
     }
 }
