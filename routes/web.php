@@ -2,9 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\RoleController;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\Dashboard\AdminDashboardController;
+use App\Http\Controllers\Dashboard\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
