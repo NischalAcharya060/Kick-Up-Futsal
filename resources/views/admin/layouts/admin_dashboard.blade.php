@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Default Title')</title>
+    <title>@yield('title', 'Admin Dashboard')</title>
     <link rel="stylesheet" href="{{ asset('css/admin_dashboard.css') }}" />
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    @yield('styles')
 </head>
 <body>
 
 <section id="sidebar">
-    <a href="#" class="brand">
+    <a href="{{route('admin.dashboard')}}" class="brand">
         <div>
-            <img src="img/logo.png" alt="logo" style="width: 65px;" />
+            <img src="{{ asset('img/logo.png') }}" alt="logo" style="width: 65px;" />
         </div>
         <span class="text">Kick Up Futsal</span>
     </a>
@@ -48,23 +49,15 @@
             <span class="num">8</span>
         </a>
         <div class="dropdown">
-            <a href="#" class="profile" id="profileDropdown">
-                <img src="img/logo.png">
+            <a href="{{ route('admin.profile') }}" class="profile" id="profileDropdown">
+                <img src="{{ asset('img/logo.png') }}" alt="logo" style="width: 65px;" />
             </a>
             <div class="dropdown-content" id="profileDropdownContent">
-                <a href="#">Profile Page</a>
+                <a href="{{ route('admin.profile') }}">Profile</a>
                 <a href="{{ route('logout') }}" >Logout</a>
             </div>
         </div>
     </nav>
-
-    <main>
-        <div class="head-title">
-            <div class="left">
-                <h1>Dashboard</h1>
-            </div>
-        </div>
-    </main>
 </section>
 
 <div class="content">

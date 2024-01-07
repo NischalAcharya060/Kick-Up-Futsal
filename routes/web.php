@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Dashboard\UserDashboardController;
+use App\Http\Controllers\Admin\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +41,10 @@ Route::middleware(['auth', 'user_type:admin'])->group(function () {
 Route::middleware(['auth', 'user_type:admin'])->group(function () {
     Route::get('/role-management', 'RoleController@index');
 });
+
+//admin profile Route
+Route::get('/admin/profile', [ProfileController::class, 'index'])->name('admin.profile');
+Route::post('/admin/profile/update', [ProfileController::class, 'index'])->name('admin.profile.update');
 
 //user Route
 Route::middleware(['auth'])->group(function () {

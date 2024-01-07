@@ -17,7 +17,11 @@ const sidebar = document.getElementById('sidebar');
 
 menuBar.addEventListener('click', function () {
     sidebar.classList.toggle('hide');
-})
+});
+
+// Initial hide of the sidebar
+sidebar.classList.add('hide');
+
 
 const searchButton = document.querySelector('#content nav form .form-input button');
 const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
