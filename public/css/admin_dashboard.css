@@ -256,6 +256,52 @@ body {
     object-fit: cover;
     border-radius: 50%;
 }
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.profile {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 8px;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 1;
+    width: 160px;
+    right: 0;
+}
+.dropdown-content a {
+    color: #333;
+    padding: 12px;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+.dropdown-content a:hover {
+    background-color: #f0f0f0;
+}
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content {
+    display: block;
+}
+.dropdown-content::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: 50%;
+    margin-right: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+}
+
 /* MAIN */
 #content main {
     width: 100%;

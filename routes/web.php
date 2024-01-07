@@ -30,7 +30,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login', [LoginController::class, 'loginPost'])->name('login');
 });
 //Logout Route
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 //admin and Futsal Manager Route
 Route::middleware(['auth', 'user_type:admin'])->group(function () {
