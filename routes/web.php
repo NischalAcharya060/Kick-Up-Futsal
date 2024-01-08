@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Dashboard\UserDashboardController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,16 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 //admin and Futsal Manager Route
 Route::middleware(['auth', 'user_type:admin'])->group(function () {
     Route::get('/admin_dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+});
+
+//Admin User Management Page Route
+Route::middleware(['auth', 'user_type:admin'])->group(function () {
+    Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
+    Route::post('admin/users', [UserController::class, 'store'])->name('admin.users.store');
+    Route::post('admin/users/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::get('admin/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
+    Route::delete('admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 });
 
 Route::middleware(['auth', 'user_type:admin'])->group(function () {
