@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function index()
     {
         $users = User::all();
-        return view('admin.users.index', compact('users'));
+        $roles = Role::all();
+        return view('admin.users.index', compact('users', 'roles'));
     }
 
     public function create()
@@ -36,7 +38,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        // Validation and update logic
+
     }
 
     public function destroy(User $user)
@@ -44,4 +46,22 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
+    public function updateRole(Request $request, User $user)
+    {
+        try {
+            $roles = Role::all();
+            // Validation
+            $request->validate([
+                'role' => 'required|in:' . $roles->pluck('name')->implode(','),
+            ]);
+            // Sync the user's roles
+            $user->syncRoles([$request->input('role')]);
+            return redirect()->route('admin.users.index')->with('success', 'User role updated successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception here
+            return redirect()->route('admin.users.index')->with('error', 'An error occurred while updating user role.');
+        }
+    }
+
+
 }

@@ -6,22 +6,21 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckRole
+class CheckPermission
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    // CheckUserType.php
-
-    public function handle($request, Closure $next, ...$userTypes)
+    public function handle(Request $request, Closure $next, ...$permissions)
     {
-        if (!in_array(auth()->user()->user_type, $userTypes)) {
-            return redirect('/'); // Redirect to home or login page
+        foreach ($permissions as $permission) {
+            if (auth()->user()->hasPermissionTo($permission)) {
+                return $next($request);
+            }
         }
 
-        return $next($request);
+        abort(403, 'Unauthorized action.');
     }
-
 }

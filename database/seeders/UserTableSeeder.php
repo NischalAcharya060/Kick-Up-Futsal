@@ -16,10 +16,10 @@ class UserTableSeeder extends Seeder
     {
         // Create admin user
         User::create([
-            'name' => 'GrdhRavan',
+            'name' => 'Nischal Acharya',
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
-            'user_type' => 'admin',
+            'user_type' => 'Nischal@#060',
         ]);
     }
 }
