@@ -16,23 +16,24 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <form action="{{ route('admin.profile.update') }}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="tab-content">
-                            <div class="tab-pane fade active show" id="account-general">
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="account-general">
+                            <form action="{{ route('admin.profile.update.details') }}" method="post" enctype="multipart/form-data">
+                                @csrf
                                 <div class="card-body media align-items-center">
-                                    @if ($user->profile_picture)
-                                        <img src="{{ asset('path/to/profile/pictures/' . $user->profile_picture) }}" alt class="d-block ui-w-80">
+                                    @if ($user->profile_picture && Storage::exists('public/profile_pictures/' . $user->profile_picture))
+                                        <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt class="d-block ui-w-80">
                                     @else
                                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt class="d-block ui-w-80">
                                     @endif
+
                                     <div class="media-body ml-4">
                                         <label class="btn btn-outline-primary">
                                             Upload new photo
                                             <input type="file" class="account-settings-fileinput" name="profile_picture">
                                         </label> &nbsp;
                                         <button type="button" class="btn btn-default md-btn-flat">Reset</button>
-                                        <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                                        <div class="text-light small mt-1">Allowed JPG, GIF, or PNG. Max size of 800K</div>
                                     </div>
                                 </div>
                                 <hr class="border-light m-0">
@@ -46,14 +47,17 @@
                                         <input type="text" class="form-control mb-1" name="email" value="{{ $user->email }}">
                                     </div>
                                 </div>
-                            </div>
+                                <div class="text-right mt-3">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
+                                    <button type="button" class="btn btn-default">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
 
-                            <div class="tab-pane fade" id="account-change-password">
+                        <div class="tab-pane fade" id="account-change-password">
+                            <form action="{{ route('admin.profile.update.password') }}" method="post">
+                                @csrf
                                 <div class="card-body pb-2">
-                                    <div class="form-group">
-                                        <label class="form-label">Current password</label>
-                                        <input type="text" class="form-control" name="password" value="{{ $user->password }}" readonly>
-                                    </div>
                                     <div class="form-group">
                                         <label class="form-label">New password</label>
                                         <input type="password" class="form-control" name="new_password">
@@ -62,14 +66,14 @@
                                         <label class="form-label">Confirm new password</label>
                                         <input type="password" class="form-control" name="password_confirmation">
                                     </div>
+                                    <div class="text-right mt-3">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
+                                        <button type="button" class="btn btn-default">Cancel</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                        <div class="text-right mt-3">
-                            <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
-                            <button type="button" class="btn btn-default">Cancel</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

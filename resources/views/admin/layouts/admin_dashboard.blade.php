@@ -50,7 +50,11 @@
         </a>
         <div class="dropdown">
             <a href="{{ route('admin.profile') }}" class="profile" id="profileDropdown">
-                <img src="{{ asset('img/logo.png') }}" alt="logo" style="width: 65px;" />
+                @if ($user->profile_picture && Storage::exists('public/profile_pictures/' . $user->profile_picture))
+                    <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt style="width: 30px;">
+                @else
+                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Default Profile Picture" style="width: 30px;">
+                @endif
             </a>
             <div class="dropdown-content" id="profileDropdownContent">
                 <a href="{{ route('admin.profile') }}">Profile</a>

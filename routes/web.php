@@ -44,7 +44,9 @@ Route::middleware(['auth', 'user_type:admin'])->group(function () {
 
 //admin profile Route
 Route::get('/admin/profile', [ProfileController::class, 'index'])->name('admin.profile');
-Route::post('/admin/profile/update', [ProfileController::class, 'index'])->name('admin.profile.update');
+Route::post('/admin/profile/update-details', [ProfileController::class, 'updateDetails'])->name('admin.profile.update.details');
+Route::post('/admin/profile/update-password', [ProfileController::class, 'updatePassword'])->name('admin.profile.update.password');
+
 
 //user Route
 Route::middleware(['auth'])->group(function () {
