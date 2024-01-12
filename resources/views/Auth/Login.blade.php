@@ -75,7 +75,7 @@
                                     autocomplete="new-password"
                                 />
                                 <div class="input-group-append">
-                                    <span class="input-group-text" onclick="myFunction()" id="show-hide-password" style="cursor: pointer;"><i class="mdi mdi-eye"></i></span>
+                                    <span class="input-group-text" onclick="password()" id="show-hide-password" style="cursor: pointer;"><i class="mdi mdi-eye"></i></span>
                                 </div>
                             </div>
                             @error('password')
@@ -96,7 +96,7 @@
                         <a href="{{ route('register') }}" style="color: #121257; text-decoration: none;"><i class="mdi mdi-account-plus"></i> Register here</a>
                     </p>
                     <div class="separator"></div>
-                    <button onclick="window.location='{{ route('login.google') }}'" class="btn btn-danger btn-lg btn-block mt-3">
+                    <button onclick="window.location='{{ route('login.google') }}'" class="btn google btn-danger btn-lg btn-block mt-3">
                         <i class="mdi mdi-google mr-2"></i> Log In with Google
                     </button>
                 </div>

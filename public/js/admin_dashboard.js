@@ -1,3 +1,16 @@
+const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
+
+allSideMenu.forEach(item=> {
+    const li = item.parentElement;
+
+    item.addEventListener('click', function () {
+        allSideMenu.forEach(i=> {
+            i.parentElement.classList.remove('active');
+        })
+        li.classList.add('active');
+    })
+});
+
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector('#content nav .bx.bx-menu');
 const sidebar = document.getElementById('sidebar');
@@ -54,6 +67,7 @@ document.addEventListener("click", function (event) {
     }
 });
 
+//show password
 function password() {
     var passwordInput = document.getElementById("password");
     var eyeIcon = document.getElementById("show-hide-password").getElementsByTagName("i")[0];
