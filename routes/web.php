@@ -31,6 +31,12 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/login', [LoginController::class, 'loginPost'])->name('login');
 });
+
+//google login route
+Route::get('/login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('/login/google/callback', [LoginController::class, 'handleGoogleCallback']);
+
+
 //Logout Route
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 

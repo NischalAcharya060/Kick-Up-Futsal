@@ -88,6 +88,9 @@
                                 required
                                 autocomplete="new-password"
                             />
+                                <div class="input-group-append">
+                                    <span class="input-group-text" onclick="password()" id="show-hide-password" style="cursor: pointer;"><i class="mdi mdi-eye"></i></span>
+                                </div>
                             </div>
                             @error('password')
                             <span class="error-message">{{ $message }}</span>
@@ -108,6 +111,9 @@
                                 required
                                 autocomplete="new-password"
                             />
+                                <div class="input-group-append">
+                                    <span class="input-group-text" onclick="passwordconfirm()" id="show-hide-password-confirm" style="cursor: pointer;"><i class="mdi mdi-eye"></i></span>
+                                </div>
                             </div>
                             @error('password-confirm')
                             <span class="error-message">{{ $message }}</span>
@@ -134,6 +140,8 @@
         </div>
     </div>
 </main>
+<script src="{{ asset('js/admin_dashboard.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

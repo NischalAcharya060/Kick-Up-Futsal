@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -34,6 +37,34 @@ class LoginController extends Controller
 
         // Authentication failed
         return back()->withErrors(['email' => 'Invalid email or password'])->withInput();
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        $user = Socialite::driver('google')->user();
+
+        // Check if the user already exists in your database or create a new user
+        $existingUser = User::where('email', $user->email)->first();
+
+        if ($existingUser) {
+            Auth::login($existingUser);
+        } else {
+            // Create a new user with Google credentials
+            $newUser = new User();
+            $newUser->name = $user->name;
+            $newUser->email = $user->email;
+            $newUser->password = bcrypt(Str::random(8));
+            $newUser->save();
+
+            Auth::login($newUser);
+        }
+
+        return redirect()->route('user.dashboard'); // Redirect to user dashboard after login
     }
 
     public function logout()
