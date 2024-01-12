@@ -18,8 +18,8 @@ class UserTableSeeder extends Seeder
         User::create([
             'name' => 'Nischal Acharya',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('admin'),
-            'user_type' => 'Nischal@#060',
+            'password' => Hash::make('Nischal@#060'),
+            'user_type' => 'admin',
         ]);
     }
 }
