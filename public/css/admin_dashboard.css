@@ -276,6 +276,7 @@ body {
     z-index: 1;
     width: 160px;
     right: 0;
+    text-decoration: none;
 }
 .dropdown-content a {
     color: #333;

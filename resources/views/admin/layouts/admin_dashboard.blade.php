@@ -24,6 +24,13 @@
                 <span class="text">Dashboard</span>
             </a>
         </li>
+        <li>
+{{--            <a href="#">--}}
+            <a href="{{ route('admin.users.index') }}">
+                <i class='bx bxs-user' ></i>
+                <span class="text">User Management</span>
+            </a>
+        </li>
     </ul>
     <ul class="side-menu">
         <li>

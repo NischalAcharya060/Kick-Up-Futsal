@@ -27,14 +27,13 @@
                                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt class="d-block ui-w-80">
                                     @endif
 
-                                    <div class="media-body ml-4">
-                                        <label class="btn btn-outline-primary">
-                                            Upload new photo
-                                            <input type="file" class="account-settings-fileinput" name="profile_picture">
-                                        </label> &nbsp;
-                                        <button type="button" class="btn btn-default md-btn-flat">Reset</button>
-                                        <div class="text-light small mt-1">Allowed JPG, GIF, or PNG. Max size of 800K</div>
-                                    </div>
+                                        <div class="media-body ml-4">
+                                            <label class="btn btn-outline-primary">
+                                                Upload new photo
+                                                <input type="file" class="account-settings-fileinput" name="profile_picture">
+                                            </label> &nbsp;
+                                            <div class="text-light small mt-1">Allowed JPG, GIF, or PNG. Max size of 800K</div>
+                                        </div>
                                 </div>
                                 <hr class="border-light m-0">
                                 <div class="card-body">
@@ -78,7 +77,6 @@
             </div>
         </div>
     </div>
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
