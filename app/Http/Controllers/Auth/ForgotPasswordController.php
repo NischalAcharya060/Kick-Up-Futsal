@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ForgotPasswordController extends Controller
 {
     public function showForm()
     {
-        return view('auth.passwords.email');
+        $user = auth()->user();
+
+        return view('auth.passwords.email', compact('user'));
     }
 
     public function sendResetLinkEmail(Request $request)
@@ -20,14 +23,19 @@ class ForgotPasswordController extends Controller
 
         $response = Password::sendResetLink($request->only('email'));
 
-        return $response == Password::RESET_LINK_SENT
-            ? back()->with('status', trans($response))
-            : back()->withErrors(['email' => trans($response)]);
+        if ($response == Password::RESET_LINK_SENT) {
+            // Save the email in the session
+            $request->session()->put('reset_email', $request->email);
+            return back()->with('status', 'Password reset link sent successfully. Check your email.');
+        } else {
+            return back()->withErrors(['email' => trans($response)]);
+        }
     }
 
     public function showResetForm($token)
     {
-        return view('auth.passwords.reset', ['token' => $token]);
+        $user = auth()->user();
+        return view('auth.passwords.reset', compact('token', 'user'));
     }
 
     public function reset(Request $request)
@@ -46,8 +54,13 @@ class ForgotPasswordController extends Controller
             ])->save();
         });
 
-        return $response == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', trans($response))
-            : back()->withErrors(['email' => trans($response)]);
+        if ($response == Password::PASSWORD_RESET) {
+            // Set a success message in the session
+            $request->session()->flash('success', 'Password reset successfully. Login with your new password.');
+
+            return redirect()->route('login');
+        } else {
+            return back()->withErrors(['email' => trans($response)]);
+        }
     }
 }

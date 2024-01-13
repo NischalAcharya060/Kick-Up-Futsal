@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('user_type')->default('user');
             $table->string('password');
             $table->string('profile_picture')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }

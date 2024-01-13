@@ -45,9 +45,8 @@
                                     id="email"
                                     class="form-control"
                                     placeholder="Enter your email"
-                                    value="{{ old('email') }}"
-                                    autofocus
-                                    autocomplete="email"
+                                    value="{{ session('reset_email') }}"
+                                    readonly
                                 />
                             </div>
                             @error('email')
@@ -67,6 +66,7 @@
                                     class="form-control"
                                     placeholder="Enter your password"
                                     required
+                                    autofocus
                                     autocomplete="new-password"
                                 />
                                 <div class="input-group-append">

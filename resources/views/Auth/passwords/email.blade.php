@@ -32,6 +32,11 @@
                     <h1 class="login-title">Forgot Password</h1>
                     <form method="POST" action="{{ route('password.email') }}">
                         @csrf
+                        @if(session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label for="email">E-Mail Address</label>
                             <div class="input-group">
