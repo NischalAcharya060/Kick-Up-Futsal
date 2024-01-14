@@ -46,22 +46,22 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
-    public function updateRole(Request $request, User $user)
-    {
-        try {
-            $roles = Role::all();
-            // Validation
-            $request->validate([
-                'role' => 'required|in:' . $roles->pluck('name')->implode(','),
-            ]);
-            // Sync the user's roles
-            $user->syncRoles([$request->input('role')]);
-            return redirect()->route('admin.users.index')->with('success', 'User role updated successfully.');
-        } catch (\Exception $e) {
-            // Handle the exception here
-            return redirect()->route('admin.users.index')->with('error', 'An error occurred while updating user role.');
-        }
-    }
+//    public function updateRole(Request $request, User $user)
+//    {
+//        try {
+//            $roles = Role::all();
+//            // Validation
+//            $request->validate([
+//                'role' => 'required|in:' . $roles->pluck('name')->implode(','),
+//            ]);
+//            // Sync the user's roles
+//            $user->syncRoles([$request->input('role')]);
+//            return redirect()->route('admin.users.index')->with('success', 'User role updated successfully.');
+//        } catch (\Exception $e) {
+//            // Handle the exception here
+//            return redirect()->route('admin.users.index')->with('error', 'An error occurred while updating user role.');
+//        }
+//    }
 
 
 }

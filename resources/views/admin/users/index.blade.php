@@ -12,13 +12,18 @@
         @endif
 
         <div class="table-responsive">
+            <div class="text-right mb-3">
+                <a href="{{ route('admin.users.create') }}" class="btn" style="background-color: #3C91E6; border-color: #3C91E6; color: white">
+                    <i class="bi bi-box"></i> Add User
+                </a>
+            </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Role</th>
+                    <th>User Type</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -28,21 +33,7 @@
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>
-                            <form action="{{ route('admin.users.updateRole', $user) }}" method="post">
-                                @csrf
-                                @method('PUT')
-                                <div class="select-wrapper">
-                                    <select name="role" onchange="this.form.submit()">
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
-                                                {{ $role->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </form>
-                        </td>
+                        <td>{{ $user->user_type }}</td>
                         <td>
                             <a href="{{ route('admin.users.show', $user) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>
@@ -69,4 +60,5 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin_user_management.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 @endsection
