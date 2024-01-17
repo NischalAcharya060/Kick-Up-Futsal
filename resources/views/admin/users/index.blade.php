@@ -38,7 +38,7 @@
                             <a href="{{ route('admin.users.show', $user) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>
                             </a>
-                            <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-warning btn-sm" title="Edit">
+                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm" title="Edit">
                                 <i class='bx bx-edit'></i>
                             </a>
                             <form action="{{ route('admin.users.destroy', $user) }}" method="post" style="display: inline;">
