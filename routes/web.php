@@ -48,7 +48,7 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 //admin and Futsal Manager Route
-Route::middleware(['auth', 'user_type:admin'])->group(function () {
+Route::middleware(['auth', 'user_type:admin,futsal_manager'])->group(function () {
     Route::get('/admin_dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 });
 

@@ -24,13 +24,14 @@
                 <span class="text">Dashboard</span>
             </a>
         </li>
-        <li>
-{{--            <a href="#">--}}
-            <a href="{{ route('admin.users.index') }}">
-                <i class='bx bxs-user' ></i>
-                <span class="text">User Management</span>
-            </a>
-        </li>
+        @if(auth()->check() && auth()->user()->user_type === 'admin')
+            <li>
+                <a href="{{ route('admin.users.index') }}">
+                    <i class='bx bxs-user'></i>
+                    <span class="text">User Management</span>
+                </a>
+            </li>
+        @endif
     </ul>
     <ul class="side-menu">
         <li>
