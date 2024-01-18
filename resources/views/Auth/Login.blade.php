@@ -38,6 +38,9 @@
                                 {{ session('success') }}
                             </div>
                         @endif
+                        @if (session('message'))
+                            <div class="alert alert-danger">{{ session('message') }}</div>
+                        @endif
                     <div class="form-group">
                         <label for="email">E-Mail Address</label>
                         <div class="input-group">

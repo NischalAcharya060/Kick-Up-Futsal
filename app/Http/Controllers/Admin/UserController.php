@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function index()
     {
         $users = User::all();
-        $roles = Role::all();
-        return view('admin.users.index', compact('users', 'roles'));
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
@@ -23,8 +22,38 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        // Validate the incoming request data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'user_type' => 'required|in:admin,user,futsal_manager',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Redirect back with validation errors if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+        } else {
+            $profilePicturePath = null;
+        }
+
+        // Create the user with the new data
+        User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'user_type' => $request->input('user_type'),
+            'profile_picture' => $profilePicturePath,
+        ]);
+
+        // Redirect back with a success message
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
+
 
     public function show(User $user)
     {
@@ -38,30 +67,41 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'user_type' => 'required|in:admin,futsal_manager,user',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    }
+        // Update user data
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'user_type' => $request->input('user_type'),
+        ]);
 
-    public function destroy(User $user)
-    {
-        $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
-    }
-    public function updateRole(Request $request, User $user)
-    {
-        try {
-            $roles = Role::all();
-            // Validation
-            $request->validate([
-                'role' => 'required|in:' . $roles->pluck('name')->implode(','),
-            ]);
-            // Sync the user's roles
-            $user->syncRoles([$request->input('role')]);
-            return redirect()->route('admin.users.index')->with('success', 'User role updated successfully.');
-        } catch (\Exception $e) {
-            // Handle the exception here
-            return redirect()->route('admin.users.index')->with('error', 'An error occurred while updating user role.');
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $user->update(['profile_picture' => $profilePicturePath]);
         }
+
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
+    public function ban(User $user)
+    {
+        $user->ban();
+
+        return redirect()->route('admin.users.index')->with('success', 'User banned successfully.');
+    }
+
+    public function unban(User $user)
+    {
+        $user->unban();
+
+        return redirect()->route('admin.users.index')->with('success', 'User unbanned successfully.');
+    }
 
 }

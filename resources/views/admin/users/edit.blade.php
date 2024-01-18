@@ -11,35 +11,44 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.users.update', $user) }}" method="post">
+        <form action="{{ route('admin.users.update', $user) }}" method="post" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('put')
 
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}" required>
+                <input type="text" name="name" id="name" value="{{ $user->name }}" class="form-control">
             </div>
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}" required>
+                <input type="email" name="email" id="email" value="{{ $user->email }}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="role">Role:</label>
-                <select name="role" id="role" class="form-control" required>
-                    @foreach($roles as $role)
-                        <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
-                            {{ $role->name }}
-                        </option>
-                    @endforeach
+                <label for="user_type">User Type:</label>
+                <select name="user_type" id="user_type" class="form-control">
+                    <option value="admin" {{ $user->user_type == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="futsal_manager" {{ $user->user_type == 'futsal_manager' ? 'selected' : '' }}>Futsal Manager</option>
+                    <option value="user" {{ $user->user_type == 'user' ? 'selected' : '' }}>User</option>
                 </select>
             </div>
 
-            <div class="text-right mt-3">
-                <button type="submit" class="btn btn-primary">Update User</button>
-                <a href="{{ route('admin.users.index') }}" class="btn btn-default">Cancel</a>
+            <div class="form-group">
+                <label for="profile_picture">Profile Picture:</label>
+                <input type="file" name="profile_picture" id="profile_picture" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Update User</button>
+                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Back</a>
             </div>
         </form>
     </div>
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin_user_management.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 @endsection
