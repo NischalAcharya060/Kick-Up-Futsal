@@ -60,7 +60,8 @@ Route::middleware(['auth', 'user_type:admin'])->group(function () {
     Route::get('admin/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('admin/users/update/{user}', [UserController::class, 'update'])->name('admin.users.update');
     Route::get('admin/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
-    Route::delete('admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+    Route::post('admin/users/{user}/ban', [UserController::class, 'ban'])->name('admin.users.ban');
+    Route::post('admin/users/{user}/unban', [UserController::class, 'unban'])->name('admin.users.unban');
 });
 
 Route::middleware(['auth', 'user_type:admin'])->group(function () {

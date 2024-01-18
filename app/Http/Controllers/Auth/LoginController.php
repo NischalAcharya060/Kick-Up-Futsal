@@ -27,6 +27,12 @@ class LoginController extends Controller
         // Attempt to log in the user
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            // Check if the user is banned
+            if (Auth::user()->isBanned()) {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Your account is banned. Please contact the admin for assistance.'])->withInput();
+            }
+
             // Check the user type and redirect accordingly
             if (Auth::user()->user_type == 'admin') {
                 return redirect()->route('admin.dashboard');
@@ -38,6 +44,7 @@ class LoginController extends Controller
         // Authentication failed
         return back()->withErrors(['email' => 'Invalid email or password'])->withInput();
     }
+
 
     public function redirectToGoogle()
     {

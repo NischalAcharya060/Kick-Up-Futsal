@@ -90,11 +90,18 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
-
-    public function destroy(User $user)
+    public function ban(User $user)
     {
-        $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        $user->ban();
+
+        return redirect()->route('admin.users.index')->with('success', 'User banned successfully.');
+    }
+
+    public function unban(User $user)
+    {
+        $user->unban();
+
+        return redirect()->route('admin.users.index')->with('success', 'User unbanned successfully.');
     }
 
 }

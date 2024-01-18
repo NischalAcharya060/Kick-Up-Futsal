@@ -24,6 +24,8 @@ class User extends Authenticatable
         'password',
         'user_type',
         'profile_picture',
+        'is_banned',
+        'banned_until',
     ];
 
     /**
@@ -44,5 +46,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'banned_until' => 'datetime',
     ];
+
+    public function ban($duration = null)
+    {
+        $this->update([
+            'is_banned' => true,
+            'banned_until' => $duration ? now()->addMinutes($duration) : null,
+        ]);
+    }
+
+    public function unban()
+    {
+        $this->update([
+            'is_banned' => false,
+            'banned_until' => null,
+        ]);
+    }
+
+    public function isBanned()
+    {
+        return $this->is_banned && ($this->banned_until == null || now()->lt($this->banned_until));
+    }
 }

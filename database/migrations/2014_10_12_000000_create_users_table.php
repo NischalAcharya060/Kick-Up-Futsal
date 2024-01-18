@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('user_type')->default('user');
             $table->string('password');
             $table->string('profile_picture')->nullable();
+            $table->timestamp('banned_until')->nullable();
+            $table->boolean('is_banned')->default(false);
             $table->timestamps();
         });
     }
