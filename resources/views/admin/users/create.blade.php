@@ -11,6 +11,16 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('admin.users.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
@@ -31,6 +41,11 @@
                     <option value="futsal_manager" {{ old('user_type') == 'futsal_manager' ? 'selected' : '' }}>Futsal Manager</option>
                     <option value="user" {{ old('user_type') == 'user' ? 'selected' : '' }}>User</option>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" class="form-control">
             </div>
 
             <div class="form-group">

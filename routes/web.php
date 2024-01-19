@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Dashboard\UserDashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\FacilitiesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,15 +65,22 @@ Route::middleware(['auth', 'user_type:admin'])->group(function () {
     Route::post('admin/users/{user}/unban', [UserController::class, 'unban'])->name('admin.users.unban');
 });
 
-Route::middleware(['auth', 'user_type:admin'])->group(function () {
-    Route::get('/role-management', 'RoleController@index');
-});
-
 //admin profile Route
 Route::get('/admin/profile', [ProfileController::class, 'index'])->name('admin.profile');
 Route::post('/admin/profile/update-details', [ProfileController::class, 'updateDetails'])->name('admin.profile.update.details');
 Route::post('/admin/profile/update-password', [ProfileController::class, 'updatePassword'])->name('admin.profile.update.password');
 
+
+// Facilities Routes
+Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->group(function () {
+    Route::get('facilities', [FacilitiesController::class, 'index'])->name('admin.facilities.index');
+    Route::get('facilities/create', [FacilitiesController::class, 'create'])->name('admin.facilities.create');
+    Route::post('facilities', [FacilitiesController::class, 'store'])->name('admin.facilities.store');
+    Route::get('facilities/{facility}', [FacilitiesController::class, 'show'])->name('admin.facilities.show');
+    Route::get('facilities/{facility}/edit', [FacilitiesController::class, 'edit'])->name('admin.facilities.edit');
+    Route::put('facilities/{facility}', [FacilitiesController::class, 'update'])->name('admin.facilities.update');
+    Route::delete('facilities/{facility}', [FacilitiesController::class, 'destroy'])->name('admin.facilities.destroy');
+});
 
 //user Route
 Route::middleware(['auth'])->group(function () {
