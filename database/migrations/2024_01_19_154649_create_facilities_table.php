@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('map_coordinates')->nullable();
             $table->decimal('rating', 3, 2)->default(0.00);
             $table->string('image_path')->nullable();
+            $table->enum('status', ['approved', 'pending', 'denied'])->default('approved');
             $table->timestamps();
         });
     }

@@ -16,5 +16,14 @@ class Facility extends Model
         'map_coordinates',
         'rating',
         'image_path',
+        'status',
     ];
+    public function notification()
+    {
+        return $this->hasOne(Notification::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

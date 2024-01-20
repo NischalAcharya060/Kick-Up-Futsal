@@ -1,0 +1,34 @@
+@extends('admin.layouts.admin_dashboard')
+@section('title', 'Facility Details')
+
+@section('content')
+    <div class="container">
+        <h4 class="font-weight-bold py-3 mb-4">Facility Details</h4>
+
+        <div class="card">
+            @if($facility->image_path)
+                <img src="{{ asset('storage/facility_images/' . $facility->image_path) }}" class="card-img-top" alt="Facility Image">
+            @endif
+            <div class="card-body">
+                <h5 class="card-title">{{ $facility->name }}</h5>
+                <p class="card-text">{{ $facility->description }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ $facility->location }}</p>
+                <p class="card-text"><strong>Map Coordinates:</strong> {{ $facility->map_coordinates }}</p>
+
+                <a href="{{ route('admin.facilities.edit', $facility->id) }}" class="btn btn-warning">Edit</a>
+                <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+@endsection
+
+@section('styles')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+@endsection

@@ -18,7 +18,7 @@ class CheckRole
     public function handle($request, Closure $next, ...$userTypes)
     {
         if (!in_array(auth()->user()->user_type, $userTypes)) {
-            return redirect('/'); // Redirect to home or login page
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
         }
 
         return $next($request);
