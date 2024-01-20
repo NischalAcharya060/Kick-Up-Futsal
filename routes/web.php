@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\UserDashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FacilitiesController;
+use App\Http\Controllers\User\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,4 +86,12 @@ Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->
 //user Route
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+});
+
+// User Profile Page
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile');
+    Route::post('/profile/update-details', [UserProfileController::class, 'updateDetails'])->name('profile.update.details');
+    Route::post('/profile/additional-details', [UserProfileController::class, 'additionalDetails'])->name('profile.update.additionaldetails');
+    Route::post('/profile/update-password', [UserProfileController::class, 'updatePassword'])->name('profile.update.password');
 });

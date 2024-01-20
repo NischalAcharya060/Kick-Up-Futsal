@@ -26,6 +26,12 @@ class User extends Authenticatable
         'profile_picture',
         'is_banned',
         'banned_until',
+        'dob',
+        'gender',
+        'contact_number',
+        'address',
+        'preferred_position',
+        'experience_level',
     ];
 
     /**
