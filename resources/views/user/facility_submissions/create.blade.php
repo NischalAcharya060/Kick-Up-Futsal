@@ -16,7 +16,7 @@
             </div>
         @endif
 
-        <form action="{{ route('user.facility_submissions.store') }}" method="post">
+        <form action="{{ route('user.facility_submissions.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group">

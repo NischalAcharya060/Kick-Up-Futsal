@@ -7,7 +7,7 @@
 
         <div class="card">
             @if($facility->image_path)
-                <img src="{{ asset('storage/facility_images/' . $facility->image_path) }}" class="card-img-top" alt="Facility Image">
+                <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" style="max-width: 100px;">
             @endif
             <div class="card-body">
                 <h5 class="card-title">{{ $facility->name }}</h5>

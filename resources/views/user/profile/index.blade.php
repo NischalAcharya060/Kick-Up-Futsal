@@ -84,14 +84,15 @@
                                 <div class="card-body pb-2">
                                     <div class="form-group">
                                         <label for="dob">Date of Birth:</label>
-                                        <input type="date" id="dob" name="dob" value="{{ $user->dob }}">
+                                        <input type="date" id="dob" name="dob" value="{{ $user->dob }}" class="form-control">
                                         @error('dob')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label for="gender">Gender:</label>
-                                        <select id="gender" name="gender">
+                                        <select id="gender" name="gender" class="form-control">
                                             <option value="male" {{ $user->gender === 'male' ? 'selected' : '' }}>Male</option>
                                             <option value="female" {{ $user->gender === 'female' ? 'selected' : '' }}>Female</option>
                                             <option value="other" {{ $user->gender === 'other' ? 'selected' : '' }}>Other</option>
@@ -100,30 +101,34 @@
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label for="contact_number">Contact Number:</label>
-                                        <input type="tel" id="contact_number" name="contact_number" value="{{ $user->contact_number }}">
+                                        <input type="tel" id="contact_number" name="contact_number" value="{{ $user->contact_number }}" class="form-control">
                                         @error('contact_number')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label for="address">Address:</label>
-                                        <textarea id="address" name="address">{{ $user->address }}</textarea>
+                                        <textarea id="address" name="address" class="form-control">{{ $user->address }}</textarea>
                                         @error('address')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label for="preferred_position">Preferred Futsal Position:</label>
-                                        <input type="text" id="preferred_position" name="preferred_position" value="{{ $user->preferred_position }}">
+                                        <input type="text" id="preferred_position" name="preferred_position" value="{{ $user->preferred_position }}" class="form-control">
                                         @error('preferred_position')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label for="experience_level">Futsal Experience Level:</label>
-                                        <select id="experience_level" name="experience_level">
+                                        <select id="experience_level" name="experience_level" class="form-control">
                                             <option value="beginner" {{ $user->experience_level === 'beginner' ? 'selected' : '' }}>Beginner</option>
                                             <option value="intermediate" {{ $user->experience_level === 'intermediate' ? 'selected' : '' }}>Intermediate</option>
                                             <option value="advanced" {{ $user->experience_level === 'advanced' ? 'selected' : '' }}>Advanced</option>
