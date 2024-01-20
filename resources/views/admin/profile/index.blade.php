@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="text-right mt-3">
                                     <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
-                                    <button type="button" class="btn btn-default">Cancel</button>
+                                    <button type="button" class="btn btn-default" onclick="goBack()">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="text-right mt-3">
                                         <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
-                                        <button type="button" class="btn btn-default">Cancel</button>
+                                        <button type="button" class="btn btn-default" onclick="goBack()">Cancel</button>
                                     </div>
                                 </div>
                             </form>
@@ -77,6 +77,11 @@
             </div>
         </div>
     </div>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
