@@ -12,6 +12,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        $users = User::paginate(10);
         return view('admin.users.index', compact('users'));
     }
 
@@ -27,6 +28,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users',
             'user_type' => 'required|in:admin,user,futsal_manager',
+            'password' => 'required|min:8',
             'profile_picture' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -42,11 +44,15 @@ class UserController extends Controller
             $profilePicturePath = null;
         }
 
+        // Hash the password before saving it
+        $password = bcrypt($request->input('password'));
+
         // Create the user with the new data
         User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'user_type' => $request->input('user_type'),
+            'password' => $password,
             'profile_picture' => $profilePicturePath,
         ]);
 

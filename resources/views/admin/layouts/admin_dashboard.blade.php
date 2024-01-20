@@ -24,11 +24,18 @@
                 <span class="text">Dashboard</span>
             </a>
         </li>
+        @if(auth()->check() && auth()->user()->user_type === 'admin')
+            <li>
+                <a href="{{ route('admin.users.index') }}">
+                    <i class='bx bxs-user'></i>
+                    <span class="text">User Management</span>
+                </a>
+            </li>
+        @endif
         <li>
-{{--            <a href="#">--}}
-            <a href="{{ route('admin.users.index') }}">
-                <i class='bx bxs-user' ></i>
-                <span class="text">User Management</span>
+            <a href="{{ route('admin.facilities.index') }}">
+                <i class='bx bxs-building'></i>
+                <span class="text">Facilities</span>
             </a>
         </li>
     </ul>
@@ -57,10 +64,12 @@
         </a>
         <div class="dropdown">
             <a href="{{ route('admin.profile') }}" class="profile" id="profileDropdown">
-                @if ($user->profile_picture && Storage::exists('public/profile_pictures/' . $user->profile_picture))
-                    <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt style="width: 30px;">
-                @else
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Default Profile Picture" style="width: 30px;">
+                @if (auth()->check() && $user = auth()->user())
+                    @if ($user->profile_picture && Storage::exists('public/profile_pictures/' . $user->profile_picture))
+                        <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt style="width: 30px;">
+                    @else
+                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Default Profile Picture" style="width: 30px;">
+                    @endif
                 @endif
             </a>
             <div class="dropdown-content" id="profileDropdownContent">

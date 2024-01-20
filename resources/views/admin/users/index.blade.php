@@ -18,13 +18,14 @@
         <div class="table-responsive">
             <div class="text-right mb-3">
                 <a href="{{ route('admin.users.create') }}" class="btn" style="background-color: #3C91E6; border-color: #3C91E6; color: white">
-                    <i class="bi bi-box"></i> Add User
+                    <i class='bx bx-user-plus'></i> Add User
                 </a>
             </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>S.N</th>
+                    <th>User ID</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>User Type</th>
@@ -36,10 +37,19 @@
                 <tbody>
                 @foreach($users as $user)
                     <tr>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->user_type }}</td>
+                        <td>
+                            @if($user->user_type === 'user')
+                                <span class="badge badge-secondary">{{ ucfirst($user->user_type) }}</span>
+                            @elseif($user->user_type === 'futsal_manager')
+                                <span class="badge badge-info">{{ ucfirst($user->user_type) }}</span>
+                            @elseif($user->user_type === 'admin')
+                                <span class="badge badge-danger">{{ ucfirst($user->user_type) }}</span>
+                            @endif
+                        </td>
                         <td>
                             @if($user->isBanned())
                                 <span class="badge badge-danger">Banned</span>
@@ -75,6 +85,7 @@
                 @endforeach
                 </tbody>
             </table>
+                {{ $users->links('vendor.pagination.bootstrap-4') }}
         </div>
     </div>
 @endsection

@@ -1,5 +1,3 @@
-<!-- resources/views/admin/users/show.blade.php -->
-
 @extends('admin.layouts.admin_dashboard')
 @section('title', 'User Details')
 
@@ -13,30 +11,36 @@
             </div>
         @endif
 
-        <dl class="row">
-            <dt class="col-sm-3">ID:</dt>
-            <dd class="col-sm-9">{{ $user->id }}</dd>
+        <div class="card">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">User ID:</dt>
+                    <dd class="col-sm-9">{{ $user->id }}</dd>
 
-            <dt class="col-sm-3">Name:</dt>
-            <dd class="col-sm-9">{{ $user->name }}</dd>
+                    <dt class="col-sm-3">Name:</dt>
+                    <dd class="col-sm-9">{{ $user->name }}</dd>
 
-            <dt class="col-sm-3">Email:</dt>
-            <dd class="col-sm-9">{{ $user->email }}</dd>
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9">{{ $user->email }}</dd>
 
-            <dt class="col-sm-3">User Type:</dt>
-            <dd class="col-sm-9">{{ $user->user_type }}</dd>
+                    <dt class="col-sm-3">User Type:</dt>
+                    <dd class="col-sm-9">{{ $user->user_type }}</dd>
 
-            <dt class="col-sm-3">Profile Picture:</dt>
-            <dd class="col-sm-9">
-                @if ($user->profile_picture && Storage::exists('public/profile_pictures/' . $user->profile_picture))
-                    <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt style="width: 30px;">
-                @else
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Default Profile Picture" style="width: 30px;">
-                @endif
-            </dd>
-        </dl>
+                    <dt class="col-sm-3">Profile Picture:</dt>
+                    <dd class="col-sm-9">
+                        @if ($user->profile_picture && Storage::exists('public/profile_pictures/' . $user->profile_picture))
+                            <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt="{{ $user->name }}'s Profile Picture" class="img-fluid">
+                        @else
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Default Profile Picture" class="img-fluid">
+                        @endif
+                    </dd>
+                </dl>
+            </div>
+        </div>
 
-        <a href="{{ route('admin.users.index') }}" class="btn btn-primary">Back to User List</a>
+        <a href="{{ route('admin.users.index') }}" class="btn btn-primary mt-3">
+            <i class='bx bx-arrow-back'></i> Back to User List
+        </a>
     </div>
 @endsection
 

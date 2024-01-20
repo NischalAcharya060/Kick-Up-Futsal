@@ -55,10 +55,15 @@ class LoginController extends Controller
     {
         $user = Socialite::driver('google')->user();
 
-        // Check if the user already exists in your database or create a new user
+        // Check if the user already exists in your database
         $existingUser = User::where('email', $user->email)->first();
 
         if ($existingUser) {
+            // Check if the existing user is banned
+            if ($existingUser->isBanned()) {
+                return redirect()->route('login')->withErrors(['email' => 'Your account is banned. Please contact the admin for assistance.'])->withInput();
+            }
+
             Auth::login($existingUser);
         } else {
             // Create a new user with Google credentials
@@ -67,6 +72,11 @@ class LoginController extends Controller
             $newUser->email = $user->email;
             $newUser->password = bcrypt(Str::random(8));
             $newUser->save();
+
+            // Check if the new user is banned
+            if ($newUser->isBanned()) {
+                return redirect()->route('login')->withErrors(['email' => 'Your account is banned. Please contact the admin for assistance.'])->withInput();
+            }
 
             Auth::login($newUser);
         }
