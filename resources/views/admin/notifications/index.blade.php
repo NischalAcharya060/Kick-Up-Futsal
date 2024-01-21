@@ -18,7 +18,6 @@
                         <th>S.N</th>
                         <th>Message</th>
                         <th>Status</th>
-                        <th>Added By</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -35,18 +34,10 @@
                         </td>
 
                         <td>
-                            @if($notification->user)
-                                {{ $notification->user->name }}
-                            @else
-                                N/A
-                            @endif
-                        </td>
-
-                        <td>
                             @unless($notification->is_read)
                                 <button class="btn btn-primary" onclick="markAsRead('{{ route('admin.notifications.markAsRead', $notification->id) }}')">Mark as Read</button>
                             @endunless
-                            <a href="{{ route('admin.notifications.viewSubmission', $notification->id) }}" class="btn btn-info">View Submission</a>
+                                <a href="{{ route('user.facility_submissions.view', ['id' => $facility->id]) }}" class="btn btn-info">View Submission</a>
                         </td>
                     </tr>
                     </tbody>

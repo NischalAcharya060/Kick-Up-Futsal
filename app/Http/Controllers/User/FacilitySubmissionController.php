@@ -15,6 +15,13 @@ class FacilitySubmissionController extends Controller
         return view('user.facility_submissions.create');
     }
 
+    public function viewSubmission($id)
+    {
+        $facility = Facility::findOrFail($id);
+
+        return view('user.facility_submissions.view', compact('facility'));
+    }
+
     public function store(Request $request)
     {
         try {
@@ -25,6 +32,7 @@ class FacilitySubmissionController extends Controller
                 'location' => 'required|string',
                 'map_coordinates' => 'nullable|string|max:255',
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'status' => 'in:pending,accepted', // Ensure status is either 'pending' or 'accepted'
             ]);
 
             // Check if an image file is uploaded
@@ -35,31 +43,46 @@ class FacilitySubmissionController extends Controller
             }
 
             // Status is set to 'pending' by default
-            $status = 'pending';
+            $status = $request->input('status', 'pending');
 
-            if ($request->input('status') === 'accepted') {
-                // Create a new facility submission with 'accepted' status
-                $facilitySubmission = Facility::create([
-                    'name' => $request->input('name'),
-                    'description' => $request->input('description'),
-                    'location' => $request->input('location'),
-                    'map_coordinates' => $request->input('map_coordinates'),
-                    'status' => 'accepted',
-                    'image_path' => $imagePath,
-                ]);
+            // Create a new facility submission
+            $facilitySubmission = Facility::create([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'location' => $request->input('location'),
+                'map_coordinates' => $request->input('map_coordinates'),
+                'status' => $status,
+                'image_path' => $imagePath,
+            ]);
 
-                // Create a notification for admin
-                Notification::create([
-                    'facility_submission_id' => $facilitySubmission->id,
-                    'message' => 'New facility submission accepted.',
-                ]);
-
-                return redirect()->route('user.facility_submissions.create')->with('success', 'Facility submission accepted.');
-            }
+            // Create a notification for admin
+            Notification::create([
+                'facility_submission_id' => $facilitySubmission->id,
+                'message' => "New facility submission {$status}.",
+            ]);
 
             return redirect()->route('user.facility_submissions.create')->with('success', 'Facility submission received. Admin will review shortly.');
         } catch (\Exception $e) {
             return redirect()->route('user.facility_submissions.create')->with('error', 'An error occurred while processing the submission.');
+        }
+    }
+
+    public function updateStatus(Request $request, Facility $facility)
+    {
+        try {
+            $request->validate([
+                'status' => 'required|in:pending,accepted',
+            ]);
+
+            $facility->update([
+                'status' => $request->input('status'),
+            ]);
+
+            return redirect()->route('user.facility_submissions.view', $facility->id)
+                ->with('success', 'Status updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('user.facility_submissions.view', $facility->id)
+                ->with('error', 'An error occurred while updating the status.');
         }
     }
 
