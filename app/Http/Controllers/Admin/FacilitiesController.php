@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class FacilitiesController extends Controller
@@ -28,12 +29,26 @@ class FacilitiesController extends Controller
             'location' => 'nullable|string|max:255',
             'map_coordinates' => 'nullable|string|max:255',
             'rating' => 'nullable|numeric|min:0|max:5',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Facility::create($request->all());
+        // Check if an image file is uploaded
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('facility_images', 'public');
+            $imagePath = 'storage/' . $imagePath;
+        }
+
+        // Create a new Facility instance
+        $facilityData = $request->except('image');
+        $facilityData['image_path'] = $imagePath;
+
+        Facility::create($facilityData);
 
         return redirect()->route('admin.facilities.index')->with('success', 'Facility Added Successfully.');
     }
+
+
 
     public function show(Facility $facility)
     {
@@ -53,12 +68,26 @@ class FacilitiesController extends Controller
             'location' => 'nullable|string|max:255',
             'map_coordinates' => 'nullable|string|max:255',
             'rating' => 'nullable|numeric|min:0|max:5',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $facility->update($request->all());
+        // Check if an image file is uploaded
+        if ($request->hasFile('image')) {
+            // Delete the previous image if it exists
+            if ($facility->image) {
+                Storage::delete('public/facility_images/' . $facility->image);
+            }
+
+            // Store the new image
+            $imagePath = $request->file('image')->store('facility_images', 'public');
+            $facility->image = basename($imagePath);
+        }
+
+        $facility->update($request->except('image'));
 
         return redirect()->route('admin.facilities.index')->with('success', 'Facility Updated Successfully.');
     }
+
 
     public function destroy(Facility $facility)
     {

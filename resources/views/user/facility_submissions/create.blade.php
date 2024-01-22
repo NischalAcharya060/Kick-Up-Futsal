@@ -1,9 +1,14 @@
-@extends('admin.layouts.admin_dashboard')
-@section('title', 'Create Facility')
-
+@extends('user.layouts.app')
+@section('title', 'Submit Facility')
 @section('content')
     <div class="container">
-        <h4 class="font-weight-bold py-3 mb-4">Create Facility</h4>
+        <h4 class="font-weight-bold py-3 mb-4">Submit Facility</h4>
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
         @if(session('error'))
             <div class="alert alert-danger">
@@ -11,7 +16,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.facilities.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('user.facility_submissions.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group">
@@ -40,13 +45,16 @@
                 <input type="file" id="image" name="image" class="form-control">
             </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Create Facility</button>
-            </div>
+            <button type="submit" class="btn btn-success">Submit Facility</button>
+            <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
         </form>
     </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
-
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
     <script>
         // Initialize the map
         function initializeMap() {

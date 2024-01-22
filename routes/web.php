@@ -8,6 +8,8 @@ use App\Http\Controllers\Dashboard\UserDashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FacilitiesController;
+use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\FacilitySubmissionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +55,13 @@ Route::middleware(['auth', 'user_type:admin,futsal_manager'])->group(function ()
     Route::get('/admin_dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 });
 
+//Notification
+Route::middleware(['auth', 'user_type:admin'])->group(function () {
+    Route::get('/admin/notifications', [AdminDashboardController::class, 'notifications'])->name('admin.notifications.index');
+    Route::post('/admin/notifications/mark-as-read/{notification}', [AdminDashboardController::class, 'markAsRead'])->name('admin.notifications.markAsRead');
+    Route::get('/admin/notifications/view-submission/{notification}', [AdminDashboardController::class, 'viewSubmission'])->name('admin.notifications.viewSubmission');
+});
+
 //Admin User Management Page Route
 Route::middleware(['auth', 'user_type:admin'])->group(function () {
     Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');
@@ -85,4 +94,20 @@ Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->
 //user Route
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+});
+
+// User Profile Page
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile');
+    Route::post('/profile/update-details', [UserProfileController::class, 'updateDetails'])->name('profile.update.details');
+    Route::post('/profile/additional-details', [UserProfileController::class, 'additionalDetails'])->name('profile.update.additionaldetails');
+    Route::post('/profile/update-password', [UserProfileController::class, 'updatePassword'])->name('profile.update.password');
+});
+
+// Facility Submission
+Route::middleware(['auth'])->group(function () {
+Route::get('facility_submissions/create', [FacilitySubmissionController::class, 'create'])->name('user.facility_submissions.create');
+Route::post('facility_submissions/store', [FacilitySubmissionController::class, 'store'])->name('user.facility_submissions.store');
+Route::get('/admin/facility_submissions/{id}', [FacilitySubmissionController::class, 'viewSubmission'])->name('user.facility_submissions.view');
+Route::patch('facility_submissions/{id}/update-status', [FacilitySubmissionController::class, 'updateStatus'])->name('user.facility_submissions.updateStatus');
 });

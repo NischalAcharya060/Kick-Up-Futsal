@@ -35,7 +35,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            <img src="{{ asset('storage/facility_images/' . $facility->image_path) }}" alt="Facility Image" style="max-width: 100px;">
+                            <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" style="max-width: 100px;">
                         </td>
                         <td>{{ $facility->id }}</td>
                         <td>{{ $facility->name }}</td>

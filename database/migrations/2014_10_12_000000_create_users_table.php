@@ -15,8 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->date('dob')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->string('contact_number')->nullable();
+            $table->text('address')->nullable();
             $table->string('user_type')->default('user');
             $table->string('password');
+            $table->string('preferred_position')->nullable();
+            $table->enum('experience_level', ['beginner', 'intermediate', 'advanced'])->nullable();
             $table->string('profile_picture')->nullable();
             $table->timestamp('banned_until')->nullable();
             $table->boolean('is_banned')->default(false);
