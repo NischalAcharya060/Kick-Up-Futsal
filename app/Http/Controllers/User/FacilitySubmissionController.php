@@ -32,7 +32,7 @@ class FacilitySubmissionController extends Controller
                 'location' => 'required|string',
                 'map_coordinates' => 'nullable|string|max:255',
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'status' => 'in:pending,accepted', // Ensure status is either 'pending' or 'accepted'
+                'status' => 'in:pending,accepted',
             ]);
 
             // Check if an image file is uploaded

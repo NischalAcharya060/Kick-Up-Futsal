@@ -10,18 +10,18 @@
             </div>
         @endif
 
-        @foreach($notifications as $notification)
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th>S.N</th>
-                        <th>Message</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>S.N</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($notifications as $notification)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $notification->message }}</td>
@@ -32,21 +32,25 @@
                                 <span class="badge badge-warning">Unread</span>
                             @endif
                         </td>
-
                         <td>
                             @unless($notification->is_read)
-                                <button class="btn btn-primary" onclick="markAsRead('{{ route('admin.notifications.markAsRead', $notification->id) }}')">Mark as Read</button>
+                                <button class="btn btn-primary" onclick="markAsRead('{{ route('admin.notifications.markAsRead', ['notification' => $notification->id]) }}')">Mark as Read</button>
                             @endunless
-                                <a href="{{ route('user.facility_submissions.view', ['id' => $facility->id]) }}" class="btn btn-info">View Submission</a>
+                            @if($notification->facility)
+                                <a href="{{ route('user.facility_submissions.view', ['id' => $notification->facility->id]) }}">View Submission</a>
+                            @else
+                                Facility Not Available
+                            @endif
                         </td>
                     </tr>
-                    </tbody>
-                </table>
-            </div>
-        @endforeach
+                @endforeach
+                </tbody>
+            </table>
+        </div>
 
         <script>
             function markAsRead(url) {
+                event.preventDefault();
                 fetch(url, {
                     method: 'POST',
                     headers: {

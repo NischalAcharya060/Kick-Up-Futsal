@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Facility;
 use App\Models\Notification;
 use App\Models\User;
 
@@ -26,17 +27,17 @@ class AdminDashboardController extends Controller
         return redirect()->route('admin.notifications.index');
     }
 
-    public function viewSubmission(Notification $notification)
-    {
-        $facility = $notification->facility;
 
-        if ($facility) {
-            // Redirect to a page to view the facility details
-            return redirect()->route('admin.facilities.show', $facility->id);
-        } else {
-            // Handle the case where the related facility is not found
-            return redirect()->route('admin.notifications.index')->with('error', 'Facility not found.');
+    public function viewSubmission($id)
+    {
+        try {
+            $facility = Facility::findOrFail($id);
+
+            return view('user.facility_submissions.view', compact('facility'));
+        } catch (\Exception $e) {
+            return redirect()->route('user.facility_submissions.create')->with('error', 'Facility not found.');
         }
     }
+
 }
 
