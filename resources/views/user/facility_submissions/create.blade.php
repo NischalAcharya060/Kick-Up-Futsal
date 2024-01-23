@@ -41,6 +41,44 @@
             </div>
 
             <div class="form-group">
+                <label for="price_per_hour" class="col-sm-2 col-form-label">Price per Hour:</label>
+                    <input type="text" id="price_per_hour" name="price_per_hour" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="facility_type" class="col-sm-2 col-form-label">Facility Type:</label>
+                    <select id="facility_type" name="facility_type" class="form-control">
+                        <option value="indoor">Indoor</option>
+                        <option value="outdoor">Outdoor</option>
+                    </select>
+            </div>
+
+            <div class="form-group">
+                <label for="opening_time" class="col-sm-2 col-form-label">Opening Time:</label>
+                    <input type="time" id="opening_time" name="opening_time" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="closing_time" class="col-sm-2 col-form-label">Closing Time:</label>
+                    <input type="time" id="closing_time" name="closing_time" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="contact_person" class="col-sm-2 col-form-label">Contact Person:</label>
+                    <input type="text" id="contact_person" name="contact_person" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="contact_email" class="col-sm-2 col-form-label">Contact Email:</label>
+                    <input type="email" id="contact_email" name="contact_email" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="contact_phone" class="col-sm-2 col-form-label">Contact Phone:</label>
+                    <input type="tel" id="contact_phone" name="contact_phone" class="form-control">
+            </div>
+
+            <div class="form-group">
                 <label for="image">Facility Image:</label>
                 <input type="file" id="image" name="image" class="form-control">
             </div>

@@ -14,37 +14,103 @@
         <form action="{{ route('admin.facilities.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" class="form-control" required>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" class="form-control"></textarea>
+            <div class="form-group row">
+                <label for="description" class="col-sm-2 col-form-label">Description:</label>
+                <div class="col-sm-10">
+                    <textarea id="description" name="description" class="form-control"></textarea>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" class="form-control">
+            <div class="form-group row">
+                <label for="location" class="col-sm-2 col-form-label">Location:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="location" name="location" class="form-control">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="map_coordinates">Map Coordinates:</label>
-                <div id="map" style="height: 300px;"></div>
-                <input type="hidden" id="map_coordinates" name="map_coordinates" class="form-control">
+            <div class="form-group row">
+                <label for="map_coordinates" class="col-sm-2 col-form-label">Map Coordinates:</label>
+                <div class="col-sm-10">
+                    <div id="map" style="height: 300px;"></div>
+                    <small class="form-text text-muted">Drag the marker to set the location.</small>
+                    <input type="hidden" id="map_coordinates" name="map_coordinates" class="form-control">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="image">Facility Image:</label>
-                <input type="file" id="image" name="image" class="form-control">
+            <div class="form-group row">
+                <label for="price_per_hour" class="col-sm-2 col-form-label">Price per Hour:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="price_per_hour" name="price_per_hour" class="form-control">
+                </div>
             </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Create Facility</button>
+            <div class="form-group row">
+                <label for="facility_type" class="col-sm-2 col-form-label">Facility Type:</label>
+                <div class="col-sm-10">
+                    <select id="facility_type" name="facility_type" class="form-control">
+                        <option value="indoor">Indoor</option>
+                        <option value="outdoor">Outdoor</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="opening_time" class="col-sm-2 col-form-label">Opening Time:</label>
+                <div class="col-sm-10">
+                    <input type="time" id="opening_time" name="opening_time" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="closing_time" class="col-sm-2 col-form-label">Closing Time:</label>
+                <div class="col-sm-10">
+                    <input type="time" id="closing_time" name="closing_time" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="contact_person" class="col-sm-2 col-form-label">Contact Person:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="contact_person" name="contact_person" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="contact_email" class="col-sm-2 col-form-label">Contact Email:</label>
+                <div class="col-sm-10">
+                    <input type="email" id="contact_email" name="contact_email" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="contact_phone" class="col-sm-2 col-form-label">Contact Phone:</label>
+                <div class="col-sm-10">
+                    <input type="tel" id="contact_phone" name="contact_phone" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="image" class="col-sm-2 col-form-label">Facility Image:</label>
+                <div class="col-sm-10">
+                    <input type="file" id="image" name="image" class="form-control-file">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-sm-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Create Facility</button>
+                </div>
             </div>
         </form>
     </div>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 
     <script>

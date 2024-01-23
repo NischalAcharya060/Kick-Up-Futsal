@@ -28,8 +28,14 @@ class FacilitiesController extends Controller
             'description' => 'nullable|string',
             'location' => 'nullable|string|max:255',
             'map_coordinates' => 'nullable|string|max:255',
-            'rating' => 'nullable|numeric|min:0|max:5',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price_per_hour' => 'nullable|numeric|min:0',
+            'facility_type' => 'nullable|string|max:255',
+            'opening_time' => 'nullable|string|max:255',
+            'closing_time' => 'nullable|string|max:255',
+            'contact_person' => 'nullable|string|max:255',
+            'contact_email' => 'nullable|string|email|max:255',
+            'contact_phone' => 'nullable|string|max:255',
         ]);
 
         // Check if an image file is uploaded
@@ -67,7 +73,13 @@ class FacilitiesController extends Controller
             'description' => 'nullable|string',
             'location' => 'nullable|string|max:255',
             'map_coordinates' => 'nullable|string|max:255',
-            'rating' => 'nullable|numeric|min:0|max:5',
+            'price_per_hour' => 'nullable|numeric|min:0',
+            'facility_type' => 'nullable|string|max:255',
+            'opening_time' => 'nullable|string|max:255',
+            'closing_time' => 'nullable|string|max:255',
+            'contact_person' => 'nullable|string|max:255',
+            'contact_email' => 'nullable|string|email|max:255',
+            'contact_phone' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 

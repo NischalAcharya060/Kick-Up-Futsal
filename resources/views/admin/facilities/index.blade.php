@@ -10,13 +10,12 @@
                 {{ session('success') }}
             </div>
         @endif
-
+        <div class="text-right mb-3">
+            <a href="{{ route('admin.facilities.create') }}" class="btn" style="background-color: #3C91E6; border-color: #3C91E6; color: white">
+                <i class='bx bx-building'></i> Add Facility
+            </a>
+        </div>
         <div class="table-responsive">
-            <div class="text-right mb-3">
-                <a href="{{ route('admin.facilities.create') }}" class="btn" style="background-color: #3C91E6; border-color: #3C91E6; color: white">
-                    <i class='bx bx-building'></i> Add Facility
-                </a>
-            </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -27,6 +26,13 @@
                     <th>Description</th>
                     <th>Location</th>
                     <th>Map Coordinates</th>
+                    <th>Price per Hour</th>
+                    <th>Facility Type</th>
+                    <th>Opening Time</th>
+                    <th>Closing Time</th>
+                    <th>Contact Person</th>
+                    <th>Contact Email</th>
+                    <th>Contact Phone</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -42,6 +48,13 @@
                         <td>{{ $facility->description }}</td>
                         <td>{{ $facility->location }}</td>
                         <td>{{ $facility->map_coordinates }}</td>
+                        <td>{{ $facility->price_per_hour }}</td>
+                        <td>{{ $facility->facility_type }}</td>
+                        <td>{{ $facility->opening_time }}</td>
+                        <td>{{ $facility->closing_time }}</td>
+                        <td>{{ $facility->contact_person }}</td>
+                        <td>{{ $facility->contact_email }}</td>
+                        <td>{{ $facility->contact_phone }}</td>
                         <td>
                             <a href="{{ route('admin.facilities.show', $facility) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>

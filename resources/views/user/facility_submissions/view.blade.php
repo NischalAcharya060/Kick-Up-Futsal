@@ -25,6 +25,13 @@
                     <th>Location</th>
                     <th>Map Coordinates</th>
                     <th>Image</th>
+                    <th>Price per Hour</th>
+                    <th>Facility Type</th>
+                    <th>Opening Time</th>
+                    <th>Closing Time</th>
+                    <th>Contact Person</th>
+                    <th>Contact Email</th>
+                    <th>Contact Phone</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -42,6 +49,13 @@
                             N/A
                         @endif
                     </td>
+                    <td>{{ $facility->price_per_hour }}</td>
+                    <td>{{ $facility->facility_type }}</td>
+                    <td>{{ $facility->opening_time }}</td>
+                    <td>{{ $facility->closing_time }}</td>
+                    <td>{{ $facility->contact_person }}</td>
+                    <td>{{ $facility->contact_email }}</td>
+                    <td>{{ $facility->contact_phone }}</td>
                     <td>
                         @if($facility->status === 'pending')
                             <span class="badge badge-warning">Pending</span>

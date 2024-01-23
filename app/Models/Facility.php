@@ -18,6 +18,13 @@ class Facility extends Model
         'rating',
         'image_path',
         'status',
+        'price_per_hour',
+        'facility_type',
+        'opening_time',
+        'closing_time',
+        'contact_person',
+        'contact_email',
+        'contact_phone',
     ];
 
     public static function findOrFail($id)
