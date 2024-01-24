@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FacilitiesController;
 use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\FacilitySubmissionController;
 use Illuminate\Support\Facades\Route;
 
@@ -103,6 +104,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/additional-details', [UserProfileController::class, 'additionalDetails'])->name('profile.update.additionaldetails');
     Route::post('/profile/update-password', [UserProfileController::class, 'updatePassword'])->name('profile.update.password');
 });
+
+Route::get('/calendar', [CalendarController::class, 'index'])->name('user.calendar');
+
 
 // Facility Submission
 Route::middleware(['auth'])->group(function () {
