@@ -48,7 +48,7 @@
                         <td>{{ $facility->description }}</td>
                         <td>{{ $facility->location }}</td>
                         <td>{{ $facility->map_coordinates }}</td>
-                        <td>{{ $facility->price_per_hour }}</td>
+                        <td> Rs. {{ $facility->price_per_hour }}</td>
                         <td>{{ $facility->facility_type }}</td>
                         <td>{{ $facility->opening_time }}</td>
                         <td>{{ $facility->closing_time }}</td>

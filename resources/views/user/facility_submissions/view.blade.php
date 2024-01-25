@@ -42,6 +42,7 @@
                     <td>{{ $facility->description }}</td>
                     <td>{{ $facility->location }}</td>
                     <td>{{ $facility->map_coordinates }}</td>
+                    <div id="map" style="height: 300px;"></div>
                     <td>
                         @if($facility->image_path)
                             <img src="{{ asset($facility->image_path) }}" alt="Facility Image" style="max-width: 100px;">
@@ -102,10 +103,25 @@
             });
 
     </script>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var coordinates = [{{ $facility->map_coordinates }}];
+            var map = L.map('map').setView(coordinates, 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            var marker = L.marker(coordinates).addTo(map);
+        });
+    </script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin_user_management.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 @endsection
