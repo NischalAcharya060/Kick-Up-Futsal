@@ -9,7 +9,9 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FacilitiesController;
 use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\FacilitySubmissionController;
+use App\Http\Controllers\User\BookingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -104,10 +106,20 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/update-password', [UserProfileController::class, 'updatePassword'])->name('profile.update.password');
 });
 
+Route::get('/calendar', [CalendarController::class, 'index'])->name('user.calendar');
+
+
 // Facility Submission
 Route::middleware(['auth'])->group(function () {
 Route::get('facility_submissions/create', [FacilitySubmissionController::class, 'create'])->name('user.facility_submissions.create');
 Route::post('facility_submissions/store', [FacilitySubmissionController::class, 'store'])->name('user.facility_submissions.store');
 Route::get('/admin/facility_submissions/{id}', [FacilitySubmissionController::class, 'viewSubmission'])->name('user.facility_submissions.view');
 Route::patch('facility_submissions/{id}/update-status', [FacilitySubmissionController::class, 'updateStatus'])->name('user.facility_submissions.updateStatus');
+});
+
+//Booking Route
+Route::middleware(['auth'])->group(function () {
+    Route::get('/booking', [BookingController::class, 'index'])->name('user.booking.index');
+    Route::get('/booking/show/{facilityId}', [BookingController::class, 'show'])->name('user.booking.show');
+    Route::post('/booking/{facilityId}/book', [BookingController::class, 'book'])->name('user.booking.book');
 });

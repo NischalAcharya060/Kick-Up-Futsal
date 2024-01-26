@@ -25,6 +25,13 @@
                     <th>Location</th>
                     <th>Map Coordinates</th>
                     <th>Image</th>
+                    <th>Price per Hour</th>
+                    <th>Facility Type</th>
+                    <th>Opening Time</th>
+                    <th>Closing Time</th>
+                    <th>Contact Person</th>
+                    <th>Contact Email</th>
+                    <th>Contact Phone</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -35,6 +42,7 @@
                     <td>{{ $facility->description }}</td>
                     <td>{{ $facility->location }}</td>
                     <td>{{ $facility->map_coordinates }}</td>
+                    <div id="map" style="height: 300px;"></div>
                     <td>
                         @if($facility->image_path)
                             <img src="{{ asset($facility->image_path) }}" alt="Facility Image" style="max-width: 100px;">
@@ -42,6 +50,13 @@
                             N/A
                         @endif
                     </td>
+                    <td>{{ $facility->price_per_hour }}</td>
+                    <td>{{ $facility->facility_type }}</td>
+                    <td>{{ $facility->opening_time }}</td>
+                    <td>{{ $facility->closing_time }}</td>
+                    <td>{{ $facility->contact_person }}</td>
+                    <td>{{ $facility->contact_email }}</td>
+                    <td>{{ $facility->contact_phone }}</td>
                     <td>
                         @if($facility->status === 'pending')
                             <span class="badge badge-warning">Pending</span>
@@ -88,10 +103,25 @@
             });
 
     </script>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var coordinates = [{{ $facility->map_coordinates }}];
+            var map = L.map('map').setView(coordinates, 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            var marker = L.marker(coordinates).addTo(map);
+        });
+    </script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin_user_management.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 @endsection

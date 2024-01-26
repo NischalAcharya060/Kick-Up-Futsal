@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Spatie\GoogleCalendar\GoogleCalendarServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -182,6 +183,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'GoogleCalendar' => Spatie\GoogleCalendar\GoogleCalendarFacade::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

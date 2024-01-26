@@ -19,9 +19,6 @@
                 </ul>
             </div>
         @endif
-        <div class="text-right mt-3">
-            <a href="{{ route('user.facility_submissions.create') }}" class="btn btn-primary">List Your Facility</a>
-        </div>
         <div class="card overflow-hidden">
             <div class="row no-gutters row-bordered row-border-light">
                 <div class="col-md-3 pt-0">
