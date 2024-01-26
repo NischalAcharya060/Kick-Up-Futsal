@@ -58,6 +58,11 @@
                     <i class='bx bxs-calendar'></i> Calendar
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('user.booking.index') }}">
+                    <i class='bx bxs-calendar'></i> Booking
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="{{ route('user.profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @if (auth()->check() && $user = auth()->user())
