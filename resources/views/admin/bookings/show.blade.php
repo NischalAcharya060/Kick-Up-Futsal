@@ -13,7 +13,13 @@
                         <strong>User ID:</strong> {{ $booking->user_id }}
                     </li>
                     <li class="list-group-item">
+                    <strong>User Name:</strong> {{ $booking->user->name }}
+                    </li>
+                    <li class="list-group-item">
                         <strong>Facility ID:</strong> {{ $booking->facility_id }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Facility Name:</strong> {{ $booking->facility->name }}
                     </li>
                     <li class="list-group-item">
                         <strong>Booking Date:</strong> {{ $booking->booking_date }}

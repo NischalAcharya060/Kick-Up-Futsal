@@ -10,6 +10,9 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'facility_id',
+        'user_name',
+        'email',
+        'contact_number',
         'booking_date',
         'booking_time',
     ];

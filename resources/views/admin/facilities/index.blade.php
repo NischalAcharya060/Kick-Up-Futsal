@@ -33,6 +33,7 @@
                     <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Contact Person</th>
                     <th>Contact Email</th>
                     <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Contact Phone</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Added By</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -44,7 +45,7 @@
                             <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" class="img-fluid">
                         </td>
                         <td>{{ $facility->id }}</td>
-                        <td>{{ $facility->name }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->name }}</td>
                         <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->description }}</td>
                         <td>{{ $facility->location }}</td>
                         <td>{{ $facility->map_coordinates }}</td>
@@ -54,7 +55,8 @@
                         <td>{{ $facility->closing_time }}</td>
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->contact_person }}</td>
                         <td>{{ $facility->contact_email }}</td>
-                        <td>{{ $facility->contact_phone }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->contact_phone }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->addedBy ? $facility->addedBy->name : 'N/A' }}</td>
                         <td>
                             <a href="{{ route('admin.facilities.show', $facility) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>

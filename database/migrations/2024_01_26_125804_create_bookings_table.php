@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('facility_id')->constrained();
+            $table->string('user_name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('contact_number')->nullable();
             $table->date('booking_date');
             $table->time('booking_time');
             $table->timestamps();

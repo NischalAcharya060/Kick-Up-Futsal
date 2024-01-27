@@ -25,6 +25,7 @@ class Facility extends Model
         'contact_person',
         'contact_email',
         'contact_phone',
+        'added_by',
     ];
 
     public static function findOrFail($id)
@@ -45,5 +46,9 @@ class Facility extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function addedBy()
+    {
+        return $this->belongsTo(User::class, 'added_by');
     }
 }

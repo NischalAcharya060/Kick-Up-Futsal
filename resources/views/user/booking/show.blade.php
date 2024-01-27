@@ -20,7 +20,9 @@
         <div class="row">
             <div class="col-md-6 mb-4">
                 <div class="card border-0 shadow">
-                    <img src="{{ asset($facility->image_path) }}" class="card-img-top rounded-4" alt="{{ $facility->name }}">
+                    @if($facility->image_path)
+                        <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" class="card-img-top rounded-4" alt="{{ $facility->name }}">
+                    @endif
                 </div>
             </div>
 

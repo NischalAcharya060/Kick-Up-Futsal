@@ -16,7 +16,9 @@
                 <tr>
                     <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">S.N</th>
                     <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">User Id</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">User Name</th>
                     <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility ID</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility Name</th>
                     <th>Booking Date</th>
                     <th>Booking Time</th>
                     <th>Actions</th>
@@ -27,7 +29,9 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $booking->user_id }}</td>
+                        <td>{{ $booking->user->name }}</td>
                         <td>{{ $booking->facility_id }}</td>
+                        <td>{{ $booking->facility->name }}</td>
                         <td>{{ $booking->booking_date }}</td>
                         <td>{{ $booking->booking_time }}</td>
 
