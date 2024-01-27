@@ -33,6 +33,12 @@
             </li>
         @endif
         <li>
+            <a href="{{ route('admin.bookings.index') }}">
+                <i class='bx bxs-calendar'></i>
+                <span class="text">Bookings</span>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('admin.facilities.index') }}">
                 <i class='bx bxs-building'></i>
                 <span class="text">Facilities</span>

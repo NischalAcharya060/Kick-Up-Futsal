@@ -12,6 +12,7 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\BookingController;
+use App\Http\Controllers\Admin\BookingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -122,4 +123,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/booking', [BookingController::class, 'index'])->name('user.booking.index');
     Route::get('/booking/show/{facilityId}', [BookingController::class, 'show'])->name('user.booking.show');
     Route::post('/booking/{facilityId}/book', [BookingController::class, 'book'])->name('user.booking.book');
+});
+
+//Admin Booking History Route
+Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->group(function () {
+    Route::get('bookings', [BookingsController::class, 'index'])->name('admin.bookings.index');
+    Route::get('bookings/{booking}', [BookingsController::class, 'show'])->name('admin.bookings.show');
 });
