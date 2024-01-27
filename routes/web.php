@@ -122,7 +122,9 @@ Route::patch('facility_submissions/{id}/update-status', [FacilitySubmissionContr
 Route::middleware(['auth'])->group(function () {
     Route::get('/booking', [BookingController::class, 'index'])->name('user.booking.index');
     Route::get('/booking/show/{facilityId}', [BookingController::class, 'show'])->name('user.booking.show');
-    Route::post('/booking/{facilityId}/book', [BookingController::class, 'book'])->name('user.booking.book');
+    Route::post('/booking/confirm/{facilityId}', [BookingController::class, 'confirm'])->name('user.booking.confirm');
+    Route::get('/booking/payment', [BookingController::class, 'showPaymentForm'])->name('user.booking.payment');
+    Route::post('/booking/process-payment', [BookingController::class, 'processPayment'])->name('user.booking.processPayment');
 });
 
 //Admin Booking History Route
