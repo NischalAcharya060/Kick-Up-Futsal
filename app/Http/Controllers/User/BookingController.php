@@ -35,25 +35,4 @@ class BookingController extends Controller
         return view('user.booking.confirmation', compact('facility'));
     }
 
-    public function showPaymentForm()
-    {
-        return view('user.booking.payment');
-    }
-
-    public function processPayment(Request $request)
-    {
-        // Handle payment processing logic based on the selected payment method
-        $paymentMethod = $request->input('payment_method');
-
-        if ($paymentMethod === 'khalti') {
-            // Implement Khalti payment logic
-        } elseif ($paymentMethod === 'cash_on_delivery') {
-            // Implement Cash on Delivery logic
-        }
-
-        // Add any necessary logic for successful or failed payments
-
-        return redirect()->route('user.booking.show')->with('success', 'Booking successful!');
-    }
-
 }

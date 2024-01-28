@@ -13,6 +13,7 @@ use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\Admin\BookingsController;
+use App\Http\Controllers\User\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -125,6 +126,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/booking/confirm/{facilityId}', [BookingController::class, 'confirm'])->name('user.booking.confirm');
     Route::get('/booking/payment', [BookingController::class, 'showPaymentForm'])->name('user.booking.payment');
     Route::post('/booking/process-payment', [BookingController::class, 'processPayment'])->name('user.booking.processPayment');
+});
+
+//Payment Route
+Route::middleware(['auth'])->group(function () {
+    Route::get('/booking/payment', [PaymentController::class, 'showPaymentForm'])->name('user.booking.payment');
+    Route::post('/booking/process-payment', [PaymentController::class, 'processPayment'])->name('user.booking.processPayment');
 });
 
 //Admin Booking History Route
