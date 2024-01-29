@@ -128,12 +128,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/booking/process-payment', [BookingController::class, 'processPayment'])->name('user.booking.processPayment');
 });
 
-//Payment Route
-Route::middleware(['auth'])->group(function () {
-    Route::get('/booking/payment', [PaymentController::class, 'showPaymentForm'])->name('user.booking.payment');
-    Route::post('/booking/process-payment', [PaymentController::class, 'processPayment'])->name('user.booking.processPayment');
-});
-
 //Admin Booking History Route
 Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->group(function () {
     Route::get('bookings', [BookingsController::class, 'index'])->name('admin.bookings.index');

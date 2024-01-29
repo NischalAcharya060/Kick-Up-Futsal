@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Facility;
 use App\Models\Booking;
+use App\Models\Payment;
 
 class BookingController extends Controller
 {
@@ -33,6 +34,11 @@ class BookingController extends Controller
         $request->session()->put('booking.time', $request->input('time'));
 
         return view('user.booking.confirmation', compact('facility'));
+    }
+
+    public function showPaymentForm()
+    {
+        return view('user.booking.payment');
     }
 
 }
