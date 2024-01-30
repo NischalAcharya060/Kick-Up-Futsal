@@ -6,13 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Facility;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Booking;
 
 class AdminDashboardController extends Controller
 {
     public function index()
     {
         $user = auth()->user();
-        return view('admin.dashboard', compact('user'));
+        $userCount = User::count();
+        $bookingCount = Booking::count();
+        $facilityCount = Facility::count();
+        $futsalManagerCount = User::where('user_type', 'futsal_manager')->count();
+        return view('admin.dashboard', compact('user', 'userCount', 'bookingCount', 'facilityCount', 'futsalManagerCount'));
     }
 
     public function notifications()
