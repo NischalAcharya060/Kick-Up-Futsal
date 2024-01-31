@@ -3,35 +3,54 @@
 @section('content')
     <div class="container">
         <h2 class="mb-4">Welcome, {{ $user->name }}!</h2>
+        @if(session('success'))
+            <div class="alert alert-success mt-4" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="alert alert-success mt-4" role="alert">
+            All systems are running smoothly! @if($unreadNotificationCount > 0)
+                You have <a href="{{ route('admin.notifications.index') }}" class="alert-link">{{ $unreadNotificationCount }} unread notification(s)</a>.
+            @else
+                No unread notifications.
+            @endif
+        </div>
         <div class="row">
             <div class="col-md-6 col-lg-3">
-                <div class="card bg-primary text-white rounded shadow">
-                    <div class="card-body text-center">
-                        <i class='bx bx-user bx-lg'></i>
-                        <h5 class="card-title mt-3">Total Users</h5>
-                        <p class="card-text">{{ $userCount }}</p>
+                <a href="{{ route('admin.users.index') }}" class="card-link">
+                    <div class="card bg-primary text-white rounded shadow">
+                        <div class="card-body text-center">
+                            <i class='bx bx-user bx-lg'></i>
+                            <h5 class="card-title mt-3">Total Users</h5>
+                            <p class="card-text">{{ $userCount }}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="card bg-success text-white rounded shadow">
-                    <div class="card-body text-center">
-                        <i class='bx bx-calendar bx-lg'></i>
-                        <h5 class="card-title mt-3">Total Bookings</h5>
-                        <p class="card-text">{{ $bookingCount }}</p>
+                <a href="{{ route('admin.bookings.index') }}" class="card-link">
+                    <div class="card bg-success text-white rounded shadow">
+                        <div class="card-body text-center">
+                            <i class='bx bx-calendar bx-lg'></i>
+                            <h5 class="card-title mt-3">Total Bookings</h5>
+                            <p class="card-text">{{ $bookingCount }}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="card bg-info text-white rounded shadow">
-                    <div class="card-body text-center">
-                        <i class='bx bxs-building bx-lg'></i>
-                        <h5 class="card-title mt-3">Total Facilities</h5>
-                        <p class="card-text">{{ $facilityCount }}</p>
+                <a href="{{ route('admin.facilities.index') }}" class="card-link">
+                    <div class="card bg-info text-white rounded shadow">
+                        <div class="card-body text-center">
+                            <i class='bx bxs-building bx-lg'></i>
+                            <h5 class="card-title mt-3">Total Facilities</h5>
+                            <p class="card-text">{{ $facilityCount }}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="col-md-6 col-lg-3">

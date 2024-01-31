@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -13,7 +14,8 @@ class UserController extends Controller
     {
         $users = User::all();
         $users = User::paginate(10);
-        return view('admin.users.index', compact('users'));
+        $unreadNotificationCount = Notification::where('is_read', false)->count();
+        return view('admin.users.index', compact('users', 'unreadNotificationCount'));
     }
 
     public function create()

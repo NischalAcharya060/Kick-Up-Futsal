@@ -17,13 +17,16 @@ class AdminDashboardController extends Controller
         $bookingCount = Booking::count();
         $facilityCount = Facility::count();
         $futsalManagerCount = User::where('user_type', 'futsal_manager')->count();
-        return view('admin.dashboard', compact('user', 'userCount', 'bookingCount', 'facilityCount', 'futsalManagerCount'));
+        $unreadNotificationCount = Notification::where('is_read', false)->count();
+        return view('admin.dashboard', compact('user', 'userCount', 'bookingCount', 'facilityCount', 'futsalManagerCount', 'unreadNotificationCount'));
     }
 
     public function notifications()
     {
         $notifications = Notification::with('facility.user')->where('is_read', false)->get();
-        return view('admin.notifications.index', ['notifications' => $notifications]);
+        $unreadNotificationCount = Notification::where('is_read', false)->count();
+
+        return view('admin.notifications.index', compact('notifications', 'unreadNotificationCount'));
     }
 
     public function markAsRead(Notification $notification)

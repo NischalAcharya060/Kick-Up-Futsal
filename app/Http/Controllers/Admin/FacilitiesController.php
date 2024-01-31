@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class FacilitiesController extends Controller
     {
         $facilities = Facility::all();
         $facilities = Facility::paginate(10);
-        return view('admin.facilities.index', compact('facilities'));
+        $unreadNotificationCount = Notification::where('is_read', false)->count();
+        return view('admin.facilities.index', compact('facilities', 'unreadNotificationCount'));
     }
 
     public function create()
