@@ -13,7 +13,7 @@ use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\Admin\BookingsController;
-use App\Http\Controllers\User\PaymentController;
+use App\Http\Controllers\User\ContactUsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -132,4 +132,10 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->group(function () {
     Route::get('bookings', [BookingsController::class, 'index'])->name('admin.bookings.index');
     Route::get('bookings/{booking}', [BookingsController::class, 'show'])->name('admin.bookings.show');
+});
+
+// Contact us Route
+Route::middleware(['auth'])->group(function () {
+Route::get('/contactUs', [ContactUsController::class, 'showForm'])->name('contact.show');
+Route::post('/contactUs', [ContactUsController::class, 'submitForm'])->name('contact.submit');
 });
