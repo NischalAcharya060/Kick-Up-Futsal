@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Booking;
 
 class CalendarController extends Controller
 {
@@ -12,7 +13,16 @@ class CalendarController extends Controller
         $events = [];
 
         $user = auth()->user();
+        $bookings = Booking::all();
 
-        return view('user.calendar.index', compact('events', 'user'));
+        $bookedDates = $bookings->map(function ($booking) {
+            return [
+                'title' => 'Already Booked',
+                'start' => $booking->booking_date,
+                'className' => 'booked-event',
+            ];
+        });
+
+        return view('user.calendar.index', compact('events', 'user', 'bookedDates'));
     }
 }
