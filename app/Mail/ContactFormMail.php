@@ -13,26 +13,41 @@ class ContactFormMail extends Mailable
 
     public $name;
     public $email;
-    public $message;
     public $subject;
+    public $messages;
 
-    public function __construct($name, $email, $message, $subject)
+    /**
+     * Create a new message instance.
+     *
+     * @param  string  $name
+     * @param  string  $email
+     * @param  string  $subject
+     * @param  string  $messages
+     * @return void
+     */
+    public function __construct($name, $email, $subject, $messages)
     {
         $this->name = $name;
         $this->email = $email;
-        $this->message = $message;
         $this->subject = $subject;
+        $this->messages = $messages;
     }
 
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
     public function build()
     {
         return $this->from($this->email)
             ->subject($this->subject)
-            ->view('user.contact_us.contact-form-mail', [
+            ->view('user.contact_us.contactformTemplate')
+            ->with([
                 'name' => $this->name,
                 'email' => $this->email,
-                'message' => $this->message,
                 'subject' => $this->subject,
+                'messages' => $this->messages,
             ]);
     }
 }

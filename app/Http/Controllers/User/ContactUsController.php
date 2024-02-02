@@ -21,7 +21,7 @@ class ContactUsController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
-                'message' => 'required',
+                'messages' => 'string',
                 'subject' => 'required',
             ]);
 
@@ -29,16 +29,18 @@ class ContactUsController extends Controller
             Mail::to('Nischal060@gmail.com')->send(new ContactFormMail(
                 $request->input('name'),
                 $request->input('email'),
-                $request->input('message'),
-                $request->input('subject')
+                $request->input('subject'),
+                $request->input('messages')
             ));
 
             return "Thank you for the form submission. An admin will reach out soon.";
         } catch (\Exception $e) {
+            dd($e);
             Log::error('Email sending failed: ' . $e->getMessage());
 
             return redirect()->back()->withErrors(['email' => 'Failed to send email. Please try again.']);
         }
     }
+
 }
 
