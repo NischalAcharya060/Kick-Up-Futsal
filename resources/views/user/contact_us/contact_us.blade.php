@@ -77,6 +77,7 @@
             </div>
         </div>
     </div>
+    <x-footer />
 @endsection
 
 @section('styles')
