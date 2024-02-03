@@ -48,6 +48,7 @@ class FacilitySubmissionController extends Controller
                 $imagePath = $request->file('image')->store('facility_images', 'public');
                 $imagePath = 'storage/' . $imagePath;
             }
+            $facilityData['added_by'] = auth()->id();
 
             // Status is set to 'pending' by default
             $status = $request->input('status', 'pending');

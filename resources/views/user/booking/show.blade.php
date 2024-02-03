@@ -20,7 +20,9 @@
         <div class="row">
             <div class="col-md-6 mb-4">
                 <div class="card border-0 shadow">
-                    <img src="{{ asset($facility->image_path) }}" class="card-img-top rounded-4" alt="{{ $facility->name }}">
+                    @if($facility->image_path)
+                        <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" class="card-img-top rounded-4" alt="{{ $facility->name }}">
+                    @endif
                 </div>
             </div>
 
@@ -39,25 +41,31 @@
                         <p class="card-text"><strong>Contact Email:</strong> {{ $facility->contact_email }}</p>
                         <p class="card-text"><strong>Contact Phone:</strong> {{ $facility->contact_phone }}</p>
 
-                        <div class="mt-3">
-                            <form action="{{ route('user.booking.book', ['facilityId' => $facility->id]) }}" method="post">
-                                @csrf
-                                <label for="bookingTime">Select Time Slot:</label>
-                                <select name="bookingTime" id="bookingTime" class="form-control">
-                                    @foreach($availableTimeSlots as $timeSlot)
-                                        <option value="{{ $timeSlot }}">{{ $timeSlot }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-block mt-3">Book Now</button>
-                            </form>
-                        </div>
+                        <!-- Date and Time Selection Form -->
+                        <form action="{{ route('user.booking.confirm', ['facilityId' => $facility->id]) }}" method="post">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="date">Select Date:</label>
+                                <input type="date" id="date" name="date" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="time">Select Time:</label>
+                                <input type="time" id="time" name="time" class="form-control" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Proceed to Book</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var coordinates = [{{ $facility->map_coordinates }}];
@@ -71,9 +79,24 @@
         });
     </script>
 
+    <script>
+        // Initialize datepicker and timepicker
+        $(document).ready(function () {
+            $('#date').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+            });
+
+            $('#time').timepicker({
+                showMeridian: false,
+                defaultTime: 'current',
+            });
+        });
+    </script>
 @endsection
 
 @section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>

@@ -11,28 +11,29 @@
             </div>
         @endif
         <div class="text-right mb-3">
-            <a href="{{ route('admin.facilities.create') }}" class="btn" style="background-color: #3C91E6; border-color: #3C91E6; color: white">
+            <a href="{{ route('admin.facilities.create') }}" class="btn btn-primary">
                 <i class='bx bx-building'></i> Add Facility
             </a>
         </div>
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>S.N</th>
-                    <th>Facility Image</th>
-                    <th>Facility ID</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">S.N</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility Image</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility ID</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Location</th>
                     <th>Map Coordinates</th>
-                    <th>Price per Hour</th>
-                    <th>Facility Type</th>
-                    <th>Opening Time</th>
-                    <th>Closing Time</th>
-                    <th>Contact Person</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Price per Hour</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility Type</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Opening Time</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Closing Time</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Contact Person</th>
                     <th>Contact Email</th>
-                    <th>Contact Phone</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Contact Phone</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Added By</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -41,20 +42,21 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" style="max-width: 100px;">
+                            <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" class="img-fluid">
                         </td>
                         <td>{{ $facility->id }}</td>
-                        <td>{{ $facility->name }}</td>
-                        <td>{{ $facility->description }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->name }}</td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->description }}</td>
                         <td>{{ $facility->location }}</td>
                         <td>{{ $facility->map_coordinates }}</td>
-                        <td> Rs. {{ $facility->price_per_hour }}</td>
+                        <td>Rs. {{ $facility->price_per_hour }}</td>
                         <td>{{ $facility->facility_type }}</td>
                         <td>{{ $facility->opening_time }}</td>
                         <td>{{ $facility->closing_time }}</td>
-                        <td>{{ $facility->contact_person }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->contact_person }}</td>
                         <td>{{ $facility->contact_email }}</td>
-                        <td>{{ $facility->contact_phone }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->contact_phone }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->addedBy ? $facility->addedBy->name : 'N/A' }}</td>
                         <td>
                             <a href="{{ route('admin.facilities.show', $facility) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>
@@ -82,4 +84,16 @@
 @section('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .btn-primary {
+            background-color: #3C91E6;
+            border-color: #3C91E6;
+            color: white;
+        }
+
+        .img-fluid {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
 @endsection

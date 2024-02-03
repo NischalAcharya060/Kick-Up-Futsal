@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Booking extends Model
+class Payment extends Model
 {
+    use HasFactory;
+
+    protected $table = 'payments';
+
     protected $fillable = [
         'user_id',
-        'facility_id',
-        'user_name',
-        'email',
-        'contact_number',
-        'booking_date',
-        'booking_time',
+        'booking_id',
+        'payment_method',
+        'amount',
     ];
 
     public function user()
@@ -22,8 +23,8 @@ class Booking extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function facility()
+    public function booking()
     {
-        return $this->belongsTo(Facility::class);
+        return $this->belongsTo(Booking::class);
     }
 }

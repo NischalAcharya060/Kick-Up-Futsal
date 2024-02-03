@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Facility;
 use App\Models\Booking;
+use App\Models\Payment;
 
 class BookingController extends Controller
 {
@@ -19,51 +20,25 @@ class BookingController extends Controller
     public function show($facilityId)
     {
         $facility = Facility::findOrFail($facilityId);
-        $availableTimeSlots = $this->getAvailableTimeSlots($facility);
 
-        return view('user.booking.show', compact('facility', 'availableTimeSlots'));
+        return view('user.booking.show', compact('facility'));
     }
 
-    private function getAvailableTimeSlots($facility)
-    {
-        // Implement logic to get available time slots based on facility's opening and closing times
-        // This can include querying existing bookings and determining available time slots
-
-        // For simplicity, let's assume all time slots are available
-        return ['09:00', '10:00', '11:00', '12:00', '13:00'];
-    }
-
-    public function book(Request $request, $facilityId)
+    public function confirm(Request $request, $facilityId)
     {
         $facility = Facility::findOrFail($facilityId);
+        // Validate date and time inputs here
 
-        // Check if the facility is available for booking
-        if (!$this->isFacilityAvailable($facility, $request->input('bookingTime'))) {
-            return redirect()->route('user.booking.show', ['facilityId' => $facility->id])->with('error', 'Facility not available for booking at the selected time.');
-        }
+        // Store selected date and time in the session
+        $request->session()->put('booking.date', $request->input('date'));
+        $request->session()->put('booking.time', $request->input('time'));
 
-        // Create a new Booking model instance and save it to the database
-        $booking = new Booking([
-            'user_id' => auth()->id(), // Assuming the user is authenticated
-            'facility_id' => $facility->id,
-            'booking_date' => now()->toDateString(),
-            'booking_time' => $request->input('bookingTime'),
-        ]);
-
-        $booking->save();
-
-        // Redirect back to the facility page or a confirmation page
-        return redirect()->route('user.booking.show', ['facilityId' => $facility->id])->with('success', 'Booking successful!');
+        return view('user.booking.confirmation', compact('facility'));
     }
 
-    private function isFacilityAvailable($facility, $selectedTime)
+    public function showPaymentForm()
     {
-        // Implement your logic to check if the facility is available for booking at the selected time
-        // This can include checking existing bookings and determining availability
-
-        // For simplicity, let's assume all time slots are available
-        return true;
+        return view('user.booking.payment');
     }
-
 
 }

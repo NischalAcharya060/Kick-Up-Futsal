@@ -27,17 +27,21 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
     <a class="navbar-brand" href="{{ route('user.dashboard') }}">
-        <img src="{{ asset('img/logo.png') }}" alt="Logo">
+        <img src="{{ asset('img/logo.png') }}" alt="Logo" class="img-fluid" style="max-width: 100px;">
         <span class="text">Kick Up Futsal</span>
     </a>
 
-    <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class='bx bx-search'></i></button>
-    </form>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <div class="navbar-nav">
-        <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class='bx bx-search'></i></button>
+        </form>
+
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('user.dashboard') }}">
                     <i class='bx bx-home'></i> Home
@@ -49,7 +53,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('contact.show') }}">
                     <i class='bx bx-envelope'></i> Contact Us
                 </a>
             </li>

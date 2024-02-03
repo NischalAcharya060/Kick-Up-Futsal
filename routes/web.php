@@ -12,6 +12,8 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\BookingController;
+use App\Http\Controllers\Admin\BookingsController;
+use App\Http\Controllers\User\ContactUsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -121,5 +123,19 @@ Route::patch('facility_submissions/{id}/update-status', [FacilitySubmissionContr
 Route::middleware(['auth'])->group(function () {
     Route::get('/booking', [BookingController::class, 'index'])->name('user.booking.index');
     Route::get('/booking/show/{facilityId}', [BookingController::class, 'show'])->name('user.booking.show');
-    Route::post('/booking/{facilityId}/book', [BookingController::class, 'book'])->name('user.booking.book');
+    Route::post('/booking/confirm/{facilityId}', [BookingController::class, 'confirm'])->name('user.booking.confirm');
+    Route::get('/booking/payment', [BookingController::class, 'showPaymentForm'])->name('user.booking.payment');
+    Route::post('/booking/process-payment', [BookingController::class, 'processPayment'])->name('user.booking.processPayment');
+});
+
+//Admin Booking History Route
+Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->group(function () {
+    Route::get('bookings', [BookingsController::class, 'index'])->name('admin.bookings.index');
+    Route::get('bookings/{booking}', [BookingsController::class, 'show'])->name('admin.bookings.show');
+});
+
+// Contact us Route
+Route::middleware(['auth'])->group(function () {
+Route::get('/contactUs', [ContactUsController::class, 'showForm'])->name('contact.show');
+Route::post('/contactUs', [ContactUsController::class, 'submitForm'])->name('contact.submit');
 });

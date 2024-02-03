@@ -33,6 +33,12 @@
             </li>
         @endif
         <li>
+            <a href="{{ route('admin.bookings.index') }}">
+                <i class='bx bxs-calendar'></i>
+                <span class="text">Bookings</span>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('admin.facilities.index') }}">
                 <i class='bx bxs-building'></i>
                 <span class="text">Facilities</span>
@@ -66,10 +72,6 @@
                 <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
             </div>
         </form>
-        <a href="#" class="notification">
-            <i class='bx bxs-bell' ></i>
-            <span class="num">8</span>
-        </a>
         <div class="dropdown">
             <a href="{{ route('admin.profile') }}" class="profile" id="profileDropdown">
                 @if (auth()->check() && $user = auth()->user())

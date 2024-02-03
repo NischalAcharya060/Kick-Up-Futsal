@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class FacilitiesController extends Controller
@@ -13,7 +15,8 @@ class FacilitiesController extends Controller
     {
         $facilities = Facility::all();
         $facilities = Facility::paginate(10);
-        return view('admin.facilities.index', compact('facilities'));
+        $unreadNotificationCount = Notification::where('is_read', false)->count();
+        return view('admin.facilities.index', compact('facilities', 'unreadNotificationCount'));
     }
 
     public function create()
@@ -23,38 +26,41 @@ class FacilitiesController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'location' => 'nullable|string|max:255',
-            'map_coordinates' => 'nullable|string|max:255',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'price_per_hour' => 'nullable|numeric|min:0',
-            'facility_type' => 'nullable|string|max:255',
-            'opening_time' => 'nullable|string|max:255',
-            'closing_time' => 'nullable|string|max:255',
-            'contact_person' => 'nullable|string|max:255',
-            'contact_email' => 'nullable|string|email|max:255',
-            'contact_phone' => 'nullable|string|max:255',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'location' => 'nullable|string|max:255',
+                'map_coordinates' => 'nullable|string|max:255',
+                'image_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'price_per_hour' => 'nullable|numeric|min:0',
+                'facility_type' => 'nullable|string|max:255',
+                'opening_time' => 'nullable|string|max:255',
+                'closing_time' => 'nullable|string|max:255',
+                'contact_person' => 'nullable|string|max:255',
+                'contact_email' => 'nullable|string|email|max:255',
+                'contact_phone' => 'nullable|string|max:255',
+            ]);
 
-        // Check if an image file is uploaded
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('facility_images', 'public');
-            $imagePath = 'storage/' . $imagePath;
+            // Create a new Facility instance
+            $facilityData = $request->except('image');
+
+            // Check if an image file is uploaded
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('facility_images', 'public');
+                $facilityData['image_path'] = 'storage/' . $imagePath;
+            }
+
+            $facilityData['added_by'] = auth()->id();
+
+            Facility::create($facilityData);
+
+            return redirect()->route('admin.facilities.index')->with('success', 'Facility Added Successfully.');
+        } catch (QueryException $e) {
+            // Handle the exception, log it, or return an error response
+            return redirect()->back()->with('error', 'Error creating facility: ' . $e->getMessage());
         }
-
-        // Create a new Facility instance
-        $facilityData = $request->except('image');
-        $facilityData['image_path'] = $imagePath;
-
-        Facility::create($facilityData);
-
-        return redirect()->route('admin.facilities.index')->with('success', 'Facility Added Successfully.');
     }
-
-
 
     public function show(Facility $facility)
     {
@@ -66,40 +72,50 @@ class FacilitiesController extends Controller
         return view('admin.facilities.edit', compact('facility'));
     }
 
-    public function update(Request $request, Facility $facility)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'location' => 'nullable|string|max:255',
-            'map_coordinates' => 'nullable|string|max:255',
-            'price_per_hour' => 'nullable|numeric|min:0',
-            'facility_type' => 'nullable|string|max:255',
-            'opening_time' => 'nullable|string|max:255',
-            'closing_time' => 'nullable|string|max:255',
-            'contact_person' => 'nullable|string|max:255',
-            'contact_email' => 'nullable|string|email|max:255',
-            'contact_phone' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'location' => 'nullable|string|max:255',
+                'map_coordinates' => 'nullable|string|max:255',
+                'image_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'price_per_hour' => 'nullable|numeric|min:0',
+                'facility_type' => 'nullable|string|max:255',
+                'opening_time' => 'nullable|string|max:255',
+                'closing_time' => 'nullable|string|max:255',
+                'contact_person' => 'nullable|string|max:255',
+                'contact_email' => 'nullable|string|email|max:255',
+                'contact_phone' => 'nullable|string|max:255',
+            ]);
 
-        // Check if an image file is uploaded
-        if ($request->hasFile('image')) {
-            // Delete the previous image if it exists
-            if ($facility->image) {
-                Storage::delete('public/facility_images/' . $facility->image);
+            // Find the Facility by ID
+            $facility = Facility::findOrFail($id);
+
+            // Update the Facility instance with new data
+            $facilityData = $request->except('image');
+
+            // Check if an image file is uploaded
+            if ($request->hasFile('image')) {
+                // Delete the old image file if it exists
+                if (!is_null($facility->image_path) && Storage::disk('public')->exists($facility->image_path)) {
+                    Storage::disk('public')->delete($facility->image_path);
+                }
+
+                // Store the new image file
+                $imagePath = $request->file('image')->store('facility_images', 'public');
+                $facilityData['image_path'] = 'storage/' . $imagePath;
             }
 
-            // Store the new image
-            $imagePath = $request->file('image')->store('facility_images', 'public');
-            $facility->image = basename($imagePath);
+            // Update the facility
+            $facility->update($facilityData);
+
+            return redirect()->route('admin.facilities.index')->with('success', 'Facility Updated Successfully.');
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', 'Error updating facility: ' . $e->getMessage());
         }
-
-        $facility->update($request->except('image'));
-
-        return redirect()->route('admin.facilities.index')->with('success', 'Facility Updated Successfully.');
     }
-
 
     public function destroy(Facility $facility)
     {
