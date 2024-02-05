@@ -124,8 +124,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/booking', [BookingController::class, 'index'])->name('user.booking.index');
     Route::get('/booking/show/{facilityId}', [BookingController::class, 'show'])->name('user.booking.show');
     Route::post('/booking/confirm/{facilityId}', [BookingController::class, 'confirm'])->name('user.booking.confirm');
-    Route::get('/booking/payment', [BookingController::class, 'showPaymentForm'])->name('user.booking.payment');
-    Route::post('/booking/process-payment', [BookingController::class, 'processPayment'])->name('user.booking.processPayment');
+    Route::get('/generate-receipt', [BookingController::class, 'generateReceipt'])->name('generate.receipt');
+
 });
 
 //Admin Booking History Route

@@ -27,12 +27,24 @@
                 <div id="map" style="height: 300px; border-radius: 8px; overflow: hidden;"></div>
 
                 <div class="mt-4">
-                    <p class="card-text">Once you are ready, click the button below to proceed to the payment page.</p>
+                    <p class="card-text">Choose your payment method:</p>
+
+                    <!-- Payment methods -->
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="esewaPayment" name="paymentMethod" value="esewa">
+                        <label class="form-check-label" for="esewaPayment">eSewa</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="codPayment" name="paymentMethod" value="cod">
+                        <label class="form-check-label" for="codPayment">Cash on Delivery</label>
+                    </div>
                 </div>
 
-                <form action="{{ route('user.booking.payment') }}" method="get">
-                    <button type="submit" class="btn btn-primary">Proceed to Payment</button>
-                </form>
+                <!-- Submit button -->
+                <div class="mt-4">
+                    <button type="button" class="btn btn-primary" onclick="proceedToPayment()">Proceed to Payment</button>
+                </div>
             </div>
         </div>
     </div>
@@ -53,6 +65,23 @@
             // Add marker for the facility location
             var marker = L.marker(coordinates).addTo(map);
         });
+
+        function proceedToPayment() {
+            var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+            if (paymentMethod) {
+                if (paymentMethod.value === 'cod') {
+                    // If Cash on Delivery is selected, download the receipt
+                    window.location.href = "{{ route('generate.receipt') }}";
+                } else {
+                    // Implement logic for other payment methods
+                    // Redirect or perform necessary actions
+                    console.log('Proceeding to payment for other methods');
+                }
+            } else {
+                alert('Please select a payment method.');
+            }
+        }
     </script>
 
 @endsection
