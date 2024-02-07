@@ -75,4 +75,9 @@ class User extends Authenticatable
     {
         return $this->is_banned && ($this->banned_until == null || now()->lt($this->banned_until));
     }
+
+    public function bookmarkedFacilities()
+    {
+        return $this->belongsToMany(Facility::class, 'user_bookmarks')->withTimestamps();
+    }
 }

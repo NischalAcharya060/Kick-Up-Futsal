@@ -81,6 +81,11 @@
                         Profile
                     </a>
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bookmark-link" href="{{ route('user.bookmarks') }}">
+                        <i class='bx bx-bookmark'></i>
+                        My Bookmarks
+                    </a>
+                    <div class="dropdown-divider"></div>
                     <a href="{{ route('logout') }}" class="dropdown-item logout-link">
                         <i class='bx bxs-door-open'></i>
                         Logout

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Facility;
 use App\Models\Booking;
@@ -18,6 +19,40 @@ class BookingController extends Controller
         $facilities = Facility::all();
 
         return view('user.booking.index', compact('facilities'));
+    }
+
+    public function bookmark(Facility $facility)
+    {
+        $user = auth()->user();
+
+        if (!$user->bookmarkedFacilities->contains($facility)) {
+            $user->bookmarkedFacilities()->attach($facility);
+            return back()->with('success', 'Facility bookmarked successfully.');
+        }
+
+        return back()->with('warning', 'Facility already bookmarked.');
+    }
+
+    public function bookmarks()
+    {
+        $bookmarkedFacilities = auth()->user()->bookmarkedFacilities;
+        return view('user.booking.bookmarks', compact('bookmarkedFacilities'));
+    }
+
+    public function unbookmark($facilityId)
+    {
+        $user = Auth::user();
+
+        $facility = Facility::find($facilityId);
+
+        // Check if the facility and user exist
+        if (!$facility || !$user) {
+            return redirect()->back()->with('error', 'Invalid request.');
+        }
+
+        $user->bookmarkedFacilities()->detach($facility);
+
+        return redirect()->back()->with('success', 'Facility Un-Bookmarked Successfully.');
     }
 
     public function show($facilityId)
