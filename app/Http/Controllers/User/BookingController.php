@@ -42,22 +42,16 @@ class BookingController extends Controller
 
     public function generateReceipt()
     {
-        // Retrieve facility ID from the session
         $facilityId = session('booking.facility_id');
 
-        // Retrieve facility information from the database
         $facility = Facility::find($facilityId);
 
-        // Check if the facility exists
         if (!$facility) {
-            // Log the error or handle it as needed
             \Log::error("Facility not found for facility_id: $facilityId");
 
-            // Facility not found, handle the error (e.g., redirect to an error page)
             return redirect()->route('error')->with('message', 'Facility not found.');
         }
 
-        // Retrieve booking date and time from the session
         $bookingDate = session('booking.date');
         $bookingTime = session('booking.time');
 
@@ -67,20 +61,15 @@ class BookingController extends Controller
         // Generate receipt content
         $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'price'))->render();
 
-        // Generate PDF using a package like laravel-dompdf
-        // Make sure to install the package: composer require barryvdh/laravel-dompdf
         $pdf = \PDF::loadHtml($receiptContent);
 
-        // Generate a unique filename for the receipt
         $filename = 'receipt_' . time() . '_' . Str::random(8) . '.pdf';
 
         // Ensure the directory exists
         Storage::makeDirectory("public/receipts");
 
-        // Save the PDF file to the storage directory
         $pdf->save(storage_path("app/public/receipts/$filename"));
 
-        // Provide a download link to the user using Laravel Storage facade
         return Storage::download("public/receipts/$filename", $filename);
     }
 

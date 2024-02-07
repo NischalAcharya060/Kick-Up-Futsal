@@ -3,6 +3,23 @@
 @section('content')
     <div id="calendar"></div>
 
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">Booking List</h1>
+                <ul class="list-group list-group-flush">
+                    @php $counter = 1 @endphp
+                    @foreach($bookedDates as $booking)
+                        <li class="list-group-item">
+                            <span class="badge badge-primary">{{ $counter++ }}</span>
+                            {{ $booking['bookingDate'] }} {{ $booking['bookingTime'] }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script>
 
