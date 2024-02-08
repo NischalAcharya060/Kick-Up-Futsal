@@ -12,7 +12,7 @@
                     @foreach($bookedDates as $booking)
                         <li class="list-group-item">
                             <span class="badge badge-primary">{{ $counter++ }}</span>
-                            {{ $booking['bookingDate'] }} {{ $booking['bookingTime'] }}
+                            {{ $booking['facilityName'] }} => {{ $booking['bookingDate'] }} {{ $booking['bookingTime'] }}
                         </li>
                     @endforeach
                 </ul>
@@ -22,7 +22,6 @@
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -36,7 +35,6 @@
             });
             calendar.render();
         });
-
     </script>
 @endsection
 

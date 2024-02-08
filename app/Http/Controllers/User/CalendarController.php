@@ -24,6 +24,7 @@ class CalendarController extends Controller
                 'start' => $bookingDate,
                 'bookingDate' => $bookingDate,
                 'bookingTime' => $bookingTime,
+                'facilityName' => $booking->facility->name,
                 'className' => 'booked-event',
             ];
         });

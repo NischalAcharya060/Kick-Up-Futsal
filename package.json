@@ -13,6 +13,7 @@
     "dependencies": {
         "@fullcalendar/core": "^6.1.10",
         "@fullcalendar/daygrid": "^6.1.10",
-        "fullcalendar": "^6.1.10"
+        "fullcalendar": "^6.1.10",
+        "nepali-date-converter": "^3.3.1"
     }
 }

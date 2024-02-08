@@ -46,6 +46,7 @@
                                         <i class='bx bx-show'></i>
                                     </a>
                                     <form action="{{ route('user.unbookmark', ['facilityId' => $facility->id]) }}" method="post">
+                                        @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger btn-sm">
                                             <i class='bx bx-bookmark-minus'></i>

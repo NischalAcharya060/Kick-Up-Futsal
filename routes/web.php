@@ -108,8 +108,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/update-password', [UserProfileController::class, 'updatePassword'])->name('profile.update.password');
 });
 
+//Calendar Route
+Route::middleware(['auth'])->group(function () {
 Route::get('/calendar', [CalendarController::class, 'index'])->name('user.calendar');
-
+});
 
 // Facility Submission
 Route::middleware(['auth'])->group(function () {
