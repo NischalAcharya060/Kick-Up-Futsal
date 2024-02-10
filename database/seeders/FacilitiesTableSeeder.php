@@ -40,6 +40,21 @@ class FacilitiesTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'Kathmandu Futsal',
+                'description' => 'Located in Kathmandu, this indoor futsal facility offers a fantastic space for players. With a reasonable price per hour, it is an excellent choice for futsal lovers in the Kathmandu area.',
+                'location' => 'Kathmandu',
+                'map_coordinates' => '27.704625146804098,85.31987571768697',
+                'price_per_hour' => '840',
+                'facility_type' => 'indoor',
+                'opening_time' => '10:30:00',
+                'closing_time' => '06:00:00',
+                'contact_person' => 'Nischal Acharya',
+                'contact_email' => 'Nischal060@gmail.com',
+                'contact_phone' => '9806081469',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
 
         DB::table('facilities')->insert($facilities);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use App\Mail\ContactFormMail;
 use Illuminate\Support\Facades\Mail;
@@ -21,7 +22,7 @@ class ContactUsController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
-                'messages' => 'string',
+                'message' => 'string',
                 'subject' => 'required',
             ]);
 
@@ -30,12 +31,14 @@ class ContactUsController extends Controller
                 $request->input('name'),
                 $request->input('email'),
                 $request->input('subject'),
-                $request->input('messages')
+                $request->input('message')
             ));
 
-            return "Thank you for the form submission. An admin will reach out soon.";
+            Session::flash('success', 'Thank you for the form submission. An admin will reach out soon.');
+
+            // Redirect back to the form page
+            return redirect()->back();
         } catch (\Exception $e) {
-            dd($e);
             Log::error('Email sending failed: ' . $e->getMessage());
 
             return redirect()->back()->withErrors(['email' => 'Failed to send email. Please try again.']);

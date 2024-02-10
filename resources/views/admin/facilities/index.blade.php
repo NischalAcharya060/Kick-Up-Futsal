@@ -42,7 +42,11 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" class="img-fluid">
+                            @if($facility->image_path)
+                                <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" class="img-fluid">
+                            @else
+                                No Image Available
+                            @endif
                         </td>
                         <td>{{ $facility->id }}</td>
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->name }}</td>

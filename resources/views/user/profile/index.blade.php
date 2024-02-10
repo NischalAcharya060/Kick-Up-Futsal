@@ -147,16 +147,26 @@
                                 @csrf
                                 <div class="card-body pb-2">
                                     <div class="form-group">
-                                        <label class="form-label">New password</label>
-                                        <input type="password" class="form-control" name="new_password">
+                                        <label for="password" class="form-label">New password</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" name="password" id="password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" onclick="password()" id="show-hide-password" style="cursor: pointer;"><i class="mdi mdi-eye"></i></span>
+                                            </div>
+                                        </div>
                                         @error('password')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Confirm new password</label>
-                                        <input type="password" class="form-control" name="password_confirmation">
-                                        @error('password')
+                                        <label for="password-confirm" class="form-label">Confirm new password</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" name="password-confirm" id="password-confirm">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" onclick="passwordconfirm()" id="show-hide-password-confirm" style="cursor: pointer;"><i class="mdi mdi-eye"></i></span>
+                                            </div>
+                                        </div>
+                                        @error('password-confirm')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -167,6 +177,7 @@
                                 </div>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -178,10 +189,12 @@
         }
     </script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="{{ asset('js/admin_dashboard.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/user_profile.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css" />
 @endsection

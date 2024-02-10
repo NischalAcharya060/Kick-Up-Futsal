@@ -42,7 +42,13 @@
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114187.17942643426!2d87.6365509580823!3d26.57316242938736!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e59aeb2ac5d359%3A0x8a740efe290d8ed2!2sGauradaha%2057200!5e0!3m2!1sen!2snp!4v1706867196049!5m2!1sen!2snp" width="100%" height="445" style="border: none;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
-                <form action="{{ route('contact.submit') }}" method="post" class="mt-4">
+                @if(Session::has('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
+
+                <form id="contactForm" action="{{ route('contact.submit') }}" method="post" class="mt-4">
                     @csrf
                     <div class="form-group">
                         <label for="name">Name:</label>
@@ -78,6 +84,18 @@
         </div>
     </div>
     <x-footer />
+        <script>
+            function clearForm() {
+                document.getElementById("contactForm").reset();
+            }
+
+            // On document ready, clear form fields if form submission is successful
+            document.addEventListener('DOMContentLoaded', function() {
+                @if(session('success'))
+                clearForm();
+                @endif
+            });
+        </script>
 @endsection
 
 @section('styles')

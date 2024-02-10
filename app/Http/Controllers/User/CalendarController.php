@@ -16,9 +16,15 @@ class CalendarController extends Controller
         $bookings = Booking::all();
 
         $bookedDates = $bookings->map(function ($booking) {
+            $bookingDate = \Carbon\Carbon::parse($booking->booking_date)->format('Y-m-d');
+            $bookingTime = \Carbon\Carbon::parse($booking->booking_time)->format('H:i:s');
+
             return [
                 'title' => 'Already Booked',
-                'start' => $booking->booking_date,
+                'start' => $bookingDate,
+                'bookingDate' => $bookingDate,
+                'bookingTime' => $bookingTime,
+                'facilityName' => $booking->facility->name,
                 'className' => 'booked-event',
             ];
         });

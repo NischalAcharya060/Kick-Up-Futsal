@@ -108,8 +108,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/update-password', [UserProfileController::class, 'updatePassword'])->name('profile.update.password');
 });
 
+//Calendar Route
+Route::middleware(['auth'])->group(function () {
 Route::get('/calendar', [CalendarController::class, 'index'])->name('user.calendar');
-
+});
 
 // Facility Submission
 Route::middleware(['auth'])->group(function () {
@@ -124,8 +126,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/booking', [BookingController::class, 'index'])->name('user.booking.index');
     Route::get('/booking/show/{facilityId}', [BookingController::class, 'show'])->name('user.booking.show');
     Route::post('/booking/confirm/{facilityId}', [BookingController::class, 'confirm'])->name('user.booking.confirm');
-    Route::get('/booking/payment', [BookingController::class, 'showPaymentForm'])->name('user.booking.payment');
-    Route::post('/booking/process-payment', [BookingController::class, 'processPayment'])->name('user.booking.processPayment');
+    Route::get('/generate-receipt', [BookingController::class, 'generateReceipt'])->name('generate.receipt');
+});
+
+//Bookmark
+Route::middleware(['auth'])->group(function () {
+    Route::post('/facility/bookmark/{facility}', [BookingController::class, 'bookmark'])->name('user.facility.bookmark');
+    Route::get('/bookmarks', [BookingController::class, 'bookmarks'])->name('user.bookmarks');
+    Route::delete('/user/unbookmark/{facilityId}', [BookingController::class, 'unbookmark'])->name('user.unbookmark');
 });
 
 //Admin Booking History Route

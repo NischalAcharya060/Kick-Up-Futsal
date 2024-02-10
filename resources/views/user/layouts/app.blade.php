@@ -36,11 +36,6 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class='bx bx-search'></i></button>
-        </form>
-
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('user.dashboard') }}">
@@ -84,6 +79,11 @@
                     <a class="dropdown-item profile-link" href="{{ route('user.profile') }}">
                         <i class='bx bxs-user'></i>
                         Profile
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bookmark-link" href="{{ route('user.bookmarks') }}">
+                        <i class='bx bx-bookmark'></i>
+                        My Bookmarks
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="{{ route('logout') }}" class="dropdown-item logout-link">
