@@ -1,6 +1,8 @@
 @extends('user.layouts.app')
 @section('title', 'Calendar')
 @section('content')
+    <br>
+    <br>
     <div id="calendar"></div>
 
     <div class="container mt-4">
