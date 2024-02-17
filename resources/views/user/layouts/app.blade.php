@@ -56,7 +56,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('about.show') }}">
                     <i class='bx bx-info-circle'></i> About
                 </a>
             </li>

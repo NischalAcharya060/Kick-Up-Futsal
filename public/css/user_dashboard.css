@@ -122,3 +122,31 @@ body {
         transform: scale(1);
     }
 }
+
+.card {
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.book-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.book-button:hover {
+    background-color: #1593e7;
+    color: #FF5733;
+    text-decoration: none;
+    transform: scale(1.05);
+}

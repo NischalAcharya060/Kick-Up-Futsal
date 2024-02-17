@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Facility;
 
 class UserDashboardController extends Controller
 {
     public function index()
     {
-        return view('user.dashboard');
+        $facilities = Facility::all();
+
+        return view('user.dashboard' , compact('facilities'));
     }
 }
