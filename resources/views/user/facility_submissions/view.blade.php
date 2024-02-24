@@ -1,6 +1,8 @@
 @extends('admin.layouts.admin_dashboard')
 @section('title', 'View Submission')
 @section('content')
+    <br>
+    <br>
     <div class="container">
         <h4 class="font-weight-bold py-3 mb-4">View Submission</h4>
 

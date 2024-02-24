@@ -108,4 +108,20 @@ class BookingController extends Controller
         return Storage::download("public/receipts/$filename", $filename);
     }
 
+    public function paymentSuccess()
+    {
+//        $userId = auth()->user()->id; // Assuming the user is authenticated
+//        $bookingId = // Get the booking ID from your logic
+//        $paymentMethod = // Get the payment method from your logic
+//        $amount = // Get the payment amount from your logic
+//
+//            Payment::create([
+//                'user_id' => $userId,
+//                'booking_id' => $bookingId,
+//                'payment_method' => $paymentMethod,
+//                'amount' => $amount,
+//            ]);
+
+        return view('user.booking.payment-success');
+    }
 }

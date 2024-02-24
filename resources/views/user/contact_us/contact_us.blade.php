@@ -1,10 +1,11 @@
 @extends('user.layouts.app')
 @section('title', 'Contact Us')
 @section('content')
+    <br>
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <h2>Contact Us</h2>
+                <h2 class="text-center mb-5">Contact Us</h2>
 
                 <div class="row mb-4">
                     <div class="col-md-4">
@@ -78,7 +79,7 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn-custom">Submit</button>
                 </form>
             </div>
         </div>
@@ -99,6 +100,39 @@
 @endsection
 
 @section('styles')
+    <style>
+        .btn-custom {
+            background-color: #ffffff;
+            border: 1px solid black;
+            color: black;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 39px;
+        }
+
+        .btn-custom:hover {
+            background-color: #FF8C00;
+            border-color: #FF8C00;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 @endsection

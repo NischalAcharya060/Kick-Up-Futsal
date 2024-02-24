@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\UserDashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FacilitiesController;
+use App\Http\Controllers\User\AboutUsController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\FacilitySubmissionController;
@@ -127,6 +128,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/booking/show/{facilityId}', [BookingController::class, 'show'])->name('user.booking.show');
     Route::post('/booking/confirm/{facilityId}', [BookingController::class, 'confirm'])->name('user.booking.confirm');
     Route::get('/generate-receipt', [BookingController::class, 'generateReceipt'])->name('generate.receipt');
+    Route::get('/payment-success', [BookingController::class, 'paymentSuccess'])->name('payment.success');
+
 });
 
 //Bookmark
@@ -146,4 +149,9 @@ Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->
 Route::middleware(['auth'])->group(function () {
 Route::get('/contactUs', [ContactUsController::class, 'showForm'])->name('contact.show');
 Route::post('/contactUs', [ContactUsController::class, 'submitForm'])->name('contact.submit');
+});
+
+// About Us Route
+Route::middleware(['auth'])->group(function () {
+    Route::get('/aboutUs', [AboutUsController::class, 'showForm'])->name('about.show');
 });

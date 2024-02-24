@@ -12,20 +12,33 @@
 </head>
 <style>
     .btn-list-facility {
-        background-color: #ff8c00;
-        border-color: #ff8c00;
-        color: #fff;
+        background-color: white;
+        border-color: black;
+        color: black;
     }
 
     .btn-list-facility:hover {
-        background-color: #ffbb33;
+        background-color: #ff8c00;
         border-color: #ffbb33;
-        color: #fff;
+        color: black;
+        animation: pulse 0.5s ease-in-out;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
     }
 </style>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between fixed-top">
     <a class="navbar-brand" href="{{ route('user.dashboard') }}">
         <img src="{{ asset('img/logo.png') }}" alt="Logo" class="img-fluid" style="max-width: 100px;">
         <span class="text">Kick Up Futsal</span>
@@ -43,7 +56,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('about.show') }}">
                     <i class='bx bx-info-circle'></i> About
                 </a>
             </li>

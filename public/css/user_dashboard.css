@@ -67,3 +67,86 @@ body {
 .dropdown-divider {
     border-top: 1px solid #dee2e6;
 }
+
+.main-card {
+    transition: background-color 0.3s, transform 0.3s;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 30px;
+}
+
+.main-card:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.05);
+}
+
+.How-it-card:hover {
+    background-color: #f8f9fa;
+}
+
+.icon {
+    transition: color 0.3s;
+}
+
+.icon:hover {
+    color: #FFA500;
+}
+
+.btn-custom {
+    background-color: #ffffff;
+    border: 1px solid black;
+    color: black;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 39px;
+}
+
+.btn-custom:hover {
+    background-color: #FF8C00;
+    border-color: #FF8C00;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.card {
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.book-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.book-button:hover {
+    background-color: #1593e7;
+    color: #FF5733;
+    text-decoration: none;
+    transform: scale(1.05);
+}

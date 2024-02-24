@@ -1,6 +1,8 @@
 @extends('user.layouts.app')
 @section('title', 'Submit Facility')
 @section('content')
+    <br>
+    <br>
     <div class="container">
         <h4 class="font-weight-bold py-3 mb-4">Submit Facility</h4>
 
@@ -86,8 +88,8 @@
                 <input type="file" id="image" name="image" class="form-control">
             </div>
 
-            <button type="submit" class="btn btn-success">Submit Facility</button>
-            <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
+            <button type="submit" class="btn-custom">Submit Facility</button>
+            <button type="button" class="btn-custom" onclick="goBack()">Back</button>
         </form>
     </div>
     <script>
@@ -134,6 +136,39 @@
 @endsection
 
 @section('styles')
+    <style>
+        .btn-custom {
+            background-color: #ffffff;
+            border: 1px solid black;
+            color: black;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 39px;
+        }
+
+        .btn-custom:hover {
+            background-color: #FF8C00;
+            border-color: #FF8C00;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>

@@ -1,6 +1,8 @@
 @extends('user.layouts.app')
 @section('title', 'User Profile')
 @section('content')
+    <br>
+    <br>
     <div class="container light-style flex-grow-1 container-p-y">
         <h4 class="font-weight-bold py-3 mb-4">
             Profile Page

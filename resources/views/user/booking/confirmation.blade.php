@@ -72,16 +72,26 @@
             if (paymentMethod) {
                 if (paymentMethod.value === 'cod') {
                     // If Cash on Delivery is selected, download the receipt
-                    window.location.href = "{{ route('generate.receipt') }}";
+                    var receiptUrl = "{{ route('generate.receipt') }}";
+
+                    // Trigger the receipt download
+                    var receiptDownloadLink = document.createElement('a');
+                    receiptDownloadLink.href = receiptUrl;
+                    receiptDownloadLink.download = 'receipt.txt';
+                    document.body.appendChild(receiptDownloadLink);
+                    receiptDownloadLink.click();
+                    document.body.removeChild(receiptDownloadLink);
+
+                    // Redirect to payment success page
+                    window.location.href = "{{ route('payment.success') }}";
                 } else {
-                    // Implement logic for other payment methods
-                    // Redirect or perform necessary actions
                     console.log('Proceeding to payment for other methods');
                 }
             } else {
                 alert('Please select a payment method.');
             }
         }
+
     </script>
 
 @endsection

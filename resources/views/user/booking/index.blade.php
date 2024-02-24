@@ -58,7 +58,7 @@
             @endforelse
         </div>
     </div>
-
+    <x-footer />
 @endsection
 
 @section('styles')
