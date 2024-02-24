@@ -11,7 +11,7 @@
 <body>
 
 <section id="sidebar">
-    <a href="{{route('admin.dashboard')}}" class="brand">
+    <a href="{{route('admin.dashboard')}}" class="brand" style="text-decoration: none;">
         <div>
             <img src="{{ asset('img/logo.png') }}" alt="logo" style="width: 65px;" />
         </div>
@@ -19,34 +19,34 @@
     </a>
     <ul class="side-menu top">
         <li class="active">
-            <a href="{{ route('admin.dashboard') }}">
+            <a style="text-decoration: none;" href="{{ route('admin.dashboard') }}">
                 <i class='bx bxs-dashboard' ></i>
                 <span class="text">Dashboard</span>
             </a>
         </li>
         @if(auth()->check() && auth()->user()->user_type === 'admin')
             <li>
-                <a href="{{ route('admin.users.index') }}">
+                <a style="text-decoration: none;" href="{{ route('admin.users.index') }}">
                     <i class='bx bxs-user'></i>
                     <span class="text">User Management</span>
                 </a>
             </li>
         @endif
         <li>
-            <a href="{{ route('admin.bookings.index') }}">
+            <a style="text-decoration: none;" href="{{ route('admin.bookings.index') }}">
                 <i class='bx bxs-calendar'></i>
                 <span class="text">Bookings</span>
             </a>
         </li>
         <li>
-            <a href="{{ route('admin.facilities.index') }}">
+            <a style="text-decoration: none;" href="{{ route('admin.facilities.index') }}">
                 <i class='bx bxs-building'></i>
                 <span class="text">Facilities</span>
             </a>
         </li>
         @if(auth()->check() && auth()->user()->user_type === 'admin')
             <li>
-                <a href="{{ route('admin.notifications.index') }}">
+                <a style="text-decoration: none;" href="{{ route('admin.notifications.index') }}">
                     <i class='bx bxs-bell'></i>
                     <span class="text">Notification</span>
                 </a>
@@ -55,7 +55,7 @@
     </ul>
     <ul class="side-menu">
         <li>
-            <a href="{{ route('logout') }}" class="logout">
+            <a style="text-decoration: none;" href="{{ route('logout') }}" class="logout">
                 <i class='bx bxs-log-out-circle' ></i>
                 <span class="text">Logout</span>
             </a>
@@ -73,7 +73,7 @@
             </div>
         </form>
         <div class="dropdown">
-            <a href="{{ route('admin.profile') }}" class="profile" id="profileDropdown">
+            <a href="{{ route('admin.profile') }}" class="profile" id="profileDropdown" style="text-decoration: none;">
                 @if (auth()->check() && $user = auth()->user())
                     @if ($user->profile_picture && Storage::exists('public/profile_pictures/' . $user->profile_picture))
                         <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt style="width: 30px;">
@@ -83,8 +83,8 @@
                 @endif
             </a>
             <div class="dropdown-content" id="profileDropdownContent">
-                <a href="{{ route('admin.profile') }}">Profile</a>
-                <a href="{{ route('logout') }}" >Logout</a>
+                <a href="{{ route('admin.profile') }}" style="text-decoration: none;">Profile</a>
+                <a href="{{ route('logout') }}" style="text-decoration: none;">Logout</a>
             </div>
         </div>
     </nav>

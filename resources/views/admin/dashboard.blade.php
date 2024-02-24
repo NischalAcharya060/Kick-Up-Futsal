@@ -11,7 +11,7 @@
 
         <div class="alert alert-success mt-4" role="alert">
             All systems are running smoothly! @if($unreadNotificationCount > 0)
-                You have <a href="{{ route('admin.notifications.index') }}" class="alert-link">{{ $unreadNotificationCount }} unread notification(s)</a>.
+                You have <a style="text-decoration: none;" href="{{ route('admin.notifications.index') }}" class="alert-link">{{ $unreadNotificationCount }} unread notification(s)</a>.
             @else
                 No unread notifications.
             @endif
