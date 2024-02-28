@@ -30,26 +30,31 @@
                     <p class="card-text">Choose your payment method:</p>
 
                     <!-- Payment methods -->
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" id="esewaPayment" name="paymentMethod" value="esewa">
-                        <label class="form-check-label" for="esewaPayment">eSewa</label>
+                    <div class="payment-options">
+                        <div class="payment-option">
+                            <input type="radio" class="form-check-input" id="esewaPayment" name="paymentMethod" value="esewa">
+                            <label class="radio-label" for="esewaPayment">
+                                <img src="{{ asset('img/esewa.png') }}" alt="eSewa">
+                                <span>eSewa</span>
+                            </label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" class="form-check-input" id="codPayment" name="paymentMethod" value="cod">
+                            <label class="radio-label" for="codPayment">
+                                <img src="{{ asset('img/cod.png') }}" alt="cod">
+                                <span>Cash on Delivery</span>
+                            </label>
+                        </div>
                     </div>
 
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" id="codPayment" name="paymentMethod" value="cod">
-                        <label class="form-check-label" for="codPayment">Cash on Delivery</label>
-                    </div>
-                </div>
-
-                <!-- Submit button -->
-                <div class="mt-4">
+                    <div class="mt-4">
                     <button type="button" class="btn btn-primary" onclick="proceedToPayment()">Proceed to Payment</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Include Leaflet.js for the map -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -97,7 +102,34 @@
 @endsection
 
 @section('styles')
-    <!-- Include Leaflet.css for map styling -->
+    <style>
+        .payment-options {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .payment-option {
+            text-align: center;
+            margin-right: 20px;
+        }
+
+        .radio-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-label img {
+            max-width: 100px;
+            margin-bottom: 5px;
+        }
+
+        .form-check-input:checked + .radio-label {
+            border: 2px solid #3498db;
+            border-radius: 5px;
+        }
+    </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
