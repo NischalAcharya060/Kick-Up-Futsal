@@ -73,7 +73,7 @@
                             <form action="{{ route('user.facility_submissions.updateStatus', ['id' => $facility->id]) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" name="status" value="accepted" class="btn btn-success">Accept</button>
+                                <button type="submit" name="status" value="accepted" class="btn btn-success" >Accept</button>
                                 <button type="submit" name="status" value="rejected" class="btn btn-danger">Reject</button>
                             </form>
                         @endif

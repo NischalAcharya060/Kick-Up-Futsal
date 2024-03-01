@@ -9,10 +9,10 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['facility_submission_id', 'message', 'is_read'];
+    protected $fillable = ['facility_submission_id','user_id', 'message', 'is_read'];
 
     public function facility()
     {
-        return $this->belongsTo(Facility::class);
+        return $this->belongsTo(Facility::class, 'facility_submission_id');
     }
 }

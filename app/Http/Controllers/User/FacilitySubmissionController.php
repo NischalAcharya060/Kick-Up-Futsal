@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Notification;
 use Illuminate\Http\Request;
@@ -72,6 +73,7 @@ class FacilitySubmissionController extends Controller
 
             // Create a notification for admin
             Notification::create([
+                'user_id' => auth()->id(),
                 'facility_submission_id' => $facilitySubmission->id,
                 'message' => "New facility submission {$status}.",
             ]);
@@ -93,7 +95,7 @@ class FacilitySubmissionController extends Controller
                 'status' => $request->input('status'),
             ]);
 
-            return redirect()->route('user.facility_submissions.view', $facility->id)
+            return redirect()->route('user.facility_submissions.view', ['id' => $facility->id])
                 ->with('success', 'Status updated successfully.');
         } catch (\Exception $e) {
             return redirect()->route('user.facility_submissions.view', $facility->id)
