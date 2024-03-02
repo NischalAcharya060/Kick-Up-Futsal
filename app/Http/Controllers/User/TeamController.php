@@ -38,7 +38,7 @@ class TeamController extends Controller
 
             return redirect()->route('user.teams.index')->with('success', 'Team created successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('user.teams.create')->with('error', 'Error creating the team. Please try again.');
+            return redirect()->route('user.teams.create')->with('error', 'Team is not created. Please try again.');
         }
     }
 
@@ -46,13 +46,13 @@ class TeamController extends Controller
     {
         $user = Auth::user();
 
-        // Check if the user is already a member of 5 teams
-        if ($user->teams->count() >= 5) {
-            return redirect()->route('user.teams.index')->with('error', 'You cannot join more than 5 teams. Please leave a team before joining another.');
+        // Check if the team has reached its capacity (5 users)
+        if ($team->users->count() >= 5) {
+            return redirect()->route('user.teams.index')->with('error', 'This team has reached its maximum capacity. Please try joining another team.');
         }
         // Check if the user is already a member of the team
-        if ($team->users->contains($user->id)) {
-            return redirect()->route('user.teams.index')->with('error', 'You are already a member of this team.');
+        if ($user->teams->isNotEmpty()) {
+            return redirect()->route('user.teams.index')->with('error', 'You are already a member of a team. Please leave your current team before joining another.');
         }
         // Add the authenticated user to the team
         $team->users()->attach($user->id);
@@ -72,14 +72,18 @@ class TeamController extends Controller
     public function inviteUser(Request $request, Team $team)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email',
-            // Add other validation rules as needed
+            'invited_user' => 'required|exists:users,id',
         ]);
 
-        $userToInvite = User::where('email', $request->input('email'))->first();
+        // Check if the team has reached its capacity (5 users)
+        if ($team->users->count() >= 5) {
+            return redirect()->route('user.teams.index')->with('error', 'This team has reached its maximum capacity. You cannot send more invitations.');
+        }
 
-        // Add the user to the team
-        $team->users()->attach($userToInvite->id);
+        $invitedUserId = $request->input('invited_user');
+
+        // Add the invited user to the team
+        $team->users()->attach($invitedUserId);
 
         return redirect()->route('user.teams.index')->with('success', 'User invited to the team successfully.');
     }
