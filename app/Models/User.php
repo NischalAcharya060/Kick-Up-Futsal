@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Facility::class, 'user_bookmarks')->withTimestamps();
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

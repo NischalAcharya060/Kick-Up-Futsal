@@ -94,7 +94,7 @@
                         Profile
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item bookmark-link" href="#">
+                    <a class="dropdown-item bookmark-link" href="{{ route('user.bookings') }}">
                         <i class='bx bxs-calendar'></i>
                         My Booking
                     </a>

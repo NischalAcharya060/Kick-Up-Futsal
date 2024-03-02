@@ -62,6 +62,14 @@ class BookingController extends Controller
         return view('user.booking.show', compact('facility'));
     }
 
+    public function showBookings()
+    {
+        $user = auth()->user();
+        $bookings = $user->bookings;
+
+        return view('user.booking.my-booking', compact('bookings'));
+    }
+
     public function confirm(Request $request, $facilityId)
     {
         $facility = Facility::findOrFail($facilityId);

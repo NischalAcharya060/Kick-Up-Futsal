@@ -129,7 +129,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/booking/confirm/{facilityId}', [BookingController::class, 'confirm'])->name('user.booking.confirm');
     Route::get('/generate-receipt', [BookingController::class, 'generateReceipt'])->name('generate.receipt');
     Route::get('/payment-success', [BookingController::class, 'paymentSuccess'])->name('payment.success');
-
+    Route::get('/user/bookings', [BookingController::class, 'showBookings'])->name('user.bookings');
 });
 
 //Bookmark
