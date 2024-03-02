@@ -15,6 +15,7 @@ use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\Admin\BookingsController;
 use App\Http\Controllers\User\ContactUsController;
+use App\Http\Controllers\User\TeamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -155,3 +156,14 @@ Route::post('/contactUs', [ContactUsController::class, 'submitForm'])->name('con
 Route::middleware(['auth'])->group(function () {
     Route::get('/aboutUs', [AboutUsController::class, 'showForm'])->name('about.show');
 });
+
+//Teams
+Route::middleware(['auth'])->group(function () {
+    Route::get('teams', [TeamController::class, 'index'])->name('user.teams.index');
+    Route::get('teams/create', [TeamController::class, 'create'])->name('user.teams.create');
+    Route::post('teams/store', [TeamController::class, 'store'])->name('user.teams.store');
+    Route::match(['get', 'post'], 'teams/{team}/join', [TeamController::class, 'joinTeam'])->name('user.teams.join');
+    Route::match(['get', 'post'], 'teams/{team}/leave', [TeamController::class, 'leaveTeam'])->name('user.teams.leave');
+    Route::post('teams/{team}/invite', [TeamController::class, 'inviteUser'])->name('user.teams.invite');
+});
+
