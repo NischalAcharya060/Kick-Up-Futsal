@@ -65,7 +65,6 @@ class BookingController extends Controller
     public function confirm(Request $request, $facilityId)
     {
         $facility = Facility::findOrFail($facilityId);
-        // Validate date and time inputs here
 
         // Store selected date and time in the session
         $request->session()->put('booking.facility_id', $facilityId);
@@ -90,17 +89,14 @@ class BookingController extends Controller
         $bookingDate = session('booking.date');
         $bookingTime = session('booking.time');
 
-        // Calculate total price based on facility and booking information
         $price = $facility->price_per_hour;
 
-        // Generate receipt content
         $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'price'))->render();
 
         $pdf = \PDF::loadHtml($receiptContent);
 
         $filename = 'receipt_' . time() . '_' . Str::random(8) . '.pdf';
 
-        // Ensure the directory exists
         Storage::makeDirectory("public/receipts");
 
         $pdf->save(storage_path("app/public/receipts/$filename"));
@@ -110,18 +106,33 @@ class BookingController extends Controller
 
     public function paymentSuccess()
     {
-//        $userId = auth()->user()->id; // Assuming the user is authenticated
-//        $bookingId = // Get the booking ID from your logic
-//        $paymentMethod = // Get the payment method from your logic
-//        $amount = // Get the payment amount from your logic
-//
-//            Payment::create([
-//                'user_id' => $userId,
-//                'booking_id' => $bookingId,
-//                'payment_method' => $paymentMethod,
-//                'amount' => $amount,
-//            ]);
+        try {
+            $userId = auth()->user()->id;
+            $booking = session('booking');
 
-        return view('user.booking.payment-success');
+            if (!$booking || !is_array($booking) || !array_key_exists('id', $booking)) {
+                throw new \Exception('Invalid or missing booking information.');
+            }
+
+            $bookingId = $booking['id'];
+            $paymentMethod = $booking['payment_method'] ?? null;
+            $amount = $booking['amount'] ?? null;
+
+            if ($paymentMethod === null || $amount === null) {
+                throw new \Exception('Invalid payment information.');
+            }
+
+            Payment::create([
+                'user_id' => $userId,
+                'booking_id' => $bookingId,
+                'payment_method' => $paymentMethod,
+                'amount' => $amount,
+            ]);
+
+            return view('user.booking.payment-success');
+        } catch (\Exception $e) {
+            dd($e);
+            return view('user.booking.payment-error', ['error' => $e->getMessage()]);
+        }
     }
 }
