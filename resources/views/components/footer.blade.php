@@ -9,6 +9,7 @@
                         <li><a href="{{ route('contact.show') }}"><i class='bx bx-envelope'></i> Contact Us</a></li>
                         <li><a href="{{ route('user.calendar') }}"><i class='bx bxs-calendar'></i> Calendar</a></li>
                         <li><a href="{{ route('user.booking.index') }}"><i class='bx bxs-calendar'></i> Booking</a></li>
+                        <li><a href="{{ route('user.tournaments.index') }}"><i class='bx bx-trophy'></i> Tournaments</a></li>
                         <li><a href="{{ route('user.profile') }}"><i class='bx bx-user'></i> My Profile</a></li>
                         <li><a href="{{ route('user.facility_submissions.create') }}"><i class='bx bx-plus'></i> List Your Facility</a></li>
                         <li><a href="{{ route('logout') }}"><i class='bx bx-log-out'></i> Logout</a></li>

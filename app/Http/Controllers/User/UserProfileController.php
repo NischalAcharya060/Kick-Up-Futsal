@@ -76,7 +76,6 @@ class UserProfileController extends Controller
 
             return redirect()->route('user.profile')->with('success', 'Additional Details updated successfully.');
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->route('user.profile')->with('error', 'An error occurred while updating details.');
         }
     }

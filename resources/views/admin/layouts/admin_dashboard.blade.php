@@ -44,6 +44,12 @@
                 <span class="text">Facilities</span>
             </a>
         </li>
+        <li>
+            <a style="text-decoration: none;" href="{{ route('admin.tournaments.index') }}">
+                <i class='bx bx-trophy'></i>
+                <span class="text">Tournaments</span>
+            </a>
+        </li>
         @if(auth()->check() && auth()->user()->user_type === 'admin')
             <li>
                 <a style="text-decoration: none;" href="{{ route('admin.notifications.index') }}">

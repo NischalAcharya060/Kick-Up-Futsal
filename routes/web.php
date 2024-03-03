@@ -16,6 +16,8 @@ use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\Admin\BookingsController;
 use App\Http\Controllers\User\ContactUsController;
 use App\Http\Controllers\User\TeamController;
+use App\Http\Controllers\User\TournamentController;
+use App\Http\Controllers\Admin\AdminTournamentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -166,4 +168,21 @@ Route::middleware(['auth'])->group(function () {
     Route::match(['get', 'post'], 'teams/{team}/leave', [TeamController::class, 'leaveTeam'])->name('user.teams.leave');
     Route::post('teams/{team}/invite', [TeamController::class, 'inviteUser'])->name('user.teams.invite');
 });
+
+// User Tournaments
+Route::middleware(['auth'])->group(function () {
+    Route::get('tournaments', [TournamentController::class, 'index'])->name('user.tournaments.index');
+    Route::post('tournaments/{tournament}/join', [TournamentController::class, 'joinTournament'])->name('tournaments.join');
+});
+
+// Admin Tournaments
+Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->group(function () {
+Route::get('admin/tournaments', [AdminTournamentController::class, 'index'])->name('admin.tournaments.index');
+    Route::get('admin/tournaments/create', [AdminTournamentController::class, 'create'])->name('admin.tournaments.create');
+    Route::post('admin/tournaments/store', [AdminTournamentController::class, 'store'])->name('admin.tournaments.store');
+    Route::get('admin/tournaments/{tournament}/edit', [AdminTournamentController::class, 'edit'])->name('admin.tournaments.edit');
+    Route::put('admin/tournaments/{tournament}/update', [AdminTournamentController::class, 'update'])->name('admin.tournaments.update');
+    Route::delete('admin/tournaments/{tournament}/destroy', [AdminTournamentController::class, 'destroy'])->name('admin.tournaments.destroy');
+});
+
 
