@@ -21,16 +21,25 @@ class AdminTournamentController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:tournaments',
-            'start_date' => 'required|date|before:end_date',
-            'end_date' => 'required|date|after:start_date',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255|unique:tournaments',
+                'location' => 'nullable|string|max:255',
+                'map_coordinates' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
+                'start_date' => 'required|date|before:end_date',
+                'end_date' => 'required|date|after:start_date',
+            ]);
 
-        Tournament::create($request->all());
+            Tournament::create($request->all());
 
-        return redirect()->route('admin.tournaments.index')->with('success', 'Tournament created successfully.');
+            return redirect()->route('admin.tournaments.index')->with('success', 'Tournament created successfully.');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->route('admin.tournaments.create')->with('error', 'Error creating the tournament. Please try again.');
+        }
     }
+
 
     public function edit(Tournament $tournament)
     {
@@ -41,6 +50,9 @@ class AdminTournamentController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:tournaments,name,' . $tournament->id,
+            'location' => 'nullable|string|max:255',
+            'map_coordinates' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
             'start_date' => 'required|date|before:end_date',
             'end_date' => 'required|date|after:start_date',
         ]);

@@ -14,9 +14,20 @@ class TournamentController extends Controller
         return view('user.tournaments.index', compact('tournaments'));
     }
 
+    public function show(Tournament $tournament)
+    {
+        return view('user.tournaments.show', compact('tournament'));
+    }
+
     public function joinTournament(Tournament $tournament)
     {
         $user = auth()->user();
+
+        // Check if the user is in a team
+        if ($user->teams->isEmpty()) {
+            return redirect()->route('user.teams.create')->with('error', 'You need to join or create a team before joining a tournament.');
+        }
+
         $team = $user->teams()->first(); // Assuming a user can belong to only one team
 
         // Check if the team is already registered for the tournament
@@ -27,4 +38,5 @@ class TournamentController extends Controller
 
         return redirect()->route('user.tournaments.index')->with('error', 'Team is already registered for the tournament.');
     }
+
 }

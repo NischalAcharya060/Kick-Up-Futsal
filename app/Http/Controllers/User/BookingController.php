@@ -72,14 +72,19 @@ class BookingController extends Controller
 
     public function confirm(Request $request, $facilityId)
     {
-        $facility = Facility::findOrFail($facilityId);
+//        dd($request);
+        try {
+            $facility = Facility::findOrFail($facilityId);
 
-        // Store selected date and time in the session
-        $request->session()->put('booking.facility_id', $facilityId);
-        $request->session()->put('booking.date', $request->input('date'));
-        $request->session()->put('booking.time', $request->input('time'));
+            // Store selected date and time in the session
+            $request->session()->put('booking.facility_id', $facilityId);
+            $request->session()->put('booking.date', $request->input('date'));
+            $request->session()->put('booking.time', $request->input('time'));
 
-        return view('user.booking.confirmation', compact('facility'));
+            return view('user.booking.confirmation', compact('facility'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while confirming booking.');
+        }
     }
 
     public function generateReceipt()
@@ -112,7 +117,7 @@ class BookingController extends Controller
         return Storage::download("public/receipts/$filename", $filename);
     }
 
-    public function paymentSuccess()
+    public function paymentSuccess(Request $request)
     {
         try {
             $userId = auth()->user()->id;
@@ -125,14 +130,16 @@ class BookingController extends Controller
             $bookingId = $booking['id'];
             $paymentMethod = $booking['payment_method'] ?? null;
             $amount = $booking['amount'] ?? null;
+            $facilityId = session('booking.facility_id');
 
-            if ($paymentMethod === null || $amount === null) {
+            if ($paymentMethod === null || $amount === null || $facilityId === null) {
                 throw new \Exception('Invalid payment information.');
             }
 
             Payment::create([
                 'user_id' => $userId,
                 'booking_id' => $bookingId,
+                'facility_id' => $facilityId,
                 'payment_method' => $paymentMethod,
                 'amount' => $amount,
             ]);

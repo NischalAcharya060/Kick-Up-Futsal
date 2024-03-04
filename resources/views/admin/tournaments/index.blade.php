@@ -31,6 +31,8 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Location</th>
+                            <th>Map Coordinates</th>
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Actions</th>
@@ -42,6 +44,8 @@
                                 <td>{{ $tournament->id }}</td>
                                 <td>{{ $tournament->name }}</td>
                                 <td>{{ $tournament->description }}</td>
+                                <td>{{ $tournament->location }}</td>
+                                <td>{{ $tournament->map_coordinates }}</td>
                                 <td>{{ $tournament->start_date }}</td>
                                 <td>{{ $tournament->end_date }}</td>
                                 <td>

@@ -28,6 +28,9 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Create Team</button>
                 </form>
+                    <div class="mt-3">
+                        <p>Already have a team? <a href="{{ route('user.teams.index') }}" style="text-decoration: none; color: red;">Join a Team</a></p>
+                    </div>
             </div>
         </div>
     </div>

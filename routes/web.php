@@ -172,7 +172,8 @@ Route::middleware(['auth'])->group(function () {
 // User Tournaments
 Route::middleware(['auth'])->group(function () {
     Route::get('tournaments', [TournamentController::class, 'index'])->name('user.tournaments.index');
-    Route::post('tournaments/{tournament}/join', [TournamentController::class, 'joinTournament'])->name('tournaments.join');
+    Route::get('tournaments/{tournament}', [TournamentController::class, 'show'])->name('user.tournaments.show');
+    Route::post('tournaments/{tournament}/join', [TournamentController::class, 'joinTournament'])->name('user.tournaments.join');
 });
 
 // Admin Tournaments

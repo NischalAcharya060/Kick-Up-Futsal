@@ -29,6 +29,8 @@
                             <br>
                             <strong>Description:</strong> {{ $tournament->description }}
                             <br>
+                            <strong>Location:</strong> {{ $tournament->location }}
+                            <br>
                             <strong>Start Date:</strong> {{ $tournament->start_date }}
                             <br>
                             <strong>End Date:</strong> {{ $tournament->end_date }}
@@ -37,18 +39,22 @@
 
                             @if($tournament->teams->count() < 5)
                                 {{-- Allow team to join if there is room --}}
-                                <form action="{{ route('tournaments.join', ['tournament' => $tournament->id]) }}" method="POST">
+                                <form action="{{ route('user.tournaments.join', ['tournament' => $tournament->id]) }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-success">Join Tournament</button>
                                 </form>
+
+                                <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-primary">View Tournament</a>
                             @else
                                 {{-- Display a message indicating that the tournament is full --}}
                                 <span class="text-danger">Tournament is full</span>
+
+                                <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2">View Tournament</a>
                             @endif
 
                             <br>
 
-                            <strong>Teams:</strong>
+                            <strong>Joined Teams:</strong>
                             @forelse ($tournament->teams as $team)
                                 {{ $team->name }},
                             @empty
