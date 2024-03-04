@@ -133,6 +133,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/generate-receipt', [BookingController::class, 'generateReceipt'])->name('generate.receipt');
     Route::get('/payment-success', [BookingController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/user/bookings', [BookingController::class, 'showBookings'])->name('user.bookings');
+    Route::get('/user/bookings/search', [BookingController::class, 'search'])->name('user.booking.search');
 });
 
 //Bookmark

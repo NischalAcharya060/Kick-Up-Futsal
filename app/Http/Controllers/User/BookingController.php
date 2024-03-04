@@ -14,11 +14,35 @@ use App\Models\Payment;
 
 class BookingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $facilities = Facility::all();
+        $sortBy = $request->input('sort_by', 'price_lowest');
 
-        return view('user.booking.index', compact('facilities'));
+        return view('user.booking.index', compact('facilities', 'sortBy'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $sortBy = $request->input('sort_by', 'price_lowest');
+
+        $facilitiesQuery = Facility::where('name', 'like', "%$search%")
+            ->orWhere('location', 'like', "%$search%");
+
+        switch ($sortBy) {
+            case 'price_highest':
+                $facilitiesQuery->orderByDesc('price_per_hour');
+                break;
+            case 'price_lowest':
+            default:
+                $facilitiesQuery->orderBy('price_per_hour');
+                break;
+        }
+
+        $facilities = $facilitiesQuery->get();
+
+        return view('user.booking.index', compact('facilities', 'search', 'sortBy'));
     }
 
     public function bookmark(Facility $facility)
