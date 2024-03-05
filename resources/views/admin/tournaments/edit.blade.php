@@ -41,7 +41,7 @@
 
                         <div class="mb-3">
                             <label for="map_coordinates" class="form-label">Map Coordinates</label>
-                            <input type="hidden" class="form-control" id="map_coordinates" name="map_coordinates" value="{{ old('map_coordinates', $tournament->location) }}" required>
+                            <input type="hidden" class="form-control" id="map_coordinates" name="map_coordinates" value="{{ old('map_coordinates', $tournament->map_coordinates) }}" required>
                         </div>
                         <div id="map" style="height: 300px;"></div>
 
@@ -63,7 +63,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var coordinates = [{{ $facility->map_coordinates }}];
+            var coordinates = [{{ $tournament->map_coordinates }}];
             var map = L.map('map').setView(coordinates, 15);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

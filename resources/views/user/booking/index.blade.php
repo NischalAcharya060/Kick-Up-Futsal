@@ -69,6 +69,10 @@
                 <div class="col-md-12">
                     <div class="alert alert-info text-center">
                         No futsal grounds available at the moment.
+                        <br>
+                        <a href="{{ url()->previous() }}" class="search-btn">
+                            <i class="bx bx-arrow-back"></i> Back
+                        </a>
                     </div>
                 </div>
             @endforelse
@@ -110,9 +114,11 @@
         .search-btn {
             background-color: #ffffff;
             border: 1px solid black;
+            border-radius: 7px;
             color: black;
             transition: background-color 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
             text-decoration: none;
+            padding: .375rem .75rem;
             display: inline-block;
         }
 
@@ -120,7 +126,6 @@
             background-color: #FF8C00;
             border-color: #FF8C00;
             color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             text-decoration: none;
             animation: pulse 0.5s ease-in-out;
         }

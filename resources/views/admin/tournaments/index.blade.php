@@ -49,7 +49,7 @@
                                 <td>{{ $tournament->start_date }}</td>
                                 <td>{{ $tournament->end_date }}</td>
                                 <td>
-                                    <a href="{{ route('admin.tournaments.update', ['tournament' => $tournament->id]) }}" class="btn btn-warning btn-sm" title="Edit">
+                                    <a href="{{ route('admin.tournaments.edit', ['tournament' => $tournament->id]) }}" class="btn btn-warning btn-sm" title="Edit">
                                         <i class='bx bx-edit'></i>
                                     </a>
                                     <form action="{{ route('admin.tournaments.destroy', ['tournament' => $tournament->id]) }}" method="POST" style="display: inline;">

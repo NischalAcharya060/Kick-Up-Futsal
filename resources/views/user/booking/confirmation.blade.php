@@ -49,7 +49,8 @@
                     </div>
 
                     <div class="mt-4">
-                    <button type="button" class="btn btn-primary" onclick="proceedToPayment()">Proceed to Payment</button>
+                    <button type="button" class="book-btn" onclick="proceedToPayment()"><i class='bx bx-credit-card'></i>
+                         Proceed to Payment</button>
                 </div>
             </div>
         </div>
@@ -128,6 +129,26 @@
         .form-check-input:checked + .radio-label {
             border: 2px solid #3498db;
             border-radius: 5px;
+        }
+
+        .book-btn {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .book-btn:hover {
+            background-color: #1593e7;
+            color: #FF5733;
+            text-decoration: none;
+            transform: scale(1.05);
         }
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />

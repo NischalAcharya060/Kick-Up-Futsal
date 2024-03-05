@@ -8,14 +8,19 @@
             <div class="card-body">
                 <h2 class="mb-4">{{ $tournament->name }}</h2>
 
-                <p><strong>Description:</strong> {{ $tournament->description }}</p>
-                <p><strong>Location:</strong> {{ $tournament->location }}</p>
-                <p><strong>Map Coordinates:</strong> {{ $tournament->map_coordinates }}</p>
+                <div class="tournament-details">
+                    <div class="details-row">
+                        <p><strong>Description:</strong> {{ $tournament->description }}</p>
+                        <p><strong>Location:</strong> {{ $tournament->location }}</p>
+                    </div>
 
-                <div id="map" style="height: 300px; border-radius: 8px; overflow: hidden;"></div>
+                    <div class="details-row">
+                        <p><strong>Start Date:</strong> {{ \Carbon\Carbon::parse($tournament->start_date)->format('F j, Y') }}</p>
+                        <p><strong>End Date:</strong> {{ \Carbon\Carbon::parse($tournament->end_date)->format('F j, Y') }}</p>
+                    </div>
+                </div>
 
-                <p><strong>Start Date:</strong> {{ $tournament->start_date }}</p>
-                <p><strong>End Date:</strong> {{ $tournament->end_date }}</p>
+                <div id="map" class="mt-4" style="height: 300px; border-radius: 8px; overflow: hidden;"></div>
 
                 <h3 class="mt-4">Joined Teams:</h3>
                 @if($tournament->teams->isNotEmpty())
@@ -28,14 +33,23 @@
                     <p>No teams have joined this tournament yet.</p>
                 @endif
 
-                <form action="{{ route('user.tournaments.join', ['tournament' => $tournament->id]) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-success">Join Tournament</button>
-                </form>
+                <div class="d-flex justify-content-between align-items-center">
+                    <form action="{{ route('user.tournaments.join', ['tournament' => $tournament->id]) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success">
+                            <i class='bx bx-group'></i> Join Tournament
+                        </button>
+                    </form>
+
+                    <a href="{{ route('user.tournaments.index') }}" class="btn btn-outline-secondary">
+                        <i class='bx bx-arrow-back'></i> Back
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var coordinates = [{{ $tournament->map_coordinates }}];
@@ -48,5 +62,4 @@
             L.marker(coordinates).addTo(map);
         });
     </script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 @endsection

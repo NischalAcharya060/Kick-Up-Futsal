@@ -16,56 +16,51 @@
                     </div>
                 @endif
 
-                    @if(session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <ul class="list-group">
                     @forelse ($tournaments as $tournament)
                         <li class="list-group-item">
-                            <strong>Tournament Name:</strong> {{ $tournament->name }}
-                            <br>
-                            <strong>Description:</strong> {{ $tournament->description }}
-                            <br>
-                            <strong>Location:</strong> {{ $tournament->location }}
-                            <br>
-                            <strong>Start Date:</strong> {{ $tournament->start_date }}
-                            <br>
-                            <strong>End Date:</strong> {{ $tournament->end_date }}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5>{{ $tournament->name }}</h5>
+                                    <p>{{ $tournament->description }}</p>
+                                    <p><strong>Location:</strong> {{ $tournament->location }}</p>
+                                    <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($tournament->start_date)->format('F j, Y') }} - {{ \Carbon\Carbon::parse($tournament->end_date)->format('F j, Y') }}</p>
+                                </div>
+                                <div class="text-right">
+                                    @if($tournament->teams->count() < 5)
+                                        {{-- Allow team to join if there is room --}}
+                                        <form action="{{ route('user.tournaments.join', ['tournament' => $tournament->id]) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success"><i class='bx bx-group'></i> Join Tournament</button>
+                                        </form>
+                                        <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-primary ml-2"><i class='bx bx-show'></i> Preview</a>
+                                    @else
+                                        {{-- Display a message indicating that the tournament is full --}}
+                                        <span class="text-danger">Tournament is Full</span>
+                                        <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-show'></i> Preview</a>
+                                    @endif
+                                </div>
+                            </div>
 
-                            <br>
-
-                            @if($tournament->teams->count() < 5)
-                                {{-- Allow team to join if there is room --}}
-                                <form action="{{ route('user.tournaments.join', ['tournament' => $tournament->id]) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">Join Tournament</button>
-                                </form>
-
-                                <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-primary">View Tournament</a>
-                            @else
-                                {{-- Display a message indicating that the tournament is full --}}
-                                <span class="text-danger">Tournament is full</span>
-
-                                <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2">View Tournament</a>
-                            @endif
-
-                            <br>
-
-                            <strong>Joined Teams:</strong>
-                            @forelse ($tournament->teams as $team)
-                                {{ $team->name }},
-                            @empty
-                                No teams joined yet.
-                            @endforelse
+                            <div class="mt-3">
+                                <strong>Joined Teams:</strong>
+                                @forelse ($tournament->teams as $team)
+                                    {{ $team->name }},
+                                @empty
+                                    No teams joined yet.
+                                @endforelse
+                            </div>
                         </li>
                     @empty
                         <li class="list-group-item">No tournaments found.</li>
                     @endforelse
                 </ul>
-
             </div>
         </div>
     </div>
