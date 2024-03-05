@@ -15,6 +15,9 @@ use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\Admin\BookingsController;
 use App\Http\Controllers\User\ContactUsController;
+use App\Http\Controllers\User\TeamController;
+use App\Http\Controllers\User\TournamentController;
+use App\Http\Controllers\Admin\AdminTournamentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -129,7 +132,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/booking/confirm/{facilityId}', [BookingController::class, 'confirm'])->name('user.booking.confirm');
     Route::get('/generate-receipt', [BookingController::class, 'generateReceipt'])->name('generate.receipt');
     Route::get('/payment-success', [BookingController::class, 'paymentSuccess'])->name('payment.success');
-
+    Route::get('/user/bookings', [BookingController::class, 'showBookings'])->name('user.bookings');
+    Route::get('/user/bookings/search', [BookingController::class, 'search'])->name('user.booking.search');
 });
 
 //Bookmark
@@ -155,3 +159,32 @@ Route::post('/contactUs', [ContactUsController::class, 'submitForm'])->name('con
 Route::middleware(['auth'])->group(function () {
     Route::get('/aboutUs', [AboutUsController::class, 'showForm'])->name('about.show');
 });
+
+//Teams
+Route::middleware(['auth'])->group(function () {
+    Route::get('teams', [TeamController::class, 'index'])->name('user.teams.index');
+    Route::get('teams/create', [TeamController::class, 'create'])->name('user.teams.create');
+    Route::post('teams/store', [TeamController::class, 'store'])->name('user.teams.store');
+    Route::match(['get', 'post'], 'teams/{team}/join', [TeamController::class, 'joinTeam'])->name('user.teams.join');
+    Route::match(['get', 'post'], 'teams/{team}/leave', [TeamController::class, 'leaveTeam'])->name('user.teams.leave');
+    Route::post('teams/{team}/invite', [TeamController::class, 'inviteUser'])->name('user.teams.invite');
+});
+
+// User Tournaments
+Route::middleware(['auth'])->group(function () {
+    Route::get('tournaments', [TournamentController::class, 'index'])->name('user.tournaments.index');
+    Route::get('tournaments/{tournament}', [TournamentController::class, 'show'])->name('user.tournaments.show');
+    Route::post('tournaments/{tournament}/join', [TournamentController::class, 'joinTournament'])->name('user.tournaments.join');
+});
+
+// Admin Tournaments
+Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->group(function () {
+Route::get('admin/tournaments', [AdminTournamentController::class, 'index'])->name('admin.tournaments.index');
+    Route::get('admin/tournaments/create', [AdminTournamentController::class, 'create'])->name('admin.tournaments.create');
+    Route::post('admin/tournaments/store', [AdminTournamentController::class, 'store'])->name('admin.tournaments.store');
+    Route::get('admin/tournaments/{tournament}/edit', [AdminTournamentController::class, 'edit'])->name('admin.tournaments.edit');
+    Route::put('admin/tournaments/{tournament}/update', [AdminTournamentController::class, 'update'])->name('admin.tournaments.update');
+    Route::delete('admin/tournaments/{tournament}/destroy', [AdminTournamentController::class, 'destroy'])->name('admin.tournaments.destroy');
+});
+
+

@@ -7,6 +7,8 @@ use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Mail\UserBanNotification;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -102,6 +104,8 @@ class UserController extends Controller
     {
         $user->ban();
 
+        Mail::to($user->email)->send(new UserBanNotification($user, 'banned'));
+
         return redirect()->route('admin.users.index')->with('success', 'User banned successfully.');
     }
 
@@ -109,7 +113,8 @@ class UserController extends Controller
     {
         $user->unban();
 
+        Mail::to($user->email)->send(new UserBanNotification($user, 'unbanned'));
+
         return redirect()->route('admin.users.index')->with('success', 'User unbanned successfully.');
     }
-
 }

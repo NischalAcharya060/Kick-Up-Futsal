@@ -75,6 +75,11 @@
                     <i class='bx bxs-calendar'></i> Booking
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('user.tournaments.index') }}">
+                    <i class='bx bx-trophy'></i> Tournaments
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="{{ route('user.profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @if (auth()->check() && $user = auth()->user())
@@ -92,6 +97,11 @@
                     <a class="dropdown-item profile-link" href="{{ route('user.profile') }}">
                         <i class='bx bxs-user'></i>
                         Profile
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item bookmark-link" href="{{ route('user.bookings') }}">
+                        <i class='bx bxs-calendar'></i>
+                        My Booking
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item bookmark-link" href="{{ route('user.bookmarks') }}">

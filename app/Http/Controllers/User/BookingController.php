@@ -14,11 +14,35 @@ use App\Models\Payment;
 
 class BookingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $facilities = Facility::all();
+        $sortBy = $request->input('sort_by', 'price_lowest');
 
-        return view('user.booking.index', compact('facilities'));
+        return view('user.booking.index', compact('facilities', 'sortBy'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $sortBy = $request->input('sort_by', 'price_lowest');
+
+        $facilitiesQuery = Facility::where('name', 'like', "%$search%")
+            ->orWhere('location', 'like', "%$search%");
+
+        switch ($sortBy) {
+            case 'price_highest':
+                $facilitiesQuery->orderByDesc('price_per_hour');
+                break;
+            case 'price_lowest':
+            default:
+                $facilitiesQuery->orderBy('price_per_hour');
+                break;
+        }
+
+        $facilities = $facilitiesQuery->get();
+
+        return view('user.booking.index', compact('facilities', 'search', 'sortBy'));
     }
 
     public function bookmark(Facility $facility)
@@ -62,17 +86,29 @@ class BookingController extends Controller
         return view('user.booking.show', compact('facility'));
     }
 
+    public function showBookings()
+    {
+        $user = auth()->user();
+        $bookings = $user->bookings;
+
+        return view('user.booking.my-booking', compact('bookings'));
+    }
+
     public function confirm(Request $request, $facilityId)
     {
-        $facility = Facility::findOrFail($facilityId);
-        // Validate date and time inputs here
+//        dd($request);
+        try {
+            $facility = Facility::findOrFail($facilityId);
 
-        // Store selected date and time in the session
-        $request->session()->put('booking.facility_id', $facilityId);
-        $request->session()->put('booking.date', $request->input('date'));
-        $request->session()->put('booking.time', $request->input('time'));
+            // Store selected date and time in the session
+            $request->session()->put('booking.facility_id', $facilityId);
+            $request->session()->put('booking.date', $request->input('date'));
+            $request->session()->put('booking.time', $request->input('time'));
 
-        return view('user.booking.confirmation', compact('facility'));
+            return view('user.booking.confirmation', compact('facility'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while confirming booking.');
+        }
     }
 
     public function generateReceipt()
@@ -90,17 +126,14 @@ class BookingController extends Controller
         $bookingDate = session('booking.date');
         $bookingTime = session('booking.time');
 
-        // Calculate total price based on facility and booking information
         $price = $facility->price_per_hour;
 
-        // Generate receipt content
         $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'price'))->render();
 
         $pdf = \PDF::loadHtml($receiptContent);
 
         $filename = 'receipt_' . time() . '_' . Str::random(8) . '.pdf';
 
-        // Ensure the directory exists
         Storage::makeDirectory("public/receipts");
 
         $pdf->save(storage_path("app/public/receipts/$filename"));
@@ -108,20 +141,37 @@ class BookingController extends Controller
         return Storage::download("public/receipts/$filename", $filename);
     }
 
-    public function paymentSuccess()
+    public function paymentSuccess(Request $request)
     {
-//        $userId = auth()->user()->id; // Assuming the user is authenticated
-//        $bookingId = // Get the booking ID from your logic
-//        $paymentMethod = // Get the payment method from your logic
-//        $amount = // Get the payment amount from your logic
-//
-//            Payment::create([
-//                'user_id' => $userId,
-//                'booking_id' => $bookingId,
-//                'payment_method' => $paymentMethod,
-//                'amount' => $amount,
-//            ]);
+        try {
+            $userId = auth()->user()->id;
+            $booking = session('booking');
 
-        return view('user.booking.payment-success');
+            if (!$booking || !is_array($booking) || !array_key_exists('id', $booking)) {
+                throw new \Exception('Invalid or missing booking information.');
+            }
+
+            $bookingId = $booking['id'];
+            $paymentMethod = $booking['payment_method'] ?? null;
+            $amount = $booking['amount'] ?? null;
+            $facilityId = session('booking.facility_id');
+
+            if ($paymentMethod === null || $amount === null || $facilityId === null) {
+                throw new \Exception('Invalid payment information.');
+            }
+
+            Payment::create([
+                'user_id' => $userId,
+                'booking_id' => $bookingId,
+                'facility_id' => $facilityId,
+                'payment_method' => $paymentMethod,
+                'amount' => $amount,
+            ]);
+
+            return view('user.booking.payment-success');
+        } catch (\Exception $e) {
+            dd($e);
+            return view('user.booking.payment-error', ['error' => $e->getMessage()]);
+        }
     }
 }

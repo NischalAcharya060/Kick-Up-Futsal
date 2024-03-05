@@ -15,6 +15,7 @@
                 <thead>
                 <tr>
                     <th>S.N</th>
+                    <th>Added By</th>
                     <th>Message</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -24,6 +25,9 @@
                 @foreach($notifications as $notification)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>
+                                <p>Nischal Acharya added a facility</p>
+                        </td>
                         <td>{{ $notification->message }}</td>
                         <td>
                             @if($notification->is_read)
@@ -37,7 +41,7 @@
                                 <button class="btn btn-primary" onclick="markAsRead('{{ route('admin.notifications.markAsRead', ['notification' => $notification->id]) }}')">Mark as Read</button>
                             @endunless
                             @if($notification->facility)
-                                <a href="{{ route('user.facility_submissions.view', ['id' => $notification->facility->id]) }}">View Submission</a>
+                                <a href="{{ route('user.facility_submissions.view', ['id' => $notification->facility->id]) }}" style="text-decoration: none; color: black">View Submission</a>
                             @else
                                 Facility Not Available
                             @endif
