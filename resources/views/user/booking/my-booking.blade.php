@@ -9,22 +9,41 @@
 
         <div class="card border-0 shadow">
             <div class="card-body">
-                <ul class="list-group">
-                    @forelse ($bookings as $booking)
-                        <li class="list-group-item">
-                            <strong>Facility:</strong> {{ $booking->facility->name }}
-                            <br>
-                            <strong>Date:</strong> {{ $booking->date }}
-                            <br>
-                            <strong>Time:</strong> {{ $booking->time }}
-                        </li>
-                    @empty
-                        <li class="list-group-item">
-                            No bookings found.
-                            <a href="{{ route('user.booking.index') }}" style="color: red; text-decoration: none;">Book a Futsal Now</a>
-                        </li>
-                    @endforelse
-                </ul>
+                @if ($bookings->isEmpty())
+                    <div class="alert alert-info">
+                        No bookings found.
+                        <a href="{{ route('user.booking.index') }}" class="alert-link">Book a Futsal Now</a>
+                    </div>
+                @else
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">S.N</th>
+                            <th>Facility</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($bookings as $booking)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    <strong>{{ $booking->facility->name }}</strong>
+                                    @if ($booking->facility->image_path)
+                                        <br>
+                                        <img src="{{ asset('storage/facility_images/' . basename($booking->facility->image_path)) }}" class="img-thumbnail" alt="{{ $booking->facility->name }}" style="max-width: 100px;">
+                                    @endif
+                                </td>
+                                <td>{{ $booking->booking_date }}</td>
+                                <td>{{ $booking->booking_time }}</td>
+                                <td>{{ $booking->amount }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
         </div>
     </div>

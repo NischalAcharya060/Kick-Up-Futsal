@@ -10,6 +10,8 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'facility_id',
+        'payment_method',
+        'amount',
         'user_name',
         'email',
         'contact_number',

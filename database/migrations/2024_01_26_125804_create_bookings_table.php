@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('user_name')->nullable();
             $table->string('email')->nullable();
             $table->string('contact_number')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->decimal('amount', 10, 2)->nullable();
             $table->date('booking_date');
             $table->time('booking_time');
             $table->timestamps();
