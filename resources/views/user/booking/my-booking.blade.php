@@ -13,42 +13,83 @@
                 @if ($bookings->isEmpty())
                     <div class="alert alert-info">
                         No bookings found.
-                        <a href="{{ route('user.booking.index') }}" class="alert-link">Book a Futsal Now</a>
+                        <a href="{{ route('user.booking.index') }}" class="alert-link">Book a Facility Now</a>
                     </div>
                 @else
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">S.N</th>
-                            <th>Facility</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($bookings as $booking)
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    <strong>{{ $booking->facility->name }}</strong>
-                                    @if ($booking->facility->image_path)
-                                        <br>
-                                        <img src="{{ asset('storage/facility_images/' . basename($booking->facility->image_path)) }}" class="img-thumbnail" alt="{{ $booking->facility->name }}" style="max-width: 100px;">
-                                    @endif
-                                </td>
-                                <td>{{ $booking->booking_date }}</td>
-                                <td>{{ $booking->booking_time }}</td>
-                                <td>Rs. {{ $booking->amount }}</td>
-                                <td>{{ $booking->status }}</td>
+                                <th>S.N</th>
+                                <th>Facility</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Rating</th>
+                                <th>Review</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach ($bookings as $booking)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        <div>
+                                            <strong>{{ $booking->facility->name }}</strong>
+                                        </div>
+                                    </td>
+                                    <td>{{ $booking->booking_date }}</td>
+                                    <td>{{ $booking->booking_time }}</td>
+                                    <td>Rs. {{ $booking->amount }}</td>
+                                    <td>{{ $booking->status }}</td>
+                                    <td>@ratingStars($booking->ratings)</td>
+                                    <td>{{ $booking->reviews }}</td>
+                                    <td>
+                                        <!-- Review Form -->
+                                        @if (!$booking->hasReviews())
+                                            <form action="{{ route('user.bookings.storeReview', ['booking' => $booking->id]) }}" method="post">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="rating">Rating (1-5):</label>
+                                                    <input type="number" name="rating" id="rating" class="form-control" min="1" max="5" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="review">Review:</label>
+                                                    <textarea name="review" id="review" class="form-control" rows="3"></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     {{ $bookings->links('vendor.pagination.bootstrap-4') }}
                 @endif
             </div>
         </div>
     </div>
+@endsection
+
+@section('styles')
+    <style>
+        .custom-star {
+            color: yellow;
+            font-size: 20px;
+        }
+
+        .card-body {
+            overflow-x: auto;
+        }
+
+        .table td, .table th {
+            white-space: nowrap;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -83,14 +84,20 @@ class BookingController extends Controller
     {
         $facility = Facility::findOrFail($facilityId);
 
-        return view('user.booking.show', compact('facility'));
+        // Retrieve bookings with ratings and reviews for the specific facility
+        $ratingsAndReviews = Booking::where('facility_id', $facility->id)
+            ->whereNotNull('ratings')
+            ->whereNotNull('reviews')
+            ->with('user')
+            ->get();
+
+        return view('user.booking.show', compact('facility', 'ratingsAndReviews'));
     }
 
     public function showBookings()
     {
         $user = auth()->user();
-        $bookings = $user->bookings;
-        $bookings = Booking::paginate(5);
+        $bookings = $user->bookings()->paginate(5);
 
         return view('user.booking.my-booking', compact('bookings'));
     }
@@ -111,7 +118,6 @@ class BookingController extends Controller
             $booking->contact_number = $user->contact_number;
             $booking->booking_date = $request->input('date');
             $booking->booking_time = $request->input('time');
-            $booking->receipt_file_path = 'path/to/receipt';
 
             // Save the booking to the database
             $booking->save();
@@ -194,4 +200,30 @@ class BookingController extends Controller
             return view('user.booking.payment-error', ['error' => $e->getMessage()]);
         }
     }
+
+    public function storeReview(Request $request, Booking $booking)
+    {
+        try {
+            $request->validate([
+                'rating' => ['required', 'integer', 'min:1', 'max:5'],
+                'review' => ['nullable', 'string'],
+            ]);
+
+            // Check if the user has already reviewed this booking
+            if ($booking->hasReviews()) {
+                return redirect()->route('user.bookings', $booking->id)->with('error', 'You have already reviewed this booking.');
+            }
+
+            // Update ratings and reviews in the database
+            $booking->ratings += $request->input('rating');
+            $booking->reviews = $request->input('review');
+            $booking->save();
+
+            return redirect()->route('user.bookings', $booking->id)->with('success', 'Review added successfully.');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->route('user.bookings', $booking->id)->with('error', 'Error adding review: ' . $e->getMessage());
+        }
+    }
+
 }

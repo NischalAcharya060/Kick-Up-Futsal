@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('status')->default('Payment Pending');
             $table->date('booking_date');
             $table->time('booking_time');
+            $table->unsignedInteger('ratings')->default(0);
+            $table->text('reviews')->nullable();
             $table->timestamps();
         });
     }
