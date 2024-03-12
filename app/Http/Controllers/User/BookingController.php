@@ -90,6 +90,7 @@ class BookingController extends Controller
     {
         $user = auth()->user();
         $bookings = $user->bookings;
+        $bookings = Booking::paginate(5);
 
         return view('user.booking.my-booking', compact('bookings'));
     }
@@ -160,81 +161,37 @@ class BookingController extends Controller
         return Storage::download("public/receipts/$filename", $filename);
     }
 
-    public function savePaymentMethod(Request $request)
-    {
-        try {
-            // Retrieve the booking ID from the session
-            $bookingId = session('booking.id');
-
-            // Ensure booking id is present
-            if (!$bookingId) {
-                throw new \Exception('Invalid booking id.');
-            }
-
-            // Retrieve booking data from the database
-            $booking = Booking::find($bookingId);
-
-            // Check if the booking is not found
-            if (!$booking) {
-                throw new \Exception('Booking not found. Booking ID: ' . $bookingId);
-            }
-
-            // Ensure necessary keys are present in the booking data
-            if (!$booking->facility_id || !$booking->date || !$booking->time) {
-                throw new \Exception('Invalid booking information.');
-            }
-
-            // Retrieve the payment method from the request
-            $paymentMethod = $request->input('payment_method');
-
-            // Save the payment method to the booking
-            $booking->payment_method = $paymentMethod;
-
-            // Save the booking to the database
-            $booking->save();
-
-            // Save the payment method in the session (replace 'your_payment_method' with the desired session key)
-            session(['your_payment_method' => $paymentMethod]);
-
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
     public function paymentSuccess(Request $request)
     {
         try {
-            $userId = auth()->user()->id;
-            $bookingId = session('booking.id');
+            // Retrieve data from the session
+            $facilityId = session('booking.facility_id');
+            $bookingDate = session('booking.date');
+            $bookingTime = session('booking.time');
 
-            // Ensure booking id is present
-            if (!$bookingId) {
-                throw new \Exception('Invalid booking id.');
+            // Ensure all required data is present
+            if (!$facilityId || !$bookingDate || !$bookingTime) {
+                throw new \Exception('Incomplete or missing booking information in session.');
             }
-            // Retrieve booking data from the database
-            $booking = Booking::find($bookingId);
+
+            // Retrieve booking data from the database using the facility ID, date, and time
+            $booking = Booking::where('facility_id', $facilityId)
+                ->where('booking_date', $bookingDate)
+                ->where('booking_time', $bookingTime)
+                ->first();
 
             // Check if the booking is not found
             if (!$booking) {
-                throw new \Exception('Booking not found. Booking ID: ' . $bookingId);
+                throw new \Exception('Booking not found. Facility ID: ' . $facilityId . ', Date: ' . $bookingDate . ', Time: ' . $bookingTime);
             }
 
-            // Ensure necessary keys are present in the booking data
-            if (!$booking->facility_id || !$booking->date || !$booking->time) {
-                throw new \Exception('Invalid booking information.');
-            }
-
-            $facility = Facility::find($booking->facility_id);
-
-            // Ensure the facility is found
-            if (!$facility) {
-                throw new \Exception('Facility not found for booking ID: ' . $bookingId);
-            }
+            // Update the booking status to "completed"
+            $booking->status = 'Payment Completed';
+            $booking->save();
 
             return view('user.booking.payment-success');
         } catch (\Exception $e) {
-            return view('user.booking.payment-success');
+            return view('user.booking.payment-error', ['error' => $e->getMessage()]);
         }
     }
 }

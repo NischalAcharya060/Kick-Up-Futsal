@@ -1,7 +1,8 @@
 @extends('user.layouts.app')
-@section('title', 'My Bookings')
-@section('content')
 
+@section('title', 'My Bookings')
+
+@section('content')
     <div class="container mt-5">
         <div class="text-center mb-4">
             <h2>My Bookings</h2>
@@ -23,6 +24,7 @@
                             <th>Date</th>
                             <th>Time</th>
                             <th>Amount</th>
+                            <th>Status</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -38,14 +40,15 @@
                                 </td>
                                 <td>{{ $booking->booking_date }}</td>
                                 <td>{{ $booking->booking_time }}</td>
-                                <td>{{ $booking->amount }}</td>
+                                <td>Rs. {{ $booking->amount }}</td>
+                                <td>{{ $booking->status }}</td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $bookings->links('vendor.pagination.bootstrap-4') }}
                 @endif
             </div>
         </div>
     </div>
-
 @endsection

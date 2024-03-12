@@ -21,6 +21,7 @@
                     <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility Name</th>
                     <th>Booking Date</th>
                     <th>Booking Time</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -34,7 +35,7 @@
                         <td>{{ $booking->facility->name }}</td>
                         <td>{{ $booking->booking_date }}</td>
                         <td>{{ $booking->booking_time }}</td>
-
+                        <td>{{ $booking->status }}</td>
                         <td>
                             <a href="{{ route('admin.bookings.show', $booking) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>
