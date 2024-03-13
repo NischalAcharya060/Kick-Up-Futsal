@@ -9,6 +9,20 @@
         </div>
 
         <div class="card border-0 shadow">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card-body">
                 @if ($bookings->isEmpty())
                     <div class="alert alert-info">
@@ -28,6 +42,7 @@
                                 <th>Status</th>
                                 <th>Rating</th>
                                 <th>Review</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -59,6 +74,14 @@
                                                     <textarea name="review" id="review" class="form-control" rows="3"></textarea>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Submit Review</button>
+                                            </form>
+                                        @endif
+                                        <!-- Cancellation Option -->
+                                        @if ($booking->status === 'Payment Pending' || $booking->status === 'Payment Completed')
+                                            <form action="{{ route('user.bookings.cancel', ['booking' => $booking->id]) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger"><i class='bx bx-x-circle'></i></button>
                                             </form>
                                         @endif
                                     </td>

@@ -137,6 +137,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/save-payment-method', [BookingController::class, 'savePaymentMethod'])->name('save.payment.method');
     Route::post('/bookings/{booking}/store-review', [BookingController::class, 'storeReview'])
         ->name('user.bookings.storeReview');
+    Route::delete('/user/bookings/{booking}', [BookingController::class, 'cancel'])->name('user.bookings.cancel');
+
 });
 
 //Bookmark

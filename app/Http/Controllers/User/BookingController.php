@@ -221,9 +221,14 @@ class BookingController extends Controller
 
             return redirect()->route('user.bookings', $booking->id)->with('success', 'Review added successfully.');
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->route('user.bookings', $booking->id)->with('error', 'Error adding review: ' . $e->getMessage());
         }
     }
 
+    public function cancel(Request $request, Booking $booking)
+    {
+        $booking->update(['status' => 'Booking Cancelled']);
+
+        return redirect()->back()->with('success', 'Booking has been cancelled successfully.');
+    }
 }
