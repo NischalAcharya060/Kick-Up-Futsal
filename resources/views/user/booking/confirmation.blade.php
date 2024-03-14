@@ -30,29 +30,32 @@
                     <p class="card-text">Choose your payment method:</p>
 
                     <!-- Payment methods -->
-                    <div class="payment-options">
-                        <div class="payment-option">
-                            <input type="radio" class="form-check-input" id="esewaPayment" name="paymentMethod" value="esewa">
-                            <label class="radio-label" for="esewaPayment">
-                                <img src="{{ asset('img/esewa.png') }}" alt="eSewa">
-                                <span>eSewa</span>
-                            </label>
+                    <form id="paymentForm" action="{{ route('payment.success') }}" method="GET">
+                        @csrf
+                        <div class="payment-options">
+                            <div class="payment-option">
+                                <input type="radio" class="form-check-input" id="esewaPayment" name="paymentMethod" value="esewa">
+                                <label class="radio-label" for="esewaPayment">
+                                    <img src="{{ asset('img/esewa.png') }}" alt="eSewa">
+                                    <span>eSewa</span>
+                                </label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" class="form-check-input" id="codPayment" name="paymentMethod" value="Cash on Delivery">
+                                <label class="radio-label" for="codPayment">
+                                    <img src="{{ asset('img/cod.png') }}" alt="cod">
+                                    <span>Cash on Delivery</span>
+                                </label>
+                            </div>
                         </div>
 
-                        <div class="payment-option">
-                            <input type="radio" class="form-check-input" id="codPayment" name="paymentMethod" value="cod">
-                            <label class="radio-label" for="codPayment">
-                                <img src="{{ asset('img/cod.png') }}" alt="cod">
-                                <span>Cash on Delivery</span>
-                            </label>
+                        <div class="mt-4">
+                            <button type="submit" class="book-btn"><i class='bx bx-credit-card'></i> Proceed to Payment</button>
                         </div>
-                    </div>
+                    </form>
 
-                    <div class="mt-4">
-                    <button type="button" class="book-btn" onclick="proceedToPayment()"><i class='bx bx-credit-card'></i>
-                         Proceed to Payment</button>
                 </div>
-            </div>
         </div>
     </div>
 

@@ -134,7 +134,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-success', [BookingController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/user/bookings', [BookingController::class, 'showBookings'])->name('user.bookings');
     Route::get('/user/bookings/search', [BookingController::class, 'search'])->name('user.booking.search');
-    Route::post('/save-payment-method', [BookingController::class, 'savePaymentMethod'])->name('save.payment.method');
     Route::post('/bookings/{booking}/store-review', [BookingController::class, 'storeReview'])
         ->name('user.bookings.storeReview');
     Route::delete('/user/bookings/{booking}', [BookingController::class, 'cancel'])->name('user.bookings.cancel');

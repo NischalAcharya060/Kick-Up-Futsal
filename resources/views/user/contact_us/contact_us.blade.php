@@ -9,7 +9,7 @@
 
                 <div class="row mb-4">
                     <div class="col-md-4">
-                        <div class="card bg-success text-white rounded shadow mb-3">
+                        <div class="card bg-primary text-white rounded shadow mb-3">
                             <div class="card-body text-center">
                                 <i class='bx bx-envelope bx-lg'></i>
                                 <h5 class="card-title mt-3">Email</h5>
@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <div class="card bg-success text-white rounded shadow mb-3">
+                        <div class="card bg-primary text-white rounded shadow mb-3">
                             <div class="card-body text-center">
                                 <i class='bx bx-phone bx-lg'></i>
                                 <h5 class="card-title mt-3">Phone</h5>
@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <div class="card bg-success text-white rounded shadow mb-3">
+                        <div class="card bg-primary text-white rounded shadow mb-3">
                             <div class="card-body text-center">
                                 <i class='bx bx-map bx-lg'></i>
                                 <h5 class="card-title mt-3">Location</h5>
@@ -85,18 +85,18 @@
         </div>
     </div>
     <x-footer />
-        <script>
-            function clearForm() {
-                document.getElementById("contactForm").reset();
-            }
+    <script>
+        function clearForm() {
+            document.getElementById("contactForm").reset();
+        }
 
-            // On document ready, clear form fields if form submission is successful
-            document.addEventListener('DOMContentLoaded', function() {
-                @if(session('success'))
-                clearForm();
-                @endif
-            });
-        </script>
+        // On document ready, clear form fields if form submission is successful
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(session('success'))
+            clearForm();
+            @endif
+        });
+    </script>
 @endsection
 
 @section('styles')

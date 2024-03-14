@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Facility;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 
@@ -11,12 +12,15 @@ class TournamentController extends Controller
     public function index()
     {
         $tournaments = Tournament::all();
-        return view('user.tournaments.index', compact('tournaments'));
+        $facilities = Facility::all();
+        return view('user.tournaments.index', compact('tournaments', 'facilities'));
     }
 
     public function show(Tournament $tournament)
     {
-        return view('user.tournaments.show', compact('tournament'));
+        $facilities = Facility::all();
+
+        return view('user.tournaments.show', compact('tournament', 'facilities'));
     }
 
     public function joinTournament(Tournament $tournament)

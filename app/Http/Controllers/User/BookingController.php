@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Rules\NotInPast;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
@@ -107,6 +109,17 @@ class BookingController extends Controller
         try {
             $facility = Facility::findOrFail($facilityId);
 
+            $validator = Validator::make($request->all(), [
+                'date' => ['required', 'date', new NotInPast()],
+                'time' => ['required'],
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
             // Create a new Booking instance
             $user = auth()->user();
             $booking = new Booking();
@@ -133,9 +146,10 @@ class BookingController extends Controller
 
             return view('user.booking.confirmation', compact('facility', 'booking'));
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while confirming booking.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
 
     public function generateReceipt()
     {
@@ -154,7 +168,10 @@ class BookingController extends Controller
 
         $price = $facility->price_per_hour;
 
-        $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'price'))->render();
+        $userId = auth()->id();
+        $user = User::find($userId);
+
+        $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'price', 'user'))->render();
 
         $pdf = \PDF::loadHtml($receiptContent);
 
@@ -193,6 +210,9 @@ class BookingController extends Controller
 
             // Update the booking status to "completed"
             $booking->status = 'Payment Completed';
+            $paymentMethod = $request->input('paymentMethod');
+            $booking->payment_method = $paymentMethod;
+
             $booking->save();
 
             return view('user.booking.payment-success');

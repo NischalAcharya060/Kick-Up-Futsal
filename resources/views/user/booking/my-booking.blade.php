@@ -39,6 +39,7 @@
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Amount</th>
+                                <th>Payment Method</th>
                                 <th>Status</th>
                                 <th>Rating</th>
                                 <th>Review</th>
@@ -54,9 +55,10 @@
                                             <strong>{{ $booking->facility->name }}</strong>
                                         </div>
                                     </td>
-                                    <td>{{ $booking->booking_date }}</td>
-                                    <td>{{ $booking->booking_time }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($booking->booking_time)->format('h:i a') }}</td>
                                     <td>Rs. {{ $booking->amount }}</td>
+                                    <td>{{ $booking->payment_method }}</td>
                                     <td>{{ $booking->status }}</td>
                                     <td>@ratingStars($booking->ratings)</td>
                                     <td>{{ $booking->reviews }}</td>

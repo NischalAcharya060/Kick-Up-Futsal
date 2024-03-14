@@ -11,7 +11,7 @@ class BookingsController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::with(['user', 'facility'])->latest()->paginate(10);
+        $bookings = Booking::with(['user', 'facility'])->latest()->paginate(5);
         $unreadNotificationCount = Notification::where('is_read', false)->count();
         return view('admin.bookings.index', compact('bookings', 'unreadNotificationCount'));
     }

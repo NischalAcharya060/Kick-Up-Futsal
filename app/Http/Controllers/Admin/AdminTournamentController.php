@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tournament;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 
 class AdminTournamentController extends Controller
@@ -16,13 +17,16 @@ class AdminTournamentController extends Controller
 
     public function create()
     {
-        return view('admin.tournaments.create');
+        $facilities = Facility::all();
+
+        return view('admin.tournaments.create', ['facilities' => $facilities]);
     }
 
     public function store(Request $request)
     {
         try {
             $request->validate([
+                'facility_id' => 'required|exists:facilities,id',
                 'name' => 'required|string|max:255|unique:tournaments',
                 'location' => 'nullable|string|max:255',
                 'map_coordinates' => 'nullable|string|max:255',
@@ -51,13 +55,16 @@ class AdminTournamentController extends Controller
 
     public function edit(Tournament $tournament)
     {
-        return view('admin.tournaments.edit', compact('tournament'));
+        $facilities = Facility::all();
+
+        return view('admin.tournaments.edit', compact('tournament', 'facilities'));
     }
 
     public function update(Request $request, Tournament $tournament)
     {
         try {
             $request->validate([
+                'facility_id' => 'required|exists:facilities,id',
                 'name' => 'required|string|max:255|unique:tournaments,name,' . $tournament->id,
                 'location' => 'nullable|string|max:255',
                 'map_coordinates' => 'nullable|string|max:255',

@@ -8,16 +8,18 @@
     <div class="container mt-4">
         <div class="card">
             <div class="card-body">
-                <h1 class="card-title">Booking List</h1>
-                <ul class="list-group list-group-flush">
+                <h1 class="card-title text-center mb-4">Booking List</h1>
+                <div class="list-group">
                     @php $counter = 1 @endphp
                     @foreach($bookedDates as $booking)
-                        <li class="list-group-item">
-                            <span class="badge badge-primary">{{ $counter++ }}</span>
-                            {{ $booking['facilityName'] }} => {{ $booking['bookingDate'] }} {{ $booking['bookingTime'] }}
-                        </li>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between align-items-center">
+                                <h5 class="mb-1">{{ $counter++ }}. {{ $booking['facilityName'] }}</h5>
+                                <span class="badge badge-primary badge-pill">{{ \Carbon\Carbon::parse($booking['bookingDate'] . ' ' . $booking['bookingTime'])->format('F j, Y h:i A') }}</span>
+                            </div>
+                        </a>
                     @endforeach
-                </ul>
+                </div>
             </div>
         </div>
     </div>

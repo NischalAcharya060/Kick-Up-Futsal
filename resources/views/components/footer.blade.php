@@ -27,7 +27,7 @@
 
 <style>
     .footer {
-        background: linear-gradient(to right, #222, #333);
+        background-color: #222;
         color: #fff;
         padding: 40px 0;
         margin-top: 70px;
