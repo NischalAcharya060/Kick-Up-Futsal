@@ -11,7 +11,9 @@
                 <div class="tournament-details">
                     <div class="details-row">
                         <p><strong>Description:</strong> {{ $tournament->description }}</p>
-                        <p><strong>Location:</strong> {{ $tournament->location }}</p>
+                        <p><strong>Ground:</strong> {{ $tournament->facility->name }}</p>
+                        <p><strong>Location:</strong> {{ $tournament->facility->location }}</p>
+                        <p><strong>Map Coordinates:</strong> {{ $tournament->facility->map_coordinates }}</p>
                     </div>
 
                     <div class="details-row">
@@ -52,14 +54,20 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var coordinates = [{{ $tournament->map_coordinates }}];
+            var coordinates = [{{ $tournament->facility->map_coordinates }}];
             var map = L.map('map').setView(coordinates, 15);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
-            L.marker(coordinates).addTo(map);
+            var marker = L.marker(coordinates).addTo(map);
         });
     </script>
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 @endsection

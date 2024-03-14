@@ -29,10 +29,12 @@
                         <thead>
                         <tr>
                             <th>ID</th>
+                            <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility ID</th>
+                            <th>Facility Name</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Location</th>
-                            <th>Map Coordinates</th>
+                            <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Map Coordinates</th>
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Actions</th>
@@ -41,13 +43,15 @@
                         <tbody>
                         @forelse ($tournaments as $tournament)
                             <tr>
-                                <td>{{ $tournament->id }}</td>
-                                <td>{{ $tournament->name }}</td>
-                                <td>{{ $tournament->description }}</td>
-                                <td>{{ $tournament->location }}</td>
-                                <td>{{ $tournament->map_coordinates }}</td>
-                                <td>{{ $tournament->start_date }}</td>
-                                <td>{{ $tournament->end_date }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->id }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->facility->id }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->facility->name }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->name }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->description }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->facility->location }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->facility->map_coordinates }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->start_date }}</td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $tournament->end_date }}</td>
                                 <td>
                                     <a href="{{ route('admin.tournaments.edit', ['tournament' => $tournament->id]) }}" class="btn btn-warning btn-sm" title="Edit">
                                         <i class='bx bx-edit'></i>

@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Rules\NotInPast;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Facility;
+use App\Models\User;
 use App\Models\Booking;
-use App\Models\Payment;
 
 class BookingController extends Controller
 {
@@ -83,33 +86,70 @@ class BookingController extends Controller
     {
         $facility = Facility::findOrFail($facilityId);
 
-        return view('user.booking.show', compact('facility'));
+        // Retrieve bookings with ratings and reviews for the specific facility
+        $ratingsAndReviews = Booking::where('facility_id', $facility->id)
+            ->whereNotNull('ratings')
+            ->whereNotNull('reviews')
+            ->with('user')
+            ->get();
+
+        return view('user.booking.show', compact('facility', 'ratingsAndReviews'));
     }
 
     public function showBookings()
     {
         $user = auth()->user();
-        $bookings = $user->bookings;
+        $bookings = $user->bookings()->paginate(5);
 
         return view('user.booking.my-booking', compact('bookings'));
     }
 
     public function confirm(Request $request, $facilityId)
     {
-//        dd($request);
         try {
             $facility = Facility::findOrFail($facilityId);
 
-            // Store selected date and time in the session
+            $validator = Validator::make($request->all(), [
+                'date' => ['required', 'date', new NotInPast()],
+                'time' => ['required'],
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            // Create a new Booking instance
+            $user = auth()->user();
+            $booking = new Booking();
+            $booking->user_id = auth()->user()->id;
+            $booking->facility_id = $facilityId;
+            $booking->amount = $facility->price_per_hour;
+            $booking->user_name = $user->name;
+            $booking->email = $user->email;
+            $booking->contact_number = $user->contact_number;
+            $booking->booking_date = $request->input('date');
+            $booking->booking_time = $request->input('time');
+
+            // Save the booking to the database
+            $booking->save();
+
+            // Set the booking ID in the session
+            $request->session()->put('booking.id', $booking->id);
+
+            // Set other booking details in the session
             $request->session()->put('booking.facility_id', $facilityId);
             $request->session()->put('booking.date', $request->input('date'));
             $request->session()->put('booking.time', $request->input('time'));
+            $request->session()->put('booking.amount', $facility->price_per_hour);
 
-            return view('user.booking.confirmation', compact('facility'));
+            return view('user.booking.confirmation', compact('facility', 'booking'));
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while confirming booking.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
 
     public function generateReceipt()
     {
@@ -128,7 +168,10 @@ class BookingController extends Controller
 
         $price = $facility->price_per_hour;
 
-        $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'price'))->render();
+        $userId = auth()->id();
+        $user = User::find($userId);
+
+        $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'price', 'user'))->render();
 
         $pdf = \PDF::loadHtml($receiptContent);
 
@@ -144,34 +187,68 @@ class BookingController extends Controller
     public function paymentSuccess(Request $request)
     {
         try {
-            $userId = auth()->user()->id;
-            $booking = session('booking');
-
-            if (!$booking || !is_array($booking) || !array_key_exists('id', $booking)) {
-                throw new \Exception('Invalid or missing booking information.');
-            }
-
-            $bookingId = $booking['id'];
-            $paymentMethod = $booking['payment_method'] ?? null;
-            $amount = $booking['amount'] ?? null;
+            // Retrieve data from the session
             $facilityId = session('booking.facility_id');
+            $bookingDate = session('booking.date');
+            $bookingTime = session('booking.time');
 
-            if ($paymentMethod === null || $amount === null || $facilityId === null) {
-                throw new \Exception('Invalid payment information.');
+            // Ensure all required data is present
+            if (!$facilityId || !$bookingDate || !$bookingTime) {
+                throw new \Exception('Incomplete or missing booking information in session.');
             }
 
-            Payment::create([
-                'user_id' => $userId,
-                'booking_id' => $bookingId,
-                'facility_id' => $facilityId,
-                'payment_method' => $paymentMethod,
-                'amount' => $amount,
-            ]);
+            // Retrieve booking data from the database using the facility ID, date, and time
+            $booking = Booking::where('facility_id', $facilityId)
+                ->where('booking_date', $bookingDate)
+                ->where('booking_time', $bookingTime)
+                ->first();
+
+            // Check if the booking is not found
+            if (!$booking) {
+                throw new \Exception('Booking not found. Facility ID: ' . $facilityId . ', Date: ' . $bookingDate . ', Time: ' . $bookingTime);
+            }
+
+            // Update the booking status to "completed"
+            $booking->status = 'Payment Completed';
+            $paymentMethod = $request->input('paymentMethod');
+            $booking->payment_method = $paymentMethod;
+
+            $booking->save();
 
             return view('user.booking.payment-success');
         } catch (\Exception $e) {
-            dd($e);
             return view('user.booking.payment-error', ['error' => $e->getMessage()]);
         }
+    }
+
+    public function storeReview(Request $request, Booking $booking)
+    {
+        try {
+            $request->validate([
+                'rating' => ['required', 'integer', 'min:1', 'max:5'],
+                'review' => ['nullable', 'string'],
+            ]);
+
+            // Check if the user has already reviewed this booking
+            if ($booking->hasReviews()) {
+                return redirect()->route('user.bookings', $booking->id)->with('error', 'You have already reviewed this booking.');
+            }
+
+            // Update ratings and reviews in the database
+            $booking->ratings += $request->input('rating');
+            $booking->reviews = $request->input('review');
+            $booking->save();
+
+            return redirect()->route('user.bookings', $booking->id)->with('success', 'Review added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('user.bookings', $booking->id)->with('error', 'Error adding review: ' . $e->getMessage());
+        }
+    }
+
+    public function cancel(Request $request, Booking $booking)
+    {
+        $booking->update(['status' => 'Booking Cancelled']);
+
+        return redirect()->back()->with('success', 'Booking has been cancelled successfully.');
     }
 }

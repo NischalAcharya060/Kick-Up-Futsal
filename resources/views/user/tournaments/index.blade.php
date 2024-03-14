@@ -29,7 +29,8 @@
                                 <div>
                                     <h5>{{ $tournament->name }}</h5>
                                     <p>{{ $tournament->description }}</p>
-                                    <p><strong>Location:</strong> {{ $tournament->location }}</p>
+                                    <p><strong>Ground:</strong> {{ $tournament->facility->name }}</p>
+                                    <p><strong>Location:</strong> {{ $tournament->facility->location }}</p>
                                     <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($tournament->start_date)->format('F j, Y') }} - {{ \Carbon\Carbon::parse($tournament->end_date)->format('F j, Y') }}</p>
                                 </div>
                                 <div class="text-right">

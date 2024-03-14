@@ -10,12 +10,16 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'facility_id',
+        'payment_method',
+        'amount',
         'user_name',
         'email',
         'contact_number',
+        'status',
         'booking_date',
         'booking_time',
-        'receipt_file_path',
+        'ratings',
+        'reviews',
     ];
 
     public function user()
@@ -26,5 +30,15 @@ class Booking extends Model
     public function facility()
     {
         return $this->belongsTo(Facility::class);
+    }
+
+    /**
+     * Check if the booking has reviews.
+     *
+     * @return bool
+     */
+    public function hasReviews()
+    {
+        return !empty($this->reviews);
     }
 }

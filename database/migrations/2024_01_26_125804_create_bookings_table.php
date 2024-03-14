@@ -18,8 +18,13 @@ return new class extends Migration
             $table->string('user_name')->nullable();
             $table->string('email')->nullable();
             $table->string('contact_number')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->decimal('amount', 10, 2)->nullable();
+            $table->string('status')->default('Payment Pending');
             $table->date('booking_date');
             $table->time('booking_time');
+            $table->unsignedInteger('ratings')->default(0);
+            $table->text('reviews')->nullable();
             $table->timestamps();
         });
     }
