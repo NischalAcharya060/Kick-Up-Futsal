@@ -23,13 +23,19 @@
                         <strong>Facility Name:</strong> {{ $booking->facility->name }}
                     </li>
                     <li class="list-group-item">
-                        <strong>Booking Date:</strong> {{ $booking->booking_date }}
+                        <strong>Booking Date:</strong> {{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}
                     </li>
                     <li class="list-group-item">
-                        <strong>Booking Time:</strong> {{ $booking->booking_time }}
+                        <strong>Booking Time:</strong> {{ \Carbon\Carbon::parse($booking->booking_time)->format('h:i a') }}
                     </li>
                     <li class="list-group-item">
                         <strong>Amount:</strong> Rs. {{ $booking->amount }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Payment Method:</strong> {{ $booking->payment_method }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Status:</strong> {{ $booking->status }}
                     </li>
                 </ul>
             </div>

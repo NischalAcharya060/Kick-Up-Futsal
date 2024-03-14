@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="mt-4">
-                            <button type="submit" class="book-btn"><i class='bx bx-credit-card'></i> Proceed to Payment</button>
+                            <button type="submit" class="book-btn" onclick="proceedToPayment()"><i class='bx bx-credit-card'></i> Proceed to Payment</button>
                         </div>
                     </form>
 
@@ -79,7 +79,7 @@
             var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
 
             if (paymentMethod) {
-                if (paymentMethod.value === 'cod') {
+                if (paymentMethod.id === 'codPayment') {
                     // If Cash on Delivery is selected, download the receipt
                     var receiptUrl = "{{ route('generate.receipt') }}";
 
