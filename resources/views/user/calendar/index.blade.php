@@ -33,7 +33,7 @@
                 events: @json($bookedDates),
                 eventRender: function(info) {
                     if (info.event.extendedProps.status === 'booked') {
-                        info.el.classList.add('booked-event');
+                        info.el.classList.add('badge badge-primary badge-pill');
                     }
                 },
             });
