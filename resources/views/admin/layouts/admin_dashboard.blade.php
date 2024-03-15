@@ -52,6 +52,14 @@
         </li>
         @if(auth()->check() && auth()->user()->user_type === 'admin')
             <li>
+                <a style="text-decoration: none;" href="{{ route('admin.calendar') }}">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">Calendar</span>
+                </a>
+            </li>
+        @endif
+        @if(auth()->check() && auth()->user()->user_type === 'admin')
+            <li>
                 <a style="text-decoration: none;" href="{{ route('admin.notifications.index') }}">
                     <i class='bx bxs-bell'></i>
                     <span class="text">Notification</span>

@@ -1,5 +1,7 @@
 @extends('admin.layouts.admin_dashboard')
+
 @section('title', 'Dashboard')
+
 @section('content')
     <div class="container">
         <h2 class="mb-4">Welcome, {{ $user->name }}!</h2>
@@ -16,7 +18,8 @@
                 No unread notifications.
             @endif
         </div>
-        <div class="row">
+
+        <div class="row mt-4">
             <div class="col-md-6 col-lg-3">
                 <a href="{{ route('admin.users.index') }}" class="card-link">
                     <div class="card bg-primary text-white rounded shadow">
@@ -63,7 +66,30 @@
                 </div>
             </div>
         </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <a href="{{ route('admin.calendar') }}" style="text-decoration: none; color: black;">
+                <div id="calendar"></div>
+            </div>
+        </div>
     </div>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: @json($bookedDates),
+                eventRender: function(info) {
+                    if (info.event.extendedProps.status === 'booked') {
+                        info.el.classList.add('badge', 'badge-primary', 'badge-pill');
+                    }
+                },
+            });
+            calendar.render();
+        });
+    </script>
 @endsection
 
 @section('styles')
@@ -93,6 +119,5 @@
         }
     </style>
     <link rel="stylesheet" href="{{ asset('css/admin_dashboard.css') }}" />
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 @endsection

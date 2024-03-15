@@ -1,11 +1,10 @@
-@extends('user.layouts.app')
+@extends('admin.layouts.admin_dashboard')
 @section('title', 'Calendar')
+
 @section('content')
-    <br>
-    <br>
     <div id="calendar"></div>
 
-    <div class="container mt-4">
+    <div class="container">
         <div class="card">
             <div class="card-body">
                 <h1 class="card-title text-center mb-4">Booking List</h1>
@@ -48,24 +47,6 @@
             background-color: #ff7675;
             border-color: #d63031;
             color: #fff;
-        }
-        .fc-dayGridMonth-button {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .fc-dayGridMonth-button:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .fc-dayGridMonth-button.fc-button-active {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .list-group-item {
-            border-color: rgba(0, 123, 255, 0.5);
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css">

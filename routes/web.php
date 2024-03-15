@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminCalendarController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -115,6 +116,11 @@ Route::middleware(['auth'])->group(function () {
 //Calendar Route
 Route::middleware(['auth'])->group(function () {
 Route::get('/calendar', [CalendarController::class, 'index'])->name('user.calendar');
+});
+
+//Calendar for admin Route
+Route::middleware(['auth', 'user_type:admin'])->group(function () {
+    Route::get('/admin_calendar', [AdminCalendarController::class, 'index'])->name('admin.calendar');
 });
 
 // Facility Submission
