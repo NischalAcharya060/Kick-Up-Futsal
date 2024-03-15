@@ -2,6 +2,7 @@
 @section('title', 'Calendar')
 
 @section('content')
+    <div class="container">
     <div id="calendar"></div>
 
     <div class="container">
@@ -11,16 +12,21 @@
                 <div class="list-group">
                     @php $counter = 1 @endphp
                     @foreach($bookedDates as $booking)
-                        <a href="#" class="list-group-item list-group-item-action">
+                        <a  class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between align-items-center">
                                 <h5 class="mb-1">{{ $counter++ }}. {{ $booking['facilityName'] }}</h5>
                                 <span class="badge badge-primary badge-pill">{{ \Carbon\Carbon::parse($booking['bookingDate'] . ' ' . $booking['bookingTime'])->format('F j, Y h:i A') }}</span>
                             </div>
+                            <p class="mb-1">Booked by: <span class="text-primary">{{ $booking['userName'] }}</span></p>
+                            <p class="mb-1">Booking Status: <span class="text-success">{{ $booking['bookingStatus'] }}</span></p>
+                            <p class="mb-1">Booking Amount: <span class="text-info">{{ $booking['bookingAmount'] }}</span></p>
+                            <p class="mb-1">Payment Method: <span class="text-warning">{{ $booking['bookingPaymentMethod'] }}</span></p>
                         </a>
                     @endforeach
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
