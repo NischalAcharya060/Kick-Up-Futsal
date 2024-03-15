@@ -6,6 +6,7 @@
     <title>@yield('title', 'Admin Dashboard')</title>
     <link rel="stylesheet" href="{{ asset('css/admin_dashboard.css') }}" />
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     @yield('styles')
 </head>
 <body>

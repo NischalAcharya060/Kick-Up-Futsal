@@ -22,19 +22,19 @@
                     </div>
                 @endif
 
-                <ul class="list-group">
+                <div class="list-group">
                     @forelse ($teams as $team)
-                        <li class="list-group-item">
+                        <div class="list-group-item">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <strong>{{ $loop->iteration }}. Team Name:</strong> {{ $team->name }}
-                                    <br>
-                                    <strong>Joined Members:</strong>
-                                    @forelse ($team->users as $user)
-                                        {{ $user->name }},
-                                    @empty
-                                        No members not joined yet.
-                                    @endforelse
+                                    <h5 class="mb-1">{{ $loop->iteration }}. Team Name: {{ $team->name }}</h5>
+                                    <p class="mb-1"><strong>Joined Members:</strong>
+                                        @forelse ($team->users as $user)
+                                            <span class="badge badge-secondary">{{ $user->name }}</span>
+                                        @empty
+                                            <span class="badge badge-secondary">No members yet</span>
+                                        @endforelse
+                                    </p>
                                 </div>
 
                                 <div class="text-right">
@@ -42,13 +42,12 @@
                                         <a href="{{ route('user.teams.join', ['team' => $team->id]) }}" class="btn btn-success">Join Team</a>
                                     @else
                                         <a href="{{ route('user.teams.leave', ['team' => $team->id]) }}" class="btn btn-danger">Leave Team</a>
-
                                         <form action="{{ route('user.teams.invite', ['team' => $team->id]) }}" method="POST" class="mt-2">
                                             @csrf
                                             <div class="form-group">
                                                 <label for="users">Select Users to Invite:</label>
                                                 <select name="invited_user" id="users" class="form-control" required>
-                                                    <option value="" disabled selected>Select user to invite</option>
+                                                    <option value="" disabled selected>Choose a User</option>
                                                     @foreach($usersToInvite as $user)
                                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                                                     @endforeach
@@ -59,15 +58,15 @@
                                     @endif
                                 </div>
                             </div>
-                        </li>
+                        </div>
                     @empty
-                        <li class="list-group-item text-center">
+                        <div class="list-group-item text-center">
                             No teams found.
                             <br>
                             <a href="{{ route('user.teams.create') }}" class="btn btn-primary mt-3">Create a Team</a>
-                        </li>
+                        </div>
                     @endforelse
-                </ul>
+                </div>
             </div>
         </div>
     </div>

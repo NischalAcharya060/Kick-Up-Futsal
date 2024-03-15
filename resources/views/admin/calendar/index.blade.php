@@ -18,9 +18,9 @@
                                 <span class="badge badge-primary badge-pill">{{ \Carbon\Carbon::parse($booking['bookingDate'] . ' ' . $booking['bookingTime'])->format('F j, Y h:i A') }}</span>
                             </div>
                             <p class="mb-1">Booked by: <span class="text-primary">{{ $booking['userName'] }}</span></p>
-                            <p class="mb-1">Booking Status: <span class="text-success">{{ $booking['bookingStatus'] }}</span></p>
-                            <p class="mb-1">Booking Amount: <span class="text-info">{{ $booking['bookingAmount'] }}</span></p>
                             <p class="mb-1">Payment Method: <span class="text-warning">{{ $booking['bookingPaymentMethod'] }}</span></p>
+                            <p class="mb-1">Booking Amount: <span class="text-info">{{ $booking['bookingAmount'] }}</span></p>
+                            <p class="mb-1">Booking Status: <span class="text-success">{{ $booking['bookingStatus'] }}</span></p>
                         </a>
                     @endforeach
                 </div>
