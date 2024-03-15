@@ -57,23 +57,29 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
+                <a href="{{ route('admin.tournaments.index') }}" class="card-link">
                 <div class="card bg-warning text-white rounded shadow">
                     <div class="card-body text-center">
-                        <i class='bx bx-user-circle bx-lg'></i>
-                        <h5 class="card-title mt-3">Total Futsal Managers</h5>
-                        <p class="card-text">{{ $futsalManagerCount }}</p>
+                        <i class='bx bx-trophy'></i>
+                        <h5 class="card-title mt-3">Total Tournament</h5>
+                        <p class="card-text">{{ $tournamentCount }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <canvas id="userChart" width="400" height="100"></canvas>
+
+
         <div class="row mt-4">
             <div class="col-md-12">
                 <a href="{{ route('admin.calendar') }}" style="text-decoration: none; color: black;">
                 <div id="calendar"></div>
+                </a>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -90,6 +96,39 @@
             calendar.render();
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('userChart').getContext('2d');
+            var userCounts = {!! json_encode($userCounts) !!};
+            var userTypes = Object.keys(userCounts); // Get user types
+
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: userTypes,
+                    datasets: [{
+                        label: 'Types of Users',
+                        backgroundColor: ['blue', 'green', 'orange'],
+                        data: Object.values(userCounts)
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }, // Hide legend
+                        title: { display: true, text: 'User Distribution by Type' } // Add chart title
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
 @endsection
 
 @section('styles')

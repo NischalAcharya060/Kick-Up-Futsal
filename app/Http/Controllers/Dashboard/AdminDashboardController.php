@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
 use App\Models\Notification;
+use App\Models\Tournament;
 use App\Models\User;
 use App\Models\Booking;
+use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
 {
@@ -16,8 +18,11 @@ class AdminDashboardController extends Controller
         $userCount = User::count();
         $bookingCount = Booking::count();
         $facilityCount = Facility::count();
-        $futsalManagerCount = User::where('user_type', 'futsal_manager')->count();
+        $tournamentCount = Tournament::count();
         $unreadNotificationCount = Notification::where('is_read', false)->count();
+        $userCounts = User::select('user_type', DB::raw('count(*) as count'))
+            ->groupBy('user_type')
+            ->pluck('count', 'user_type');
 
         $events = [];
         $user = auth()->user();
@@ -41,7 +46,7 @@ class AdminDashboardController extends Controller
             ];
         });
 
-        return view('admin.dashboard', compact('user', 'userCount', 'bookingCount', 'facilityCount', 'futsalManagerCount', 'unreadNotificationCount', 'bookedDates'));
+        return view('admin.dashboard', compact('user', 'userCount', 'bookingCount', 'facilityCount', 'tournamentCount', 'unreadNotificationCount', 'bookedDates', 'userCounts'));
     }
 
     public function notifications()
