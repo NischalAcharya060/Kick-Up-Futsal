@@ -5,6 +5,7 @@
 @section('content')
     <div class="container">
         <h2 class="mb-4">Welcome, {{ $user->name }}!</h2>
+
         @if(session('success'))
             <div class="alert alert-success mt-4" role="alert">
                 {{ session('success') }}
@@ -58,18 +59,22 @@
 
             <div class="col-md-6 col-lg-3">
                 <a href="{{ route('admin.tournaments.index') }}" class="card-link">
-                <div class="card bg-warning text-white rounded shadow">
-                    <div class="card-body text-center">
-                        <i class='bx bx-trophy'></i>
-                        <h5 class="card-title mt-3">Total Tournament</h5>
-                        <p class="card-text">{{ $tournamentCount }}</p>
+                    <div class="card bg-warning text-white rounded shadow">
+                        <div class="card-body text-center">
+                            <i class='bx bx-trophy'></i>
+                            <h5 class="card-title mt-3">Total Tournament</h5>
+                            <p class="card-text">{{ $tournamentCount }}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
-        <canvas id="userChart" width="400" height="100"></canvas>
-
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <canvas id="userChart"></canvas>
+            </div>
+        </div>
 
         <div class="row mt-4">
             <div class="col-md-12">
@@ -79,28 +84,14 @@
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: @json($bookedDates),
-                eventRender: function(info) {
-                    if (info.event.extendedProps.status === 'booked') {
-                        info.el.classList.add('badge', 'badge-primary', 'badge-pill');
-                    }
-                },
-            });
-            calendar.render();
-        });
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var ctx = document.getElementById('userChart').getContext('2d');
             var userCounts = {!! json_encode($userCounts) !!};
-            var userTypes = Object.keys(userCounts); // Get user types
+            var userTypes = Object.keys(userCounts);
 
             var chart = new Chart(ctx, {
                 type: 'bar',
@@ -119,16 +110,29 @@
                         }
                     },
                     plugins: {
-                        legend: { display: false }, // Hide legend
-                        title: { display: true, text: 'User Distribution by Type' } // Add chart title
+                        legend: { display: false },
+                        title: { display: true, text: 'User Distribution by Type' }
                     }
                 }
             });
         });
     </script>
 
-
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: @json($bookedDates),
+                eventRender: function(info) {
+                    if (info.event.extendedProps.status === 'booked') {
+                        info.el.classList.add('badge', 'badge-primary', 'badge-pill');
+                    }
+                },
+            });
+            calendar.render();
+        });
+    </script>
 @endsection
 
 @section('styles')
