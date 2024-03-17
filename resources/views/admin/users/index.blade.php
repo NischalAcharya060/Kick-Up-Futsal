@@ -57,7 +57,7 @@
                                 <span class="badge badge-success">Active</span>
                             @endif
                         </td>
-                        <td>{{ $user->created_at->format('Y-m-d H:i:s') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($user->created_at)->format('F j, Y / h:i A') }}</td>
                         <td>
                             <a href="{{ route('admin.users.show', $user) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>

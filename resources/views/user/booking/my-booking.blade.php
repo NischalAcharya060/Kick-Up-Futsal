@@ -59,7 +59,17 @@
                                     <td>{{ \Carbon\Carbon::parse($booking->booking_time)->format('h:i a') }}</td>
                                     <td>Rs. {{ $booking->amount }}</td>
                                     <td>{{ $booking->payment_method }}</td>
-                                    <td>{{ $booking->status }}</td>
+                                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        @if($booking->status == 'Payment Completed')
+                                            <span class="badge bg-success text-white">{{ $booking->status }}</span>
+                                        @elseif($booking->status == 'Payment Pending')
+                                            <span class="badge bg-info text-white">{{ $booking->status }}</span>
+                                        @elseif($booking->status == 'Booking Cancelled')
+                                            <span class="badge bg-danger text-white">{{ $booking->status }}</span>
+                                        @else
+                                            <span class="badge bg-secondary text-white">{{ $booking->status }}</span>
+                                        @endif
+                                    </td>
                                     <td>@ratingStars($booking->ratings)</td>
                                     <td>{{ $booking->reviews }}</td>
                                     <td>

@@ -71,7 +71,8 @@
         jQuery(document).ready(function() {
             jQuery('#facility_id').select2({
                 placeholder: 'Select Facility',
-                width: '100%'
+                width: '100%',
+                theme: "classic"
             });
         });
     </script>

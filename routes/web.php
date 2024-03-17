@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminCalendarController;
+use App\Http\Controllers\Admin\TournamentMatchController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -195,6 +196,17 @@ Route::get('admin/tournaments', [AdminTournamentController::class, 'index'])->na
     Route::get('admin/tournaments/{tournament}/edit', [AdminTournamentController::class, 'edit'])->name('admin.tournaments.edit');
     Route::put('admin/tournaments/{tournament}/update', [AdminTournamentController::class, 'update'])->name('admin.tournaments.update');
     Route::delete('admin/tournaments/{tournament}/destroy', [AdminTournamentController::class, 'destroy'])->name('admin.tournaments.destroy');
+});
+
+// Tournament Match Routes
+Route::middleware(['auth', 'user_type:admin,futsal_manager'])->prefix('admin')->group(function () {
+Route::get('admin/tournaments/{tournamentId}/matches', [TournamentMatchController::class, 'index'])->name('admin.tournaments.matches');
+Route::get('tournaments/{tournamentId}/matches/access-team-info', [TournamentMatchController::class, 'accessTeamInformation']);
+Route::get('matches/{matchId}/winner', [TournamentMatchController::class, 'getWinner']);
+Route::get('admin/tournaments/matches/create/{tournamentId}', [TournamentMatchController::class, 'create'])->name('admin.tournamentMatches.create');
+Route::put('/admin/tournamentMatches/{tournamentMatch}', [TournamentMatchController::class, 'update'])->name('admin.tournamentMatches.update');
+Route::delete('matches/{matchId}', [TournamentMatchController::class, 'delete']);
+Route::post('admin/tournaments/matches', [TournamentMatchController::class, 'store'])->name('admin.tournamentMatches.store');
 });
 
 

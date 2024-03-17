@@ -12,7 +12,7 @@ class AdminTournamentController extends Controller
     public function index()
     {
         $tournaments = Tournament::all();
-        return view('admin.tournaments.index', compact('tournaments'));
+        return view('admin.tournaments.index', compact('tournaments' ));
     }
 
     public function create()

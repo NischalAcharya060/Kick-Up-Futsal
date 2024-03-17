@@ -34,15 +34,13 @@
                         <textarea class="form-control" id="description" name="description">{{ old('description', $tournament->description) }}</textarea>
                     </div>
 
-                        <div class="form-group row">
-                            <label for="facility_id" class="col-sm-2 col-form-label">Select Facility:</label>
-                            <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label for="facility_id" class="form-label">Select Facility:</label>
                                 <select class="form-control" id="facility_id" name="facility_id">
                                     @foreach($facilities as $facility)
                                         <option value="{{ $facility->id }}">{{ $facility->name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
                         </div>
 
                     <div class="mb-3">
@@ -66,7 +64,8 @@
         jQuery(document).ready(function() {
             jQuery('#facility_id').select2({
                 placeholder: 'Select Facility',
-                width: '100%'
+                width: '100%',
+                theme: "classic"
             });
         });
     </script>
