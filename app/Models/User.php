@@ -32,6 +32,7 @@ class User extends Authenticatable
         'address',
         'preferred_position',
         'experience_level',
+        'last_active',
     ];
 
     /**

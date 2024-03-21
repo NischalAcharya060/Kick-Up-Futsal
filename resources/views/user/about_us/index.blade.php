@@ -6,6 +6,17 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <h2 class="text-center mb-4">About Us</h2>
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <div class="row mb-4">
                     <div class="col-md-6">

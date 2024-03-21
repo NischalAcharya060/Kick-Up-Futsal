@@ -35,11 +35,21 @@
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->user->name }}</td>
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->facility_id }}</td>
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->facility->name }}</td>
-                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->booking_date }}</td>
-                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->booking_time }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ \Carbon\Carbon::parse($booking->booking_time)->format('h:i a') }}</td>
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rs. {{ $booking->amount }}</td>
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->payment_method }}</td>
-                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->status }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            @if($booking->status == 'Payment Completed')
+                                <span class="badge bg-success text-white">{{ $booking->status }}</span>
+                            @elseif($booking->status == 'Payment Pending')
+                                <span class="badge bg-info text-white">{{ $booking->status }}</span>
+                            @elseif($booking->status == 'Booking Cancelled')
+                                <span class="badge bg-danger text-white">{{ $booking->status }}</span>
+                            @else
+                                <span class="badge bg-secondary text-white">{{ $booking->status }}</span>
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('admin.bookings.show', $booking) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->timestamp('banned_until')->nullable();
             $table->boolean('is_banned')->default(false);
+            $table->timestamp('last_active')->nullable();
             $table->timestamps();
         });
     }

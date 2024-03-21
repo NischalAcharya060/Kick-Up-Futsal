@@ -75,12 +75,17 @@ class TeamController extends Controller
             'invited_user' => 'required|exists:users,id',
         ]);
 
+        $invitedUserId = $request->input('invited_user');
+
+        // Check if the user is already a member of the team
+        if ($team->users->contains($invitedUserId)) {
+            return redirect()->route('user.teams.index')->with('error', 'This user is already a member of the team.');
+        }
+
         // Check if the team has reached its capacity (5 users)
         if ($team->users->count() >= 5) {
             return redirect()->route('user.teams.index')->with('error', 'This team has reached its maximum capacity. You cannot send more invitations.');
         }
-
-        $invitedUserId = $request->input('invited_user');
 
         // Add the invited user to the team
         $team->users()->attach($invitedUserId);

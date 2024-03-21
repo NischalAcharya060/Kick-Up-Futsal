@@ -34,7 +34,7 @@ class LoginController extends Controller
             }
 
             // Check the user type and redirect accordingly
-            if (Auth::user()->user_type == 'admin') {
+            if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'futsal_manager') {
                 return redirect()->route('admin.dashboard');
             } elseif (Auth::user()->user_type == 'user') {
                 return redirect()->route('user.dashboard');
@@ -81,7 +81,18 @@ class LoginController extends Controller
             Auth::login($newUser);
         }
 
-        return redirect()->route('user.dashboard'); // Redirect to user dashboard after login
+        // Retrieve user details again after logging in
+        $loggedInUser = Auth::user();
+
+        // Check user type and redirect accordingly
+        if ($loggedInUser->user_type == 'admin' || $loggedInUser->user_type == 'futsal_manager') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($loggedInUser->user_type == 'user') {
+            return redirect()->route('user.dashboard');
+        }
+
+        // Default return statement in case none of the conditions are met
+        return redirect()->route('user.dashboard');
     }
 
     public function logout()

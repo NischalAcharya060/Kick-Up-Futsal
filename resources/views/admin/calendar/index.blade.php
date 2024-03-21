@@ -1,27 +1,32 @@
-@extends('user.layouts.app')
+@extends('admin.layouts.admin_dashboard')
 @section('title', 'Calendar')
+
 @section('content')
-    <br>
-    <br>
+    <div class="container">
     <div id="calendar"></div>
 
-    <div class="container mt-4">
+    <div class="container">
         <div class="card">
             <div class="card-body">
                 <h1 class="card-title text-center mb-4">Booking List</h1>
                 <div class="list-group">
                     @php $counter = 1 @endphp
                     @foreach($bookedDates as $booking)
-                        <a href="#" class="list-group-item list-group-item-action">
+                        <a  class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between align-items-center">
                                 <h5 class="mb-1">{{ $counter++ }}. {{ $booking['facilityName'] }}</h5>
                                 <span class="badge badge-primary badge-pill">{{ \Carbon\Carbon::parse($booking['bookingDate'] . ' ' . $booking['bookingTime'])->format('F j, Y h:i A') }}</span>
                             </div>
+                            <p class="mb-1">Booked by: <span class="text-primary">{{ $booking['userName'] }}</span></p>
+                            <p class="mb-1">Payment Method: <span class="text-warning">{{ $booking['bookingPaymentMethod'] }}</span></p>
+                            <p class="mb-1">Booking Amount: <span class="text-info">{{ $booking['bookingAmount'] }}</span></p>
+                            <p class="mb-1">Booking Status: <span class="text-success">{{ $booking['bookingStatus'] }}</span></p>
                         </a>
                     @endforeach
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
@@ -48,24 +53,6 @@
             background-color: #ff7675;
             border-color: #d63031;
             color: #fff;
-        }
-        .fc-dayGridMonth-button {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .fc-dayGridMonth-button:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .fc-dayGridMonth-button.fc-button-active {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .list-group-item {
-            border-color: rgba(0, 123, 255, 0.5);
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css">

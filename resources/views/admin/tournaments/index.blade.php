@@ -56,6 +56,12 @@
                                     <a href="{{ route('admin.tournaments.edit', ['tournament' => $tournament->id]) }}" class="btn btn-warning btn-sm" title="Edit">
                                         <i class='bx bx-edit'></i>
                                     </a>
+                                    <a href="{{ route('admin.tournamentMatches.create', ['tournamentId' => $tournament->id]) }}" class="btn btn-primary" title="Add Match">
+                                        <i class='bx bx-plus-circle'></i>
+                                    </a>
+                                    <a href="{{ route('admin.tournaments.matches', ['tournamentId' => $tournament->id]) }}" class="btn btn-info btn-sm" title="View Matches">
+                                        <i class='bx bx-show'></i>
+                                    </a>
                                     <form action="{{ route('admin.tournaments.destroy', ['tournament' => $tournament->id]) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')

@@ -7,9 +7,15 @@
         <h4 class="font-weight-bold py-3 mb-4">
             Profile Page
         </h4>
-        @if (session('success'))
+        @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
             </div>
         @endif
         @if ($errors->any())

@@ -52,9 +52,9 @@
                             <div class="mt-3">
                                 <strong>Joined Teams:</strong>
                                 @forelse ($tournament->teams as $team)
-                                    {{ $team->name }},
+                                    <span class="badge badge-secondary">{{ $team->name }}</span>
                                 @empty
-                                    No teams joined yet.
+                                    <span class="badge badge-secondary">No members yet</span>
                                 @endforelse
                             </div>
                         </li>

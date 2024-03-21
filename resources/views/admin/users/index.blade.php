@@ -11,6 +11,12 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         @if (session('message'))
             <div class="alert alert-danger">{{ session('message') }}</div>
         @endif
@@ -25,13 +31,15 @@
                 <thead>
                 <tr>
                     <th>S.N</th>
-                    <th>User ID</th>
+                    <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">User ID</th>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>User Type</th>
+                    <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">User Type</th>
                     <th>Status</th>
+                    <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Last Active</th>
                     <th>Registration At</th>
-                    <th>Actions</th>
+                    <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,6 +47,13 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $user->id }}</td>
+                        <td>
+                            @if($user->profile_picture)
+                                <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt="User Image" class="d-block ui-w-80 rounded-circle border" style="max-width: 90px; max-height: 90px;">
+                            @else
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User Image" class="d-block ui-w-80 rounded-circle border" style="max-width: 40px; max-height: 40px;">
+                            @endif
+                        </td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
@@ -57,7 +72,14 @@
                                 <span class="badge badge-success">Active</span>
                             @endif
                         </td>
-                        <td>{{ $user->created_at->format('Y-m-d H:i:s') }}</td>
+                        <td>
+                            @if($user->last_active)
+                                {{ \Carbon\Carbon::parse($user->last_active)->diffForHumans(null, true) }} ago
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($user->created_at)->format('F j, Y / h:i A') }}</td>
                         <td>
                             <a href="{{ route('admin.users.show', $user) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>

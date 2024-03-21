@@ -20,5 +20,10 @@ class Team extends Model
     {
         return $this->hasMany(TeamInvitation::class);
     }
+
+    public function matches()
+    {
+        return $this->hasMany(TournamentMatch::class);
+    }
 }
 
