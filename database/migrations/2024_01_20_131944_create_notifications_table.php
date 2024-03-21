@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->unsignedBigInteger('facility_submission_id');
             $table->string('message');
             $table->boolean('is_read')->default(false);

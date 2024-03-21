@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        $users = User::paginate(10);
+        $users = User::paginate(5);
         $unreadNotificationCount = Notification::where('is_read', false)->count();
         return view('admin.users.index', compact('users', 'unreadNotificationCount'));
     }
@@ -72,6 +72,10 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        if ($user->id === 1 && auth()->user()->id !== 1) {
+            return redirect()->route('admin.users.index')->with('error', 'You cannot edit the administrator.');
+        }
+
         return view('admin.users.edit', compact('user'));
     }
 
@@ -103,6 +107,10 @@ class UserController extends Controller
     public function ban(User $user)
     {
         $user->ban();
+
+        if ($user->id === 1 && auth()->user()->id !== 1) {
+            return redirect()->route('admin.users.index')->with('error', 'You cannot ban the administrator.');
+        }
 
         Mail::to($user->email)->send(new UserBanNotification($user, 'banned'));
 

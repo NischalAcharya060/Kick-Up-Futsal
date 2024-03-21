@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+
 
 class FacilitySubmissionController extends Controller
 {
@@ -84,23 +86,31 @@ class FacilitySubmissionController extends Controller
         }
     }
 
-    public function updateStatus(Request $request, Facility $facility)
+    public function updateStatus(Request $request, Facility $facility_submission_id)
     {
         try {
             $request->validate([
-                'status' => 'required|in:pending,accepted',
+                'status' => 'required|in:pending,accepted,rejected',
             ]);
 
-            $facility->update([
-                'status' => $request->input('status'),
+            $status = $request->input('status');
+
+            $facility_submission_id->update([
+                'status' => $status,
             ]);
 
-            return redirect()->route('user.facility_submissions.view', ['id' => $facility->id])
-                ->with('success', 'Status updated successfully.');
+            if ($status === 'accepted') {
+                // Redirect to admin facilities index
+                return redirect()->route('admin.facilities.index')->with('success', 'Facility accepted successfully.');
+            } elseif ($status === 'rejected') {
+                // Delete the last inserted facility
+                $facility_submission_id->delete();
+                return redirect()->back()->with('success', 'Facility rejected and deleted successfully.');
+            }
+
         } catch (\Exception $e) {
-            return redirect()->route('user.facility_submissions.view', $facility->id)
-                ->with('error', 'An error occurred while updating the status.');
+            return redirect()->back()->with('error', 'An error occurred while updating the status.');
         }
+        return redirect()->back()->with('error', 'An error occurred while updating the status.');
     }
-
 }
