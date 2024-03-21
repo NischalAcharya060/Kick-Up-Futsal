@@ -74,7 +74,7 @@
                                     <td>{{ $booking->reviews }}</td>
                                     <td>
                                         <!-- Review Form -->
-                                        @if (!$booking->hasReviews())
+                                        @if ($booking->status === 'Payment Completed' && !$booking->hasReviews())
                                             <form action="{{ route('user.bookings.storeReview', ['booking' => $booking->id]) }}" method="post">
                                                 @csrf
                                                 <div class="form-group">
@@ -88,6 +88,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit Review</button>
                                             </form>
                                         @endif
+
                                         <!-- Cancellation Option -->
                                         @if ($booking->status === 'Payment Pending' || $booking->status === 'Payment Completed')
                                             <form action="{{ route('user.bookings.cancel', ['booking' => $booking->id]) }}" method="post">

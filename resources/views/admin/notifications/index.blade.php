@@ -10,6 +10,11 @@
             </div>
         @endif
 
+        @if($notifications->isEmpty())
+            <div class="alert alert-danger">
+                <p>No notifications at this time.</p>
+            </div>
+        @else
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -51,6 +56,7 @@
                 </tbody>
             </table>
         </div>
+        @endif
 
         <script>
             function markAsRead(url) {
