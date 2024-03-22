@@ -28,16 +28,16 @@ class Facility extends Model
         'added_by',
     ];
 
-    public static function findOrFail($id)
-    {
-        $model = static::find($id);
-
-        if (!$model) {
-            throw (new ModelNotFoundException)->setModel(get_class($model));
-        }
-
-        return $model;
-    }
+//    public static function findOrFail($id)
+//    {
+//        $model = static::find($id);
+//
+//        if (!$model) {
+//            throw (new ModelNotFoundException)->setModel(get_class($model));
+//        }
+//
+//        return $model;
+//    }
 
     public function notification()
     {
