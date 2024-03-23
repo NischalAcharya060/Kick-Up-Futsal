@@ -34,17 +34,19 @@
                                     <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($tournament->start_date)->format('F j, Y') }} - {{ \Carbon\Carbon::parse($tournament->end_date)->format('F j, Y') }}</p>
                                 </div>
                                 <div class="text-right">
-                                    @if($tournament->teams->count() < 5)
+                                    @if($tournament->teams->count() < 8)
                                         {{-- Allow team to join if there is room --}}
                                         <form action="{{ route('user.tournaments.join', ['tournament' => $tournament->id]) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-success"><i class='bx bx-group'></i> Join Tournament</button>
                                         </form>
                                         <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-primary ml-2"><i class='bx bx-show'></i> Preview</a>
+                                        <a href="{{ route('user.tournaments.bracket', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-bracket'></i> View Tie sheet</a>
                                     @else
                                         {{-- Display a message indicating that the tournament is full --}}
                                         <span class="text-danger">Tournament is Full</span>
                                         <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-show'></i> Preview</a>
+                                        <a href="{{ route('user.tournaments.bracket', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-bracket'></i> View Tie Sheet</a>
                                     @endif
                                 </div>
                             </div>

@@ -73,7 +73,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6">No tournaments found.</td>
+                                <td colspan="10">No tournaments found.</td>
                             </tr>
                         @endforelse
                         </tbody>

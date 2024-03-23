@@ -76,10 +76,15 @@
                     <i class='bx bxs-calendar'></i> Booking
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('user.tournaments.index') }}">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTournaments" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class='bx bx-trophy'></i> Tournaments
                 </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownTournaments">
+                    <a class="dropdown-item" href="{{ route('user.tournaments.index') }}">View Tournament</a>
+                    <a class="dropdown-item" href="{{ route('user.teams.index') }}">Teams</a>
+                    <a class="dropdown-item" href="{{ route('user.teams.create') }}">Create Teams</a>
+                </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="{{ route('user.profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -141,5 +146,18 @@
         });
     });
 </script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/6495d0a194cf5d49dc5f79cb/1hplk9tsd';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 </html>

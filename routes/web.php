@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FacilitiesController;
 use App\Http\Controllers\User\AboutUsController;
+use App\Http\Controllers\User\BracketController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\FacilitySubmissionController;
@@ -202,12 +203,16 @@ Route::get('admin/tournaments', [AdminTournamentController::class, 'index'])->na
 // Tournament Match Routes
 Route::middleware(['auth', 'user_type:admin,futsal_manager', 'log.last.active'])->prefix('admin')->group(function () {
 Route::get('admin/tournaments/{tournamentId}/matches', [TournamentMatchController::class, 'index'])->name('admin.tournaments.matches');
-Route::get('tournaments/{tournamentId}/matches/access-team-info', [TournamentMatchController::class, 'accessTeamInformation']);
 Route::get('matches/{matchId}/winner', [TournamentMatchController::class, 'getWinner']);
 Route::get('admin/tournaments/matches/create/{tournamentId}', [TournamentMatchController::class, 'create'])->name('admin.tournamentMatches.create');
-Route::put('/admin/tournamentMatches/{tournamentMatch}', [TournamentMatchController::class, 'update'])->name('admin.tournamentMatches.update');
+Route::put('admin/tournaments/{tournamentId}/matches/{matchId}', [TournamentMatchController::class, 'update'])->name('admin.tournaments.matches.update');
 Route::delete('matches/{matchId}', [TournamentMatchController::class, 'delete']);
 Route::post('admin/tournaments/matches', [TournamentMatchController::class, 'store'])->name('admin.tournamentMatches.store');
 });
 
-
+// User Tournament
+Route::middleware(['auth', 'log.last.active'])->group(function () {
+    Route::get('/generate-bracket', [BracketController::class, 'generateBracket'])->name('generate-bracket');
+    Route::get('/tournaments/{tournament}/bracket', [BracketController::class, 'showBracket'])->name('user.tournaments.bracket');
+    Route::get('/download-certificate/{winnerId}', [BracketController::class, 'download'])->name('download-certificate');
+});

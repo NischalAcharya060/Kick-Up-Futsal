@@ -19,8 +19,9 @@
                             <span class="font-weight-bold">Match ID:</span> {{ $match->id }} <br>
                             <span class="font-weight-bold">Team 1:</span> {{ $match->team1->name }} <br>
                             <span class="font-weight-bold">Team 2:</span> {{ $match->team2->name }} <br>
-                            <form method="POST" action="{{ route('admin.tournamentMatches.store') }}">
+                            <form method="POST" action="{{ route('admin.tournaments.matches.update', ['tournamentId' => $tournament->id, 'matchId' => $match->id]) }}">
                                 @csrf
+                                @method('PUT')
                                 <div class="form-group">
                                     <label for="team1_score">Team 1 Score:</label>
                                     <input type="number" name="team1_score" class="form-control" id="team1_score" required>
@@ -29,9 +30,6 @@
                                     <label for="team2_score">Team 2 Score:</label>
                                     <input type="number" name="team2_score" class="form-control" id="team2_score" required>
                                 </div>
-                                <input type="hidden" name="tournament_id" value="{{ $tournament->id }}">
-                                <input type="hidden" name="team1_id" value="{{ $team1->id }}">
-                                <input type="hidden" name="team2_id" value="{{ $team2->id }}">
                                 <button type="submit" class="btn btn-primary">Submit Scores</button>
                             </form>
                         </li>

@@ -10,6 +10,12 @@
                 {{ session('success') }}
             </div>
         @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="text-right mb-3">
             <a href="{{ route('admin.facilities.create') }}" class="btn btn-primary">
                 <i class='bx bx-building'></i> Add Facility
