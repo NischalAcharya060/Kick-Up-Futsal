@@ -16,6 +16,7 @@ class TournamentMatch extends Model
         'winner_id',
         'team1_score',
         'team2_score',
+        'round',
     ];
 
     // Define relationships

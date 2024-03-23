@@ -49,6 +49,14 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="round">Round:</label>
+                                <select name="round" class="form-control" id="round">
+                                    <option value="1">Round 1</option>
+                                    <option value="2">Round 2</option>
+                                    <option value="3">Round 3</option>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary">Create Match</button>
                         </form>
                     </div>

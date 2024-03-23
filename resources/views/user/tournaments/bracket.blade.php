@@ -1,29 +1,63 @@
 @extends('user.layouts.app')
 
-@section('title', 'Tournament Bracket')
+@section('title', 'Tournament Tie Sheet')
 
 @section('content')
     <div class="container">
-        <h1>Tournament Bracket</h1>
+        <h1>Tournament Tie Sheet</h1>
         <section id="bracket">
             <div class="container">
                 @if($matches->isEmpty())
                     <div class="alert alert-success">
-                    <p>Tournament Not Started Yet</p>
+                        <p>Tournament Not Started Yet</p>
                     </div>
                 @else
-                    <h3>Round 1</h3>
-                    @foreach($matches as $match)
-                        <div class="matchup{{ isset($match->winner) ? ' completed' : '' }}">
-                            <div class="team team-top">{{ $match->team1->name }}<span class="score">{{ $match->team1_score ?? 'N/A' }}</span></div>
-                            <div class="team team-bottom">{{ $match->team2->name }}<span class="score">{{ $match->team2_score ?? 'N/A' }}</span></div>
-                            @if(isset($match->winner))
-                                <div class="winner">Winner: {{ $match->winner->name }}</div>
-                            @else
-                                <div class="winner">Winner not decided</div>
-                            @endif
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3>Round 1</h3>
+                            @foreach($matches->where('round', 1) as $match)
+                                <div class="matchup{{ isset($match->winner) ? ' completed' : '' }}">
+                                    <div class="team team-top">{{ $match->team1->name }}<span class="score">{{ $match->team1_score ?? 'N/A' }}</span></div>
+                                    <div class="team team-bottom">{{ $match->team2->name }}<span class="score">{{ $match->team2_score ?? 'N/A' }}</span></div>
+                                    @if(isset($match->winner))
+                                        <div class="winner">Winner: {{ $match->winner->name }}</div>
+                                    @else
+                                        <div class="winner">Winner not decided</div>
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
-                    @endforeach
+
+                        <div class="col-md-4">
+                            <h3>Round 2</h3>
+                            @foreach($matches->where('round', 2) as $match)
+                                <div class="matchup{{ isset($match->winner) ? ' completed' : '' }}">
+                                    <div class="team team-top">{{ $match->team1->name }}<span class="score">{{ $match->team1_score ?? 'N/A' }}</span></div>
+                                    <div class="team team-bottom">{{ $match->team2->name }}<span class="score">{{ $match->team2_score ?? 'N/A' }}</span></div>
+                                    @if(isset($match->winner))
+                                        <div class="winner">Winner: {{ $match->winner->name }}</div>
+                                    @else
+                                        <div class="winner">Winner not decided</div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="col-md-4">
+                            <h3>Round 3</h3>
+                            @foreach($matches->where('round', 3) as $match)
+                                <div class="matchup{{ isset($match->winner) ? ' completed' : '' }}">
+                                    <div class="team team-top">{{ $match->team1->name }}<span class="score">{{ $match->team1_score ?? 'N/A' }}</span></div>
+                                    <div class="team team-bottom">{{ $match->team2->name }}<span class="score">{{ $match->team2_score ?? 'N/A' }}</span></div>
+                                    @if(isset($match->winner))
+                                        <div class="winner">Winner: {{ $match->winner->name }}</div>
+                                    @else
+                                        <div class="winner">Winner not decided</div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 @endif
             </div>
         </section>
@@ -32,7 +66,6 @@
 
 @section('styles')
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -50,7 +83,6 @@
             text-align: center;
         }
 
-        /* Bracket Styles */
         #bracket {
             display: flex;
             flex-wrap: wrap;
@@ -63,13 +95,13 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             margin: 10px;
             padding: 15px;
-            width: calc(33.33% - 20px);
+            width: 100%;
             box-sizing: border-box;
             position: relative;
         }
 
         .matchup.completed {
-            border: 2px solid #5cca87; /* Change color for completed matches */
+            border: 2px solid #5cca87;
         }
 
         .team {

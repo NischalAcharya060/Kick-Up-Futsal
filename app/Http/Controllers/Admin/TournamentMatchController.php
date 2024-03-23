@@ -51,12 +51,14 @@ class TournamentMatchController extends Controller
                 'tournament_id' => 'required',
                 'team1_id' => 'required',
                 'team2_id' => 'required',
+                'round' => 'required',
             ]);
 
             $tournamentMatch = TournamentMatch::create([
                 'tournament_id' => $request->input('tournament_id'),
                 'team1_id' => $request->input('team1_id'),
                 'team2_id' => $request->input('team2_id'),
+                'round' => $request->input('round'),
             ]);
 
             return redirect()->route('admin.tournaments.matches', ['tournamentId' => $request->input('tournament_id')])
