@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Tournament Tie Sheet</h1>
+        <h1>Tournament Tie Sheet of {{ $tournamentName }}</h1>
         <section id="bracket">
             <div class="container">
                 @if($matches->isEmpty())
@@ -13,53 +13,31 @@
                     </div>
                 @else
                     <div class="row">
-                        <div class="col-md-4">
-                            <h3>Round 1</h3>
-                            @foreach($matches->where('round', 1) as $match)
-                                <div class="matchup{{ isset($match->winner) ? ' completed' : '' }}">
-                                    <div class="team team-top">{{ $match->team1->name }}<span class="score">{{ $match->team1_score ?? 'N/A' }}</span></div>
-                                    <div class="team team-bottom">{{ $match->team2->name }}<span class="score">{{ $match->team2_score ?? 'N/A' }}</span></div>
-                                    @if(isset($match->winner))
-                                        <div class="winner">Winner: {{ $match->winner->name }}</div>
-                                    @else
-                                        <div class="winner">Winner not decided</div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <div class="col-md-4">
-                            <h3>Round 2</h3>
-                            @foreach($matches->where('round', 2) as $match)
-                                <div class="matchup{{ isset($match->winner) ? ' completed' : '' }}">
-                                    <div class="team team-top">{{ $match->team1->name }}<span class="score">{{ $match->team1_score ?? 'N/A' }}</span></div>
-                                    <div class="team team-bottom">{{ $match->team2->name }}<span class="score">{{ $match->team2_score ?? 'N/A' }}</span></div>
-                                    @if(isset($match->winner))
-                                        <div class="winner">Winner: {{ $match->winner->name }}</div>
-                                    @else
-                                        <div class="winner">Winner not decided</div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <div class="col-md-4">
-                            <h3>Round 3</h3>
-                            @foreach($matches->where('round', 3) as $match)
-                                <div class="matchup{{ isset($match->winner) ? ' completed' : '' }}">
-                                    <div class="team team-top">{{ $match->team1->name }}<span class="score">{{ $match->team1_score ?? 'N/A' }}</span></div>
-                                    <div class="team team-bottom">{{ $match->team2->name }}<span class="score">{{ $match->team2_score ?? 'N/A' }}</span></div>
-                                    @if(isset($match->winner))
-                                        <div class="winner">Winner: {{ $match->winner->name }}</div>
-                                    @else
-                                        <div class="winner">Winner not decided</div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
+                        @foreach($matches->groupBy('round') as $round => $roundMatches)
+                            <div class="col-md-4">
+                                <h3>Round {{ $round }}</h3>
+                                @foreach($roundMatches as $match)
+                                    <div class="matchup{{ isset($match->winner) ? ' completed' : '' }}">
+                                        <div class="team team-top">{{ $match->team1->name }}<span class="score">{{ $match->team1_score ?? 'N/A' }}</span></div>
+                                        <div class="team team-bottom">{{ $match->team2->name }}<span class="score">{{ $match->team2_score ?? 'N/A' }}</span></div>
+                                        @if(isset($match->winner))
+                                            <div class="winner">Winner: {{ $match->winner->name }}</div>
+                                        @else
+                                            <div class="winner">Winner not decided</div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endforeach
                     </div>
                 @endif
             </div>
+{{--            @if(isset($match) && $match->round == 3 && isset($match->winner))--}}
+{{--                <div class="mt-4">--}}
+{{--                    <div>Congratulations to {{ $match->winner->name }} for winning the {{ $tournamentName }} tournament!</div>--}}
+{{--                    <a href="{{ route('download-certificate', ['winnerId' => $match->winner->id]) }}" class="mt-2 btn btn-success">Download Certificate</a>--}}
+{{--                </div>--}}
+{{--            @endif--}}
         </section>
     </div>
 @endsection
@@ -76,7 +54,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 60px;
+            padding: 50px;
         }
 
         h1 {

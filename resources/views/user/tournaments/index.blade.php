@@ -41,12 +41,12 @@
                                             <button type="submit" class="btn btn-success"><i class='bx bx-group'></i> Join Tournament</button>
                                         </form>
                                         <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-primary ml-2"><i class='bx bx-show'></i> Preview</a>
-                                        <a href="{{ route('user.tournaments.bracket', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-bracket'></i> View Bracket</a>
+                                        <a href="{{ route('user.tournaments.bracket', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-bracket'></i> View Tie sheet</a>
                                     @else
                                         {{-- Display a message indicating that the tournament is full --}}
                                         <span class="text-danger">Tournament is Full</span>
                                         <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-show'></i> Preview</a>
-                                        <a href="{{ route('user.tournaments.bracket', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-bracket'></i> View Bracket</a>
+                                        <a href="{{ route('user.tournaments.bracket', ['tournament' => $tournament->id]) }}" class="btn btn-info ml-2"><i class='bx bx-bracket'></i> View Tie Sheet</a>
                                     @endif
                                 </div>
                             </div>
