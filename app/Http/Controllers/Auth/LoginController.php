@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class LoginController extends Controller
 {
@@ -72,6 +74,9 @@ class LoginController extends Controller
             $newUser->email = $user->email;
             $newUser->password = bcrypt(Str::random(8));
             $newUser->save();
+
+            // Send welcome email to the new user
+            Mail::to($newUser)->send(new WelcomeMail($newUser));
 
             // Check if the new user is banned
             if ($newUser->isBanned()) {

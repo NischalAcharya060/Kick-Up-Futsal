@@ -76,10 +76,15 @@
                     <i class='bx bxs-calendar'></i> Booking
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('user.tournaments.index') }}">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTournaments" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class='bx bx-trophy'></i> Tournaments
                 </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownTournaments">
+                    <a class="dropdown-item" href="{{ route('user.tournaments.index') }}">View Tournament</a>
+                    <a class="dropdown-item" href="{{ route('user.teams.index') }}">Teams</a>
+                    <a class="dropdown-item" href="{{ route('user.teams.create') }}">Create Teams</a>
+                </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="{{ route('user.profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
