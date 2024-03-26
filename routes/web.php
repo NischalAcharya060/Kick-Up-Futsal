@@ -168,6 +168,11 @@ Route::get('/contactUs', [ContactUsController::class, 'showForm'])->name('contac
 Route::post('/contactUs', [ContactUsController::class, 'submitForm'])->name('contact.submit');
 });
 
+// Admin Contact us Route
+Route::middleware(['auth', 'user_type:admin', 'log.last.active'])->prefix('admin')->group(function () {
+    Route::get('/admin_contactUs', [ContactUsController::class, 'index'])->name('admin.contact.index');
+});
+
 // About Us Route
 Route::middleware(['auth', 'log.last.active'])->group(function () {
     Route::get('/aboutUs', [AboutUsController::class, 'showForm'])->name('about.show');

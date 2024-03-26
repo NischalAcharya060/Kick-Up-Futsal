@@ -32,12 +32,24 @@
                     </div>
                 @endif
             </div>
-{{--            @if(isset($match) && $match->round == 3 && isset($match->winner))--}}
-{{--                <div class="mt-4">--}}
-{{--                    <div>Congratulations to {{ $match->winner->name }} for winning the {{ $tournamentName }} tournament!</div>--}}
-{{--                    <a href="{{ route('download-certificate', ['winnerId' => $match->winner->id]) }}" class="mt-2 btn btn-success">Download Certificate</a>--}}
-{{--                </div>--}}
-{{--            @endif--}}
+            @if(isset($match) && $match->round == 3 && isset($match->winner))
+                <div class="mt-4">
+                    <div class="alert alert-success">
+                        Congratulations to <span style="font-weight: bold;">{{ $match->winner->name }}</span> for winning the {{ $tournamentName }} tournament!
+                    </div>
+                    <div class="text-center">
+                        <a href="{{ route('download-certificate', ['winnerId' => $match->winner->id]) }}" class="btn btn-list-facility"><i class='bx bxs-certificate'></i> Download Certificate</a>
+                    </div>
+                </div>
+            @else
+                @if(!$matches->isEmpty())
+                    <div class="mt-4">
+                        <div class="alert alert-info">
+                            The tournament is still ongoing. Check back later for the winner announcement.
+                        </div>
+                    </div>
+                @endif
+            @endif
         </section>
     </div>
 @endsection
@@ -104,4 +116,5 @@
             color: #5cca87;
         }
     </style>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 @endsection
