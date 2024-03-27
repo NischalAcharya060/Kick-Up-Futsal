@@ -51,27 +51,28 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+            <li class="nav-item {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('user.dashboard') }}">
                     <i class='bx bx-home'></i> Home
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ request()->routeIs('about.show') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('about.show') }}">
                     <i class='bx bx-info-circle'></i> About
                 </a>
             </li>
-            <li class="nav-item">
+
+            <li class="nav-item {{ request()->routeIs('contact.show') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('contact.show') }}">
                     <i class='bx bx-envelope'></i> Contact Us
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ request()->routeIs('user.calendar') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('user.calendar') }}">
                     <i class='bx bxs-calendar'></i> Calendar
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ request()->routeIs('user.booking.index') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('user.booking.index') }}">
                     <i class='bx bxs-calendar'></i> Booking
                 </a>
@@ -85,6 +86,11 @@
                     <a class="dropdown-item" href="{{ route('user.teams.index') }}">Teams</a>
                     <a class="dropdown-item" href="{{ route('user.teams.create') }}">Create Teams</a>
                 </div>
+            </li>
+            <li class="nav-item {{ request()->routeIs('user.events.show') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('user.events.show') }}">
+                    <i class='bx bx-calendar-event'></i> Events
+                </a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="{{ route('user.profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,26 +1,27 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminCalendarController;
+use App\Http\Controllers\Admin\AdminTournamentController;
+use App\Http\Controllers\Admin\BookingsController;
+use App\Http\Controllers\Admin\FacilitiesController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\TournamentMatchController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Dashboard\UserDashboardController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\FacilitiesController;
 use App\Http\Controllers\User\AboutUsController;
-use App\Http\Controllers\User\BracketController;
-use App\Http\Controllers\User\UserProfileController;
-use App\Http\Controllers\User\CalendarController;
-use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\BookingController;
-use App\Http\Controllers\Admin\BookingsController;
+use App\Http\Controllers\User\BracketController;
+use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\ContactUsController;
+use App\Http\Controllers\User\EventController;
+use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\TeamController;
 use App\Http\Controllers\User\TournamentController;
-use App\Http\Controllers\Admin\AdminTournamentController;
+use App\Http\Controllers\User\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -220,4 +221,9 @@ Route::middleware(['auth', 'log.last.active'])->group(function () {
     Route::get('/generate-bracket', [BracketController::class, 'generateBracket'])->name('generate-bracket');
     Route::get('/tournaments/{tournament}/bracket', [BracketController::class, 'showBracket'])->name('user.tournaments.bracket');
     Route::get('/download-certificate/{winnerId}', [BracketController::class, 'download'])->name('download-certificate');
+});
+
+// User Events
+Route::middleware(['auth', 'log.last.active'])->group(function () {
+    Route::get('user/events', [EventController::class, 'show_event'])->name('user.events.show');
 });

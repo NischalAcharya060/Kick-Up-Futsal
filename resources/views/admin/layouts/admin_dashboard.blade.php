@@ -8,6 +8,14 @@
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     @yield('styles')
+    <style>
+        .logout {
+            transition: font-weight 0.3s ease;
+        }
+        .logout:hover{
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
