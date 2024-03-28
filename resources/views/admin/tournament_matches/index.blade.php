@@ -46,7 +46,7 @@
                                     <form method="POST" action="{{ route('admin.tournaments.matches.destroy', ['tournamentId' => $tournament->id, 'matchId' => $match->id]) }}" class="mt-2">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"><i class='bx bx-trash'></i></button>
+                                        <button type="submit" class="btn btn-danger"><i class='bx bx-trash' title="Delete" onclick="return confirm('Are you sure you want to delete this Match if you delte this you have problem in download certificate :) ?')"></i></button>
                                     </form>
                                 </div>
                             </div>

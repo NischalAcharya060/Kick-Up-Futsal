@@ -46,49 +46,41 @@ class BracketController extends Controller
         }
     }
 
-//    public function downloadCertificate($winnerId)
-//    {
-//        try {
-//            // Find the tournament match by winner ID
-//            $tournamentMatch = TournamentMatch::find($winnerId);
-//
-//            // Check if the tournament match exists
-//            if (!$tournamentMatch) {
-//                return redirect()->route('user.tournaments.index')->with('error', 'Tournament match not found.');
-//            }
-//
-//            // Get the winning team's ID from the tournament match
-//            $winningTeamId = $tournamentMatch->winner_id;
-//
-//            // Retrieve the winning team from the Team table
-//            $winningTeam = Team::find($winningTeamId);
-//
-//            // Check if the winning team exists
-//            if (!$winningTeam) {
-//                return redirect()->route('user.tournaments.index')->with('error', 'Winning team not found.');
-//            }
-//
-//            // Get team members
-//            $teamMembers = $winningTeam->users;
-//
-//            // Generate PDF content
-//            $pdfContent = view('user.tournaments.certificate', compact('winningTeam', 'teamMembers'))->render();
-//
-//            // Generate PDF
-//            $dompdf = new Dompdf();
-//            $dompdf->loadHtml($pdfContent);
-//            $dompdf->setPaper('A4', 'landscape');
-//            $dompdf->render();
-//
-//            // Generate file name
-//            $fileName = $winningTeam->name . '_certificate.pdf';
-//
-//            // Download PDF
-//            return $dompdf->stream($fileName);
-//        } catch (\Exception $e) {
-//            dd($e);
-//            return redirect()->route('user.tournaments.index')->with('error', 'An error occurred in downloading certificate.');
-//        }
-//    }
+    public function downloadCertificate($winnerId)
+    {
+        try {
+            // Find the tournament match by winner ID
+            $tournamentMatch = TournamentMatch::findOrFail($winnerId);
+
+            // Get the winning team
+            $winningTeam = $tournamentMatch->winner;
+
+            // Check if the winning team exists
+            if (!$winningTeam) {
+                return redirect()->route('user.tournaments.index')->with('error', 'Winning team not found.');
+            }
+
+            // Get team members
+            $teamMembers = $winningTeam->users;
+
+            // Generate PDF content
+            $pdfContent = view('user.tournaments.certificate', compact('winningTeam', 'teamMembers'))->render();
+
+            // Generate PDF
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($pdfContent);
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+
+            // Generate file name
+            $fileName = $winningTeam->name . '_certificate.pdf';
+
+            // Download PDF
+            return $dompdf->stream($fileName);
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->route('user.tournaments.index')->with('error', 'An error occurred in downloading certificate.');
+        }
+    }
 
 }

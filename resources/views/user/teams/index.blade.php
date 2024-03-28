@@ -21,6 +21,9 @@
                         {{ session('error') }}
                     </div>
                 @endif
+                    <div class="text-right mb-3">
+                        <a href="{{ route('user.teams.create') }}" class="btn btn-list-facility">Create a Team</a>
+                    </div>
 
                 <div class="list-group">
                     @forelse ($teams as $team)
