@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mt-5 mb-4">Upcoming Tournaments</h2>
+        <h2 class="mt-5 mb-4">Upcoming Events</h2>
         <div class="row">
             @forelse($upcomingTournaments as $tournament)
                 <div class="col-md-6 mb-4">
@@ -15,14 +15,14 @@
                                 <strong>Start Date:</strong> {{ \Carbon\Carbon::parse($tournament->start_date)->format('F j, Y') }} -
                                 {{ \Carbon\Carbon::parse($tournament->end_date)->format('F j, Y') }}
                             </p>
-                            <a href="#" class="btn btn-list-facility">View Details</a>
+                            <a href="{{ route('user.tournaments.show', ['tournament' => $tournament->id]) }}" class="btn btn-list-facility">View Details</a>
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="col">
                     <div class="alert alert-info" role="alert">
-                        No upcoming tournaments.
+                        No upcoming events.
                     </div>
                 </div>
             @endforelse

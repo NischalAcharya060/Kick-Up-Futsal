@@ -220,7 +220,7 @@ Route::post('admin/tournaments/matches', [TournamentMatchController::class, 'sto
 Route::middleware(['auth', 'log.last.active'])->group(function () {
     Route::get('/generate-bracket', [BracketController::class, 'generateBracket'])->name('generate-bracket');
     Route::get('/tournaments/{tournament}/bracket', [BracketController::class, 'showBracket'])->name('user.tournaments.bracket');
-    Route::get('/download-certificate/{winnerId}', [BracketController::class, 'download'])->name('download-certificate');
+    Route::get('/download-certificate/{winnerId}', [BracketController::class, 'downloadCertificate'])->name('download-certificate');
 });
 
 // User Events
