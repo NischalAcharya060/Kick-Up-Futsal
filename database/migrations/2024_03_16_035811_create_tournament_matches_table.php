@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tournament_matches', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tournament_id');
+            $table->unsignedInteger('round')->default(1);
             $table->unsignedBigInteger('team1_id');
             $table->unsignedBigInteger('team2_id');
             $table->unsignedBigInteger('winner_id')->nullable();

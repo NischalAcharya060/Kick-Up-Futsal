@@ -110,15 +110,19 @@ class TournamentMatchController extends Controller
         }
     }
 
-    public function delete($matchId)
+    public function destroy($tournamentId, $matchId)
     {
-        $matchToDelete = TournamentMatch::find($matchId);
+        // Find the match
+        $match = TournamentMatch::find($matchId);
 
-        if (!$matchToDelete) {
-            abort(404, 'Match not found');
+        // Check if the match exists
+        if (!$match) {
+            return redirect()->back()->with('error', 'Match not found.');
         }
 
-        $matchToDelete->delete();
-        return redirect()->route('admin.tournaments.matches')->with('success', 'Tournament match deleted successfully');
+        // Delete the match
+        $match->delete();
+
+        return redirect()->back()->with('success', 'Match deleted successfully.');
     }
 }

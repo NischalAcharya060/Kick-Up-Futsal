@@ -212,7 +212,7 @@ Route::get('admin/tournaments/{tournamentId}/matches', [TournamentMatchControlle
 Route::get('matches/{matchId}/winner', [TournamentMatchController::class, 'getWinner']);
 Route::get('admin/tournaments/matches/create/{tournamentId}', [TournamentMatchController::class, 'create'])->name('admin.tournamentMatches.create');
 Route::put('admin/tournaments/{tournamentId}/matches/{matchId}', [TournamentMatchController::class, 'update'])->name('admin.tournaments.matches.update');
-Route::delete('matches/{matchId}', [TournamentMatchController::class, 'delete']);
+    Route::delete('tournaments/{tournamentId}/matches/{matchId}', [TournamentMatchController::class, 'destroy'])->name('admin.tournaments.matches.destroy');
 Route::post('admin/tournaments/matches', [TournamentMatchController::class, 'store'])->name('admin.tournamentMatches.store');
 });
 

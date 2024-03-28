@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('facility_id')->constrained();
             $table->string('user_name')->nullable();
             $table->string('email')->nullable();
-            $table->string('contact_number')->nullable();
             $table->string('payment_method')->nullable();
             $table->decimal('amount', 10, 2)->nullable();
             $table->string('status')->default('Payment Pending');

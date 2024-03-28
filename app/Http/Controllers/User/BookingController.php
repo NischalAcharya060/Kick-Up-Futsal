@@ -99,7 +99,7 @@ class BookingController extends Controller
     public function showBookings()
     {
         $user = auth()->user();
-        $bookings = $user->bookings()->paginate(5);
+        $bookings = $user->bookings()->latest()->paginate(5);
 
         return view('user.booking.my-booking', compact('bookings'));
     }

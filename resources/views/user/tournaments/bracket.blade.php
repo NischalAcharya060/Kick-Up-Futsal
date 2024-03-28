@@ -37,9 +37,9 @@
                     <div class="alert alert-success">
                         Congratulations to <span style="font-weight: bold;">{{ $match->winner->name }}</span> for winning the {{ $tournamentName }} tournament!
                     </div>
-                    <div class="text-center">
-                        <a href="{{ route('download-certificate', ['winnerId' => $match->winner->id]) }}" class="btn btn-list-facility"><i class='bx bxs-certificate'></i> Download Certificate</a>
-                    </div>
+{{--                    <div class="text-center">--}}
+{{--                        <a href="{{ route('download-certificate', ['winnerId' => $match->winner->id]) }}" class="btn btn-list-facility"><i class='bx bxs-certificate'></i> Download Certificate</a>--}}
+{{--                    </div>--}}
                 </div>
             @else
                 @if(!$matches->isEmpty())
