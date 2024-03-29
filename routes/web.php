@@ -43,6 +43,10 @@ Route::get('/', function () {
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [RegisterController::class, 'register'])->name('register');
     Route::post('/register', [RegisterController::class, 'registerPost']);
+    Route::get('/verification/code', [RegisterController::class, 'showVerificationCodeForm'])->name('verification.code');
+    Route::post('/verify', [RegisterController::class, 'verify'])->name('verify');
+
+
 
     Route::get('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/login', [LoginController::class, 'loginPost'])->name('login');
