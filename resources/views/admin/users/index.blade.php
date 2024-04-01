@@ -37,8 +37,9 @@
                     <th>Email</th>
                     <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">User Type</th>
                     <th>Status</th>
+                    <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Verification Status</th>
                     <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Last Active</th>
-                    <th>Registration At</th>
+                    <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Registration At</th>
                     <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Actions</th>
                 </tr>
                 </thead>
@@ -54,7 +55,7 @@
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User Image" class="d-block ui-w-80 rounded-circle border" style="max-width: 40px; max-height: 40px;">
                             @endif
                         </td>
-                        <td>{{ $user->name }}</td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
                             @if($user->user_type === 'user')
@@ -72,14 +73,21 @@
                                 <span class="badge badge-success">Active</span>
                             @endif
                         </td>
-                        <td>
+                        <td class="text-center">
+                            @if($user->verified)
+                                <i class='bx bx-check-circle text-success'></i>
+                            @else
+                                <i class='bx bx-x-circle text-danger'></i>
+                            @endif
+                        </td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                             @if($user->last_active)
                                 {{ \Carbon\Carbon::parse($user->last_active)->diffForHumans(null, true) }} ago
                             @else
                                 N/A
                             @endif
                         </td>
-                        <td>{{ \Carbon\Carbon::parse($user->created_at)->format('F j, Y / h:i A') }}</td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ \Carbon\Carbon::parse($user->created_at)->format('F j, Y / h:i A') }}</td>
                         <td>
                             <a href="{{ route('admin.users.show', $user) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>

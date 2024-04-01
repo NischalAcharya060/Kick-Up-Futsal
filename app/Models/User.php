@@ -34,6 +34,7 @@ class User extends Authenticatable
         'experience_level',
         'last_active',
         'verification_code',
+        'verified',
     ];
 
     /**

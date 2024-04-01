@@ -28,6 +28,7 @@ return new class extends Migration
             $table->boolean('is_banned')->default(false);
             $table->timestamp('last_active')->nullable();
             $table->string('verification_code')->nullable();
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }

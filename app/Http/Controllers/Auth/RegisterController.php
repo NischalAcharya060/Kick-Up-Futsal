@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -64,11 +65,22 @@ class RegisterController extends Controller
 
     public function verify(Request $request)
     {
-        // Validate the verification code
+        // Validate the verification code and reCAPTCHA response
         $request->validate([
             'verification_code' => 'required|string|exists:users,verification_code',
-            'g-recaptcha' => 'required',
+            'g-recaptcha-response' => 'required',
         ]);
+
+        // Verify reCAPTCHA response
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('RECAPTCHA_SECRET_KEY'),
+            'response' => $request->input('g-recaptcha-response'),
+        ]);
+
+        // Check if reCAPTCHA verification failed
+        if (!$response->json('success')) {
+            return redirect()->back()->with('error', 'RECAPTCHA verification failed. Please try again.');
+        }
 
         // Find the user by verification code
         $user = User::where('verification_code', $request->input('verification_code'))->first();
@@ -76,6 +88,7 @@ class RegisterController extends Controller
         if ($user) {
             // Clear the verification code
             $user->verification_code = null;
+            $user->verified = true;
             $user->save();
 
             // Redirect to login page

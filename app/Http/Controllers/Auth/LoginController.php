@@ -73,6 +73,7 @@ class LoginController extends Controller
             $newUser->name = $user->name;
             $newUser->email = $user->email;
             $newUser->password = bcrypt(Str::random(8));
+            $newUser->verified = true;
             $newUser->save();
 
             // Send welcome email to the new user
