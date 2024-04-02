@@ -57,6 +57,7 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'user_type' => $request->input('user_type'),
             'password' => $password,
+            'register_type' => 'Admin Created',
             'profile_picture' => $profilePicturePath,
         ]);
 

@@ -40,6 +40,7 @@
                     <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Verification Status</th>
                     <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Last Active</th>
                     <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Registration At</th>
+                    <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Register Type</th>
                     <th style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Actions</th>
                 </tr>
                 </thead>
@@ -88,6 +89,9 @@
                             @endif
                         </td>
                         <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ \Carbon\Carbon::parse($user->created_at)->format('F j, Y / h:i A') }}</td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            {{ $user->register_type ?? 'Administrator' }}
+                        </td>
                         <td>
                             <a href="{{ route('admin.users.show', $user) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>

@@ -35,6 +35,7 @@ class User extends Authenticatable
         'last_active',
         'verification_code',
         'verified',
+        'register_type',
     ];
 
     /**

@@ -74,6 +74,7 @@ class LoginController extends Controller
             $newUser->email = $user->email;
             $newUser->password = bcrypt(Str::random(8));
             $newUser->verified = true;
+            $newUser->register_type = 'Google';
             $newUser->save();
 
             // Send welcome email to the new user
