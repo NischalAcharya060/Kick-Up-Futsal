@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use App\Mail\ContactFormMail;
+use App\Models\ContactFormSubmission;
 use Illuminate\Support\Facades\Mail;
 
 class ContactUsController extends Controller
@@ -14,6 +15,14 @@ class ContactUsController extends Controller
     public function showForm()
     {
         return view('user.contact_us.contact_us');
+    }
+
+    //For Admin
+    public function index()
+    {
+        $submissions = ContactFormSubmission::latest()->paginate(5);
+
+        return view('admin.contact.index', compact('submissions'));
     }
 
     public function submitForm(Request $request)
@@ -25,6 +34,15 @@ class ContactUsController extends Controller
                 'message' => 'string',
                 'subject' => 'required',
             ]);
+
+            // Save the form data to the database
+            $submission = new ContactFormSubmission();
+            $submission->user_id = $request->user()->id;
+            $submission->name = $request->input('name');
+            $submission->email = $request->input('email');
+            $submission->subject = $request->input('subject');
+            $submission->message = $request->input('message');
+            $submission->save();
 
             // Send email
             Mail::to('Nischal060@gmail.com')->send(new ContactFormMail(

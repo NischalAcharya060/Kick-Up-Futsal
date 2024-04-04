@@ -61,6 +61,7 @@
 
                 <form id="contactForm" action="{{ route('contact.submit') }}" method="post" class="mt-4">
                     @csrf
+                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" class="form-control" id="name" name="name" required placeholder="Your Name">

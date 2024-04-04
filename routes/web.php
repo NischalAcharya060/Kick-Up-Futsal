@@ -1,26 +1,27 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminCalendarController;
+use App\Http\Controllers\Admin\AdminTournamentController;
+use App\Http\Controllers\Admin\BookingsController;
+use App\Http\Controllers\Admin\FacilitiesController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\TournamentMatchController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Dashboard\UserDashboardController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\FacilitiesController;
 use App\Http\Controllers\User\AboutUsController;
-use App\Http\Controllers\User\BracketController;
-use App\Http\Controllers\User\UserProfileController;
-use App\Http\Controllers\User\CalendarController;
-use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\BookingController;
-use App\Http\Controllers\Admin\BookingsController;
+use App\Http\Controllers\User\BracketController;
+use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\ContactUsController;
+use App\Http\Controllers\User\EventController;
+use App\Http\Controllers\User\FacilitySubmissionController;
 use App\Http\Controllers\User\TeamController;
 use App\Http\Controllers\User\TournamentController;
-use App\Http\Controllers\Admin\AdminTournamentController;
+use App\Http\Controllers\User\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,10 @@ Route::get('/', function () {
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [RegisterController::class, 'register'])->name('register');
     Route::post('/register', [RegisterController::class, 'registerPost']);
+    Route::get('/verification/code', [RegisterController::class, 'showVerificationCodeForm'])->name('verification.code');
+    Route::post('/verify', [RegisterController::class, 'verify'])->name('verify');
+
+
 
     Route::get('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/login', [LoginController::class, 'loginPost'])->name('login');
@@ -168,6 +173,11 @@ Route::get('/contactUs', [ContactUsController::class, 'showForm'])->name('contac
 Route::post('/contactUs', [ContactUsController::class, 'submitForm'])->name('contact.submit');
 });
 
+// Admin Contact us Route
+Route::middleware(['auth', 'user_type:admin', 'log.last.active'])->prefix('admin')->group(function () {
+    Route::get('/admin_contactUs', [ContactUsController::class, 'index'])->name('admin.contact.index');
+});
+
 // About Us Route
 Route::middleware(['auth', 'log.last.active'])->group(function () {
     Route::get('/aboutUs', [AboutUsController::class, 'showForm'])->name('about.show');
@@ -206,7 +216,7 @@ Route::get('admin/tournaments/{tournamentId}/matches', [TournamentMatchControlle
 Route::get('matches/{matchId}/winner', [TournamentMatchController::class, 'getWinner']);
 Route::get('admin/tournaments/matches/create/{tournamentId}', [TournamentMatchController::class, 'create'])->name('admin.tournamentMatches.create');
 Route::put('admin/tournaments/{tournamentId}/matches/{matchId}', [TournamentMatchController::class, 'update'])->name('admin.tournaments.matches.update');
-Route::delete('matches/{matchId}', [TournamentMatchController::class, 'delete']);
+    Route::delete('tournaments/{tournamentId}/matches/{matchId}', [TournamentMatchController::class, 'destroy'])->name('admin.tournaments.matches.destroy');
 Route::post('admin/tournaments/matches', [TournamentMatchController::class, 'store'])->name('admin.tournamentMatches.store');
 });
 
@@ -214,5 +224,10 @@ Route::post('admin/tournaments/matches', [TournamentMatchController::class, 'sto
 Route::middleware(['auth', 'log.last.active'])->group(function () {
     Route::get('/generate-bracket', [BracketController::class, 'generateBracket'])->name('generate-bracket');
     Route::get('/tournaments/{tournament}/bracket', [BracketController::class, 'showBracket'])->name('user.tournaments.bracket');
-    Route::get('/download-certificate/{winnerId}', [BracketController::class, 'download'])->name('download-certificate');
+    Route::get('/download-certificate/{winnerId}', [BracketController::class, 'downloadCertificate'])->name('download-certificate');
+});
+
+// User Events
+Route::middleware(['auth', 'log.last.active'])->group(function () {
+    Route::get('user/events', [EventController::class, 'show_event'])->name('user.events.show');
 });

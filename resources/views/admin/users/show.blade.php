@@ -29,9 +29,9 @@
                     <dt class="col-sm-3">Profile Picture:</dt>
                     <dd class="col-sm-9">
                         @if ($user->profile_picture && Storage::exists('public/profile_pictures/' . $user->profile_picture))
-                            <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt="{{ $user->name }}'s Profile Picture" class="img-fluid">
+                            <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt="{{ $user->name }}'s Profile Picture" class="img-fluid rounded-circle" style="max-width: 150px;">
                         @else
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Default Profile Picture" class="img-fluid">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Default Profile Picture" class="img-fluid rounded-circle" style="max-width: 150px;">
                         @endif
                     </dd>
                 </dl>
@@ -48,4 +48,29 @@
     <link rel="stylesheet" href="{{ asset('css/admin_user_management.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        dt {
+            font-weight: bold;
+            color: #555;
+        }
+
+        dd {
+            margin-bottom: 10px;
+        }
+    </style>
 @endsection

@@ -20,6 +20,7 @@ class UserTableSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('Nischal@#060'),
             'user_type' => 'admin',
+            'verified' => 'true',
         ]);
     }
 }

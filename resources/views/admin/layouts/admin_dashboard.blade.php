@@ -8,6 +8,14 @@
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     @yield('styles')
+    <style>
+        .logout {
+            transition: font-weight 0.3s ease;
+        }
+        .logout:hover{
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -64,6 +72,14 @@
                 <a style="text-decoration: none;" href="{{ route('admin.notifications.index') }}">
                     <i class='bx bxs-bell'></i>
                     <span class="text">Notification</span>
+                </a>
+            </li>
+        @endif
+        @if(auth()->check() && auth()->user()->user_type === 'admin')
+            <li>
+                <a style="text-decoration: none;" href="{{ route('admin.contact.index') }}">
+                    <i class='bx bx-envelope'></i>
+                    <span class="text">Contact Us</span>
                 </a>
             </li>
         @endif

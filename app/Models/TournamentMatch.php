@@ -11,12 +11,12 @@ class TournamentMatch extends Model
 
     protected $fillable = [
         'tournament_id',
+        'round',
         'team1_id',
         'team2_id',
         'winner_id',
         'team1_score',
         'team2_score',
-        'round',
     ];
 
     // Define relationships
