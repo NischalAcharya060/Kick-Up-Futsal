@@ -26,8 +26,8 @@
                 <thead>
                 <tr>
                     <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">S.N</th>
-                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility Image</th>
                     <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility ID</th>
+                    <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility Image</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Location</th>
@@ -47,14 +47,14 @@
                 @foreach($facilities as $facility)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $facility->id }}</td>
                         <td>
                             @if($facility->image_path)
                                 <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" class="img-fluid">
                             @else
-                                No Image Available
+                                <img src="{{ asset('img/img-1.jpg') }}" class="img-fluid" alt="{{ $facility->name }}">
                             @endif
                         </td>
-                        <td>{{ $facility->id }}</td>
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->name }}</td>
                         <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->description }}</td>
                         <td>{{ $facility->location }}</td>
@@ -66,7 +66,7 @@
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->contact_person }}</td>
                         <td>{{ $facility->contact_email }}</td>
                         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->contact_phone }}</td>
-                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->addedBy ? $facility->addedBy->name : 'N/A' }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $facility->addedBy ? $facility->addedBy->name : 'Nischal Acharya' }}</td>
                         <td>
                             <a href="{{ route('admin.facilities.show', $facility) }}" class="btn btn-info btn-sm" title="View">
                                 <i class='bx bx-show'></i>

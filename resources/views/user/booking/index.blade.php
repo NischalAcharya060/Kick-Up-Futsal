@@ -42,8 +42,8 @@
                                 @if($facility->image_path)
                                     <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" class="card-img-top rounded-4 img-fluid" alt="{{ $facility->name }}">
                                 @else
-                                    <div class="bg-secondary text-light text-center p-4">
-                                        No Image Available
+                                    <div class=" text-light text-center">
+                                        <img src="{{ asset('img/img-1.jpg') }}" class="card-img-top rounded-4 img-fluid" alt="{{ $facility->name }}">
                                     </div>
                                 @endif
                             </div>

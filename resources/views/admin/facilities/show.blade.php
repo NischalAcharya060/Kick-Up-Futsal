@@ -7,51 +7,53 @@
 
         <div class="card">
             <div class="card-body">
-                @if($facility->image_path)
-                    <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" class="img-fluid mb-3">
-                @endif
+                <div class="row">
+                    <div class="col-md-6">
+                        @if($facility->image_path)
+                            <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="Facility Image" class="img-fluid mb-3">
+                        @else
+                            <img src="{{ asset('img/img-1.jpg') }}" class="img-fluid mb-3" alt="{{ $facility->name }}">
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="card-title">{{ $facility->name }}</h5>
+                        <p class="card-text">{{ $facility->description }}</p>
 
-                <h5 class="card-title">{{ $facility->name }}</h5>
-                <p class="card-text">{{ $facility->description }}</p>
+                        <hr>
 
-                <hr>
+                        <dl class="row">
+                            <dt class="col-sm-5">Location:</dt>
+                            <dd class="col-sm-7">{{ $facility->location }}</dd>
 
-                <dl class="row">
-                    <dt class="col-sm-3">Location:</dt>
-                    <dd class="col-sm-9">{{ $facility->location }}</dd>
+                            <dt class="col-sm-5">Price per Hour:</dt>
+                            <dd class="col-sm-7">Rs. {{ $facility->price_per_hour }}</dd>
 
-                    <dt class="col-sm-3">Map Coordinates:</dt>
-                    <dd class="col-sm-9">{{ $facility->map_coordinates }}</dd>
-                </dl>
+                            <dt class="col-sm-5">Facility Type:</dt>
+                            <dd class="col-sm-7">{{ $facility->facility_type }}</dd>
 
-                <div id="map" style="height: 300px;"></div>
+                            <dt class="col-sm-5">Opening Time:</dt>
+                            <dd class="col-sm-7">{{ $facility->opening_time }}</dd>
 
-                <hr>
+                            <dt class="col-sm-5">Closing Time:</dt>
+                            <dd class="col-sm-7">{{ $facility->closing_time }}</dd>
 
-                <dl class="row">
-                    <dt class="col-sm-3">Price per Hour:</dt>
-                    <dd class="col-sm-9">Rs. {{ $facility->price_per_hour }}</dd>
+                            <dt class="col-sm-5">Contact Person:</dt>
+                            <dd class="col-sm-7">{{ $facility->contact_person }}</dd>
 
-                    <dt class="col-sm-3">Facility Type:</dt>
-                    <dd class="col-sm-9">{{ $facility->facility_type }}</dd>
+                            <dt class="col-sm-5">Contact Email:</dt>
+                            <dd class="col-sm-7">{{ $facility->contact_email }}</dd>
 
-                    <dt class="col-sm-3">Opening Time:</dt>
-                    <dd class="col-sm-9">{{ $facility->opening_time }}</dd>
+                            <dt class="col-sm-5">Contact Phone:</dt>
+                            <dd class="col-sm-7">{{ $facility->contact_phone }}</dd>
+                        </dl>
+                    </div>
+                </div>
 
-                    <dt class="col-sm-3">Closing Time:</dt>
-                    <dd class="col-sm-9">{{ $facility->closing_time }}</dd>
+                <div class="mt-4">
+                    <div id="map" style="height: 400px;"></div>
+                </div>
 
-                    <dt class="col-sm-3">Contact Person:</dt>
-                    <dd class="col-sm-9">{{ $facility->contact_person }}</dd>
-
-                    <dt class="col-sm-3">Contact Email:</dt>
-                    <dd class="col-sm-9">{{ $facility->contact_email }}</dd>
-
-                    <dt class="col-sm-3">Contact Phone:</dt>
-                    <dd class="col-sm-9">{{ $facility->contact_phone }}</dd>
-                </dl>
-
-                <div class="mt-3">
+                <div class="mt-4">
                     <a href="{{ route('admin.facilities.edit', $facility->id) }}" class="btn btn-warning mr-2">Edit</a>
                     <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
                 </div>

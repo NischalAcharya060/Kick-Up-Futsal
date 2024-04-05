@@ -9,7 +9,7 @@
                     <img src="{{ asset('img/Futsal.jpg') }}" alt="Futsal Image" class="img-fluid mb-4" style="width: 100%; border-radius: 10px;">
 
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff;">
-                        <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Choose your Facility and start playing futsal</h2>
+                        <h2 class="heading">Choose your Facility and start playing futsal</h2>
                         <a href="{{ route('user.booking.index') }}" class="btn-custom"> <i class='bx bxs-calendar'></i> Book Now <i class='bx bxs-right-arrow-alt'></i></a>
                     </div>
                 </div>
@@ -73,8 +73,8 @@
                                     @if($facility->image_path)
                                         <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" class="card-img-top rounded-4 img-fluid" alt="{{ $facility->name }}">
                                     @else
-                                        <div class="bg-secondary text-light text-center p-4">
-                                            No Image Available
+                                        <div class=" text-light text-center ">
+                                            <img src="{{ asset('img/img-1.jpg') }}" class="card-img-top rounded-4 img-fluid" alt="{{ $facility->name }}">
                                         </div>
                                     @endif
                                 </div>
@@ -127,6 +127,20 @@
 @endsection
 
 @section('styles')
+    <style>
+        .heading{
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            position: relative;
+            text-decoration: underline;
+            text-decoration-color: transparent;
+            text-decoration-style: wavy;
+            text-decoration-line: underline;
+            padding-bottom: 8px; /* Adjust this value to control the wave's amplitude */
+            border-radius: 25%;
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('css/user_dashboard.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 @endsection
