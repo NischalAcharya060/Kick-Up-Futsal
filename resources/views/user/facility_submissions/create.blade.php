@@ -4,7 +4,7 @@
     <br>
     <br>
     <div class="container">
-        <h4 class="font-weight-bold py-3 mb-4">Submit Facility</h4>
+        <h4 class="font-weight-bold py-3 mb-4">Submit Futsal Facility</h4>
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -88,7 +88,7 @@
                 <input type="file" id="image" name="image" class="form-control">
             </div>
 
-            <button type="submit" class="btn-custom">Submit Facility</button>
+            <button type="submit" class="btn-custom">Submit Futsal</button>
             <button type="button" class="btn-custom" onclick="goBack()">Back</button>
         </form>
     </div>

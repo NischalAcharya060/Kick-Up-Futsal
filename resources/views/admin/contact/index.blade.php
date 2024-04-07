@@ -8,6 +8,11 @@
             <div class="card-header">
                 <h3 class="card-title">Contact Form Submissions</h3>
             </div>
+            @if($submissions->isEmpty())
+                <div class="alert alert-danger">
+                    <p>No contact submission at this time.</p>
+                </div>
+            @else
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
@@ -43,6 +48,8 @@
             </div>
         </div>
     </div>
+    @endif
+
 @endsection
 
 @section('styles')

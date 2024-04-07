@@ -22,6 +22,12 @@
             </a>
         </div>
 
+        @if($tournaments->isEmpty())
+            <div class="alert alert-danger">
+                <p>No tournament at this time.</p>
+            </div>
+        @else
+
         <div class="card border-0 shadow">
             <div class="card-body">
                 <div class="table-responsive">
@@ -72,9 +78,6 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="10">No tournaments found.</td>
-                            </tr>
                         @endforelse
                         </tbody>
                     </table>
@@ -82,6 +85,8 @@
             </div>
         </div>
     </div>
+    @endif
+
 @endsection
 
 @section('styles')

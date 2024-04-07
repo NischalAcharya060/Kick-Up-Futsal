@@ -251,4 +251,71 @@ class BookingController extends Controller
 
         return redirect()->back()->with('success', 'Booking has been cancelled successfully.');
     }
+
+    public function Stripe_initiate(Request $request)
+    {
+        \Stripe\Stripe::setApiKey(config('app.sk'));
+
+        $facilityId = session('booking.facility_id');
+        $bookingDate = session('booking.date');
+        $bookingTime = session('booking.time');
+
+        // Ensure all required data is present
+        if (!$facilityId || !$bookingDate || !$bookingTime) {
+            throw new \Exception('Incomplete or missing booking information in session.');
+        }
+
+        // Retrieve booking data from the database using the facility ID, date, and time
+        $booking = Booking::where('facility_id', $facilityId)
+            ->where('booking_date', $bookingDate)
+            ->where('booking_time', $bookingTime)
+            ->first();
+
+        // Check if the booking is not found
+        if (!$booking) {
+            throw new \Exception('Booking not found. Facility ID: ' . $facilityId . ', Date: ' . $bookingDate . ', Time: ' . $bookingTime);
+        }
+
+        // Retrieve facility details including price per hour
+        $facility = Facility::find($facilityId);
+
+        // Calculate total based on price per hour
+        $pricePerHour = $facility->price_per_hour;
+        $total = $pricePerHour * 100; // Convert NPR to cents
+
+        // Ensure $total is an integer
+        $total = intval($total);
+
+        // Update the booking status to "completed"
+        $booking->status = 'Payment Completed';
+        $paymentMethod = $request->input('paymentMethod');
+        $booking->payment_method = $paymentMethod;
+
+        $booking->save();
+
+        $session = \Stripe\Checkout\Session::create([
+            'line_items'  => [
+                [
+                    'price_data' => [
+                        'currency'     => 'NPR',
+                        'product_data' => [
+                            "name" => $facility->name,
+                        ],
+                        'unit_amount'  => $total,
+                    ],
+                    'quantity'   => 1,
+                ],
+
+            ],
+            'mode'        => 'payment',
+            'success_url' => route('user.bookings.stripe.success'),
+        ]);
+
+        return redirect()->away($session->url);
+    }
+
+    public function Stripe_success()
+    {
+        return view('user.booking.payment-success');
+    }
 }

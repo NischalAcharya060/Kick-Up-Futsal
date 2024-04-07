@@ -151,7 +151,8 @@ Route::middleware(['auth', 'log.last.active'])->group(function () {
     Route::post('/bookings/{booking}/store-review', [BookingController::class, 'storeReview'])
         ->name('user.bookings.storeReview');
     Route::delete('/user/bookings/{booking}', [BookingController::class, 'cancel'])->name('user.bookings.cancel');
-
+    Route::post('/stripe_payment', [BookingController::class, 'Stripe_initiate'])->name('user.bookings.stripe.payment');
+    Route::get('/stripe_success', [BookingController::class, 'Stripe_success'])->name('user.bookings.stripe.success');
 });
 
 //Bookmark

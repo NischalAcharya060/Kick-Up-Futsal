@@ -30,17 +30,19 @@
                     <p class="card-text">Choose your payment method:</p>
 
                     <!-- Payment methods -->
+
+                    <form action="{{ route('user.bookings.stripe.payment') }}" method="POST">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type='hidden' name="paymentMethod" value="Stripe">
+                        <input type='hidden' name="total" value="{{ $facility->price_per_hour }}">
+                        <input type='hidden' name="productname" value="{{ $facility->name }}">
+                        <a href="#" onclick="document.forms[0].submit(); return false;">
+                            <img src="{{ asset('img/stripe.png') }}" alt="Pay with Stripe" style="width: 150px;">
+                        </a>
+                    </form>
                     <form id="paymentForm" action="{{ route('payment.success') }}" method="GET">
                         @csrf
                         <div class="payment-options">
-                            <div class="payment-option">
-                                <input type="radio" class="form-check-input" id="esewaPayment" name="paymentMethod" value="esewa">
-                                <label class="radio-label" for="esewaPayment">
-                                    <img src="{{ asset('img/esewa.png') }}" alt="eSewa">
-                                    <span>eSewa</span>
-                                </label>
-                            </div>
-
                             <div class="payment-option">
                                 <input type="radio" class="form-check-input" id="codPayment" name="paymentMethod" value="Cash on Delivery">
                                 <label class="radio-label" for="codPayment">
@@ -54,7 +56,6 @@
                             <button type="submit" class="book-btn" onclick="proceedToPayment()"><i class='bx bx-credit-card'></i> Proceed to Payment</button>
                         </div>
                     </form>
-
                 </div>
         </div>
     </div>
@@ -107,31 +108,15 @@
 
 @section('styles')
     <style>
-        .payment-options {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .payment-option {
-            text-align: center;
-            margin-right: 20px;
-        }
-
-        .radio-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-        }
-
         .radio-label img {
             max-width: 100px;
             margin-bottom: 5px;
         }
 
-        .form-check-input:checked + .radio-label {
-            border: 2px solid #3498db;
-            border-radius: 5px;
+        .payment-option input[type="radio"] {
+            position: absolute;
+            opacity: 3;
+            pointer-events: none;
         }
 
         .book-btn {

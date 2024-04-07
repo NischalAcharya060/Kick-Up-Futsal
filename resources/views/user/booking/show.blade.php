@@ -29,7 +29,7 @@
                     @if ($facility->image_path)
                         <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" alt="{{ $facility->name }}" class="facility-image rounded-4">
                     @else
-                        <img src="https://via.placeholder.com/300x200?text=Facility+Image" alt="Placeholder Image" class="facility-image rounded-4">
+                        <img src="{{ asset('img/img-1.jpg') }}" class="facility-image rounded-4" alt="{{ $facility->name }}">
                     @endif
                 </div>
             </div>
