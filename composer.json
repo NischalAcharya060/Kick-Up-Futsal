@@ -14,7 +14,8 @@
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.8",
         "spatie/laravel-google-calendar": "^3.7",
-        "spatie/laravel-permission": "^6.3"
+        "spatie/laravel-permission": "^6.3",
+        "stripe/stripe-php": "^13.17"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

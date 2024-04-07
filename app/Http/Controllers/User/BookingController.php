@@ -299,13 +299,14 @@ class BookingController extends Controller
                     'price_data' => [
                         'currency'     => 'NPR',
                         'product_data' => [
-                            "name" => $facility->name,
+                            'name' => $facility->name,
+                            'images' => ['https://goalnepal.com/uploads/news/1627182357.jpg'],
+                            'description' => $facility->description,
                         ],
                         'unit_amount'  => $total,
                     ],
                     'quantity'   => 1,
                 ],
-
             ],
             'mode'        => 'payment',
             'success_url' => route('user.bookings.stripe.success'),
