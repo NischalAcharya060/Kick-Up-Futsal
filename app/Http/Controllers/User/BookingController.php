@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Rules\NotInPast;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -112,6 +113,7 @@ class BookingController extends Controller
             $validator = Validator::make($request->all(), [
                 'date' => ['required', 'date', new NotInPast()],
                 'time' => ['required'],
+                'hours' => ['required'],
             ]);
 
             if ($validator->fails()) {
@@ -120,17 +122,28 @@ class BookingController extends Controller
                     ->withInput();
             }
 
+            // Retrieve price_per_hour from the facility
+            $pricePerHour = $facility->price_per_hour;
+
+            // Retrieve the number of hours from the request
+            $hours = $request->input('hours');
+
+            // Calculate the total price
+            $totalPrice = $pricePerHour * $hours;
+
             // Create a new Booking instance
             $user = auth()->user();
             $booking = new Booking();
             $booking->user_id = auth()->user()->id;
             $booking->facility_id = $facilityId;
-            $booking->amount = $facility->price_per_hour;
+            $booking->amount = $totalPrice;
             $booking->user_name = $user->name;
             $booking->email = $user->email;
             $booking->contact_number = $user->contact_number;
             $booking->booking_date = $request->input('date');
             $booking->booking_time = $request->input('time');
+            $booking->hours = $hours;
+
 
             // Save the booking to the database
             $booking->save();
@@ -142,14 +155,14 @@ class BookingController extends Controller
             $request->session()->put('booking.facility_id', $facilityId);
             $request->session()->put('booking.date', $request->input('date'));
             $request->session()->put('booking.time', $request->input('time'));
-            $request->session()->put('booking.amount', $facility->price_per_hour);
+            $request->session()->put('booking.hours', $hours);
+            $request->session()->put('booking.amount', $totalPrice);
 
             return view('user.booking.confirmation', compact('facility', 'booking'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
 
     public function generateReceipt()
     {
@@ -159,19 +172,19 @@ class BookingController extends Controller
 
         if (!$facility) {
             \Log::error("Facility not found for facility_id: $facilityId");
-
             return redirect()->route('error')->with('message', 'Facility not found.');
         }
 
         $bookingDate = session('booking.date');
         $bookingTime = session('booking.time');
+        $bookingHour = session('booking.hours');
+        $bookingAmount = session('booking.amount');
 
-        $price = $facility->price_per_hour;
 
         $userId = auth()->id();
         $user = User::find($userId);
 
-        $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'price', 'user'))->render();
+        $receiptContent = view('user.booking.receipt', compact('facility', 'bookingDate', 'bookingTime', 'bookingAmount', 'bookingHour', 'user'))->render();
 
         $pdf = \PDF::loadHtml($receiptContent);
 
@@ -191,9 +204,12 @@ class BookingController extends Controller
             $facilityId = session('booking.facility_id');
             $bookingDate = session('booking.date');
             $bookingTime = session('booking.time');
+            $bookingHour = session('booking.hours');
+            $bookingAmount = session('booking.amount');
+
 
             // Ensure all required data is present
-            if (!$facilityId || !$bookingDate || !$bookingTime) {
+            if (!$facilityId || !$bookingDate || !$bookingTime || !$bookingHour || !$bookingAmount) {
                 throw new \Exception('Incomplete or missing booking information in session.');
             }
 
@@ -256,12 +272,15 @@ class BookingController extends Controller
     {
         \Stripe\Stripe::setApiKey(config('app.sk'));
 
-        $facilityId = session('booking.facility_id');
-        $bookingDate = session('booking.date');
-        $bookingTime = session('booking.time');
+        // Retrieve booking data from the request
+        $facilityId = $request->session()->get('booking.facility_id');
+        $bookingDate = $request->session()->get('booking.date');
+        $bookingTime = $request->session()->get('booking.time');
+        $bookingAmount = $request->session()->get('booking.amount');
+        $bookingHour = $request->session()->get('booking.hours');
 
         // Ensure all required data is present
-        if (!$facilityId || !$bookingDate || !$bookingTime) {
+        if (!$facilityId || !$bookingDate || !$bookingTime || !$bookingAmount || !$bookingHour) {
             throw new \Exception('Incomplete or missing booking information in session.');
         }
 
@@ -276,44 +295,35 @@ class BookingController extends Controller
             throw new \Exception('Booking not found. Facility ID: ' . $facilityId . ', Date: ' . $bookingDate . ', Time: ' . $bookingTime);
         }
 
-        // Retrieve facility details including price per hour
+        // Retrieve facility details
         $facility = Facility::find($facilityId);
 
-        // Calculate total based on price per hour
-        $pricePerHour = $facility->price_per_hour;
-        $total = $pricePerHour * 100; // Convert NPR to cents
+        $total = $bookingAmount * 100;
 
-        // Ensure $total is an integer
-        $total = intval($total);
-
-        // Update the booking status to "completed"
-        $booking->status = 'Payment Completed';
-        $paymentMethod = $request->input('paymentMethod');
-        $booking->payment_method = $paymentMethod;
-
-        $booking->save();
-
+        // Create a Stripe Checkout session
         $session = \Stripe\Checkout\Session::create([
-            'line_items'  => [
+            'line_items' => [
                 [
                     'price_data' => [
-                        'currency'     => 'NPR',
+                        'currency' => 'NPR',
                         'product_data' => [
                             'name' => $facility->name,
                             'images' => ['https://goalnepal.com/uploads/news/1627182357.jpg'],
                             'description' => $facility->description,
                         ],
-                        'unit_amount'  => $total,
+                        'unit_amount' => $total,
                     ],
-                    'quantity'   => 1,
+                    'quantity' => 1,
                 ],
             ],
-            'mode'        => 'payment',
+            'mode' => 'payment',
             'success_url' => route('user.bookings.stripe.success'),
         ]);
 
+        // Redirect to the Stripe Checkout session URL
         return redirect()->away($session->url);
     }
+
 
     public function Stripe_success()
     {

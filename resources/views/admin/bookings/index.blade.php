@@ -27,6 +27,7 @@
                         <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Facility Name</th>
                         <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Booking Date</th>
                         <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Booking Time</th>
+                        <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Booking Hours</th>
                         <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Amount</th>
                         <th style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Payment Method</th>
                         <th>Status</th>
@@ -43,6 +44,7 @@
                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->facility->name }}</td>
                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</td>
                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ \Carbon\Carbon::parse($booking->booking_time)->format('h:i a') }}</td>
+                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{ $booking->hours }} hour</td>
                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rs. {{ $booking->amount }}</td>
                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $booking->payment_method }}</td>
                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
