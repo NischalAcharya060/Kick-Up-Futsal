@@ -20,6 +20,7 @@ class Booking extends Model
         'booking_time',
         'ratings',
         'reviews',
+        'hours',
     ];
 
     public function user()

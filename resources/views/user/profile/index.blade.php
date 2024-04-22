@@ -37,6 +37,8 @@
                            href="#account-additional">Additional Details</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                            href="#account-change-password">Security</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list"
+                           href="#account-danger-zone">Danger Zone</a>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -183,6 +185,16 @@
                                         <button type="button" class="btn btn-default" onclick="goBack()">Cancel</button>
                                     </div>
                                 </div>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade" id="account-danger-zone">
+                            <h4>Danger Zone</h4>
+                            <p>Be careful! Deleting your account is irreversible.</p>
+                            <form id="deleteAccountForm" action="{{ route('delete.account') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete Account</button>
                             </form>
                         </div>
 

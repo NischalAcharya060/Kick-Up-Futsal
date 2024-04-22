@@ -46,6 +46,10 @@
             letter-spacing: 2px;
             margin: 0;
         }
+        .footer {
+            text-align: right;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -65,7 +69,8 @@
     <p><strong>Ground Location:</strong> {{ $facility->location }}</p>
     <p><strong>Date of Booking:</strong> {{ \Carbon\Carbon::parse($bookingDate)->format('F j, Y') }}</p>
     <p><strong>Time of Booking:</strong> {{ \Carbon\Carbon::parse($bookingTime)->format('h:i A') }}</p>
-    <p><strong>Price:</strong> Rs. {{ $price }}</p>
+    <p><strong>Booking Hours:</strong> {{ $bookingHour }} hour</p>
+    <p><strong>Price:</strong> Rs. {{ $bookingAmount }}</p>
     <br>
     <div class="footer-bottom text-md-right text-sm-center">
         <p>&copy; {{ date('Y') }} Kick Up Futsal. All rights reserved.</p>

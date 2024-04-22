@@ -17,10 +17,11 @@
                             <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" class="card-img-top rounded-4" alt="{{ $facility->name }}">
                         @endif
                     </div>
-                    <li class="list-group-item"><strong>Facility:</strong> {{ $facility->name }}</li>
-                    <li class="list-group-item"><strong>Date:</strong> {{ session('booking.date') }}</li>
-                    <li class="list-group-item"><strong>Time:</strong> {{ date('h:i A', strtotime(session('booking.time'))) }}</li>
-                    <li class="list-group-item"><strong>Price:</strong> Rs. {{ $facility->price_per_hour }}</li>
+                    <li class="list-group-item"><strong>Facility Name:</strong> {{ $facility->name }}</li>
+                    <li class="list-group-item"><strong>Booking Date:</strong> {{ session('booking.date') }}</li>
+                    <li class="list-group-item"><strong>Booking Time:</strong> {{ date('h:i A', strtotime(session('booking.time'))) }}</li>
+                    <li class="list-group-item"><strong>Booking Hours:</strong> {{ (session('booking.hours')) }} hour</li>
+                    <li class="list-group-item"><strong>Total Price:</strong> Rs. {{ (session('booking.amount')) }}</li>
                 </ul>
 
                 <!-- Display the map -->
@@ -34,7 +35,7 @@
                     <form action="{{ route('user.bookings.stripe.payment') }}" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type='hidden' name="paymentMethod" value="Stripe">
-                        <input type='hidden' name="total" value="{{ $facility->price_per_hour }}">
+                        <input type='hidden' name="total" value="{{ (session('booking.amount')) }}">
                         <input type='hidden' name="productname" value="{{ $facility->name }}">
                         <a href="#" onclick="document.forms[0].submit(); return false;">
                             <img src="{{ asset('img/stripe.png') }}" alt="Pay with Stripe" style="width: 150px;">

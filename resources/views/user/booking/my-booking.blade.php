@@ -38,6 +38,7 @@
                                 <th>Facility</th>
                                 <th>Date</th>
                                 <th>Time</th>
+                                <th>Hours</th>
                                 <th>Amount</th>
                                 <th>Payment Method</th>
                                 <th>Status</th>
@@ -57,6 +58,7 @@
                                     </td>
                                     <td>{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($booking->booking_time)->format('h:i a') }}</td>
+                                    <td> {{ $booking->hours }} hour</td>
                                     <td>Rs. {{ $booking->amount }}</td>
                                     <td>{{ $booking->payment_method }}</td>
                                     <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">

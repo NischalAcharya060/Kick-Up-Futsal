@@ -104,7 +104,6 @@
                     </div>
                     @php $counter++ @endphp
                 @else
-                    <!-- Break out of the loop after displaying three facilities -->
                     @break
                 @endif
             @empty
@@ -136,8 +135,7 @@
             text-decoration: underline;
             text-decoration-color: transparent;
             text-decoration-style: wavy;
-            text-decoration-line: underline;
-            padding-bottom: 8px; /* Adjust this value to control the wave's amplitude */
+            padding-bottom: 8px;
             border-radius: 25%;
         }
     </style>

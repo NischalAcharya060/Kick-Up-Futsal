@@ -19,6 +19,7 @@
                             </div>
                             <p class="mb-1">Booked by: <span class="text-primary">{{ $booking['userName'] }}</span></p>
                             <p class="mb-1">Payment Method: <span class="text-warning">{{ $booking['bookingPaymentMethod'] }}</span></p>
+                            <p class="mb-1">Booking Hours: <span class="text-info">{{ $booking['bookingHours'] }} hour</span></p>
                             <p class="mb-1">Booking Amount: <span class="text-info">{{ $booking['bookingAmount'] }}</span></p>
                             <p class="mb-1">Booking Status: <span class="text-success">{{ $booking['bookingStatus'] }}</span></p>
                         </a>

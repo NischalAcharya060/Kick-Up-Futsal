@@ -27,7 +27,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users',
@@ -36,7 +35,6 @@ class UserController extends Controller
             'profile_picture' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Redirect back with validation errors if validation fails
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -61,7 +59,6 @@ class UserController extends Controller
             'profile_picture' => $profilePicturePath,
         ]);
 
-        // Redirect back with a success message
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
@@ -96,7 +93,6 @@ class UserController extends Controller
             'user_type' => $request->input('user_type'),
         ]);
 
-        // Handle profile picture upload
         if ($request->hasFile('profile_picture')) {
             $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
             $user->update(['profile_picture' => $profilePicturePath]);

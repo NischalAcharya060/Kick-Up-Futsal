@@ -32,7 +32,7 @@ class TournamentController extends Controller
             return redirect()->route('user.teams.create')->with('error', 'You need to join or create a team before joining a tournament.');
         }
 
-        $team = $user->teams()->first(); // Assuming a user can belong to only one team
+        $team = $user->teams()->first(); // One user can belong to only one team
 
         // Check if the team is already registered for the tournament
         if (!$tournament->teams->contains($team->id)) {

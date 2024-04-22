@@ -20,31 +20,36 @@ class LoginController extends Controller
 
     public function loginPost(Request $request)
     {
-        // Validate the form data
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        try {
+            // Validate the form data
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
 
-        // Attempt to log in the user
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            // Check if the user is banned
-            if (Auth::user()->isBanned()) {
-                Auth::logout();
-                return back()->withErrors(['email' => 'Your account is banned. Please contact the admin for assistance.'])->withInput();
+            // Attempt to log in the user
+            $credentials = $request->only('email', 'password');
+            if (Auth::attempt($credentials)) {
+                // Check if the user is banned
+                if (Auth::user()->isBanned()) {
+                    Auth::logout();
+                    return back()->withErrors(['email' => 'Your account is banned. Please contact the admin for assistance.'])->withInput();
+                }
+
+                // Check the user type and redirect accordingly
+                if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'futsal_manager') {
+                    return redirect()->route('admin.dashboard');
+                } elseif (Auth::user()->user_type == 'user') {
+                    return redirect()->route('user.dashboard');
+                }
             }
 
-            // Check the user type and redirect accordingly
-            if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'futsal_manager') {
-                return redirect()->route('admin.dashboard');
-            } elseif (Auth::user()->user_type == 'user') {
-                return redirect()->route('user.dashboard');
-            }
+            // Authentication failed
+            return back()->withErrors(['email' => 'Invalid email or password'])->withInput();
+        } catch (\Exception $e) {
+            // Handle other types of exceptions
+            return back()->withErrors(['email' => $e->getMessage()])->withInput();
         }
-
-        // Authentication failed
-        return back()->withErrors(['email' => 'Invalid email or password'])->withInput();
     }
 
 

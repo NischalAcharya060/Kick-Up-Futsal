@@ -89,12 +89,10 @@ class FacilitySubmissionController extends Controller
     public function updateStatus(Request $request, Facility $facility)
     {
         try {
-            // Validate the request data
             $request->validate([
                 'status' => 'required|in:pending,accepted,rejected',
             ]);
 
-//            // Get the status from the request
             $status = $request->input('status');
 
             // Check if the status value is valid
@@ -102,12 +100,10 @@ class FacilitySubmissionController extends Controller
                 return redirect()->back()->with('error', 'Invalid status value.');
             }
 
-            // Update the status of the facility
             $facility->update([
                 'status' => $status,
             ]);
 
-            // Handle redirection based on status
             if ($status === 'accepted') {
                 // Redirect to admin facilities index if accepted
                 return redirect()->route('admin.facilities.index')->with('success', 'Facility accepted successfully.');
@@ -123,11 +119,8 @@ class FacilitySubmissionController extends Controller
             }
 
         } catch (\Exception $e) {
-            // Handle exceptions
             return redirect()->back()->with('error', 'An error occurred while updating the status.');
         }
-
-        // Default error redirection
         return redirect()->back()->with('error', 'An error occurred while updating the status.');
     }
 }

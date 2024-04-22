@@ -17,6 +17,7 @@ class AdminCalendarController extends Controller
         $bookedDates = $bookings->map(function ($booking) {
             $bookingDate = \Carbon\Carbon::parse($booking->booking_date)->format('Y-m-d');
             $bookingTime = \Carbon\Carbon::parse($booking->booking_time)->format('H:i:s');
+            $bookingHours = $booking->hours;
             $facilityName = $booking->facility->name;
             $userName = $booking->user->name;
 
@@ -27,6 +28,7 @@ class AdminCalendarController extends Controller
                 'start' => $bookingDate,
                 'bookingDate' => $bookingDate,
                 'bookingTime' => $bookingTime,
+                'bookingHours' => $bookingHours,
                 'facilityName' => $facilityName,
                 'userName' => $userName,
                 'bookingStatus' => $booking->status,

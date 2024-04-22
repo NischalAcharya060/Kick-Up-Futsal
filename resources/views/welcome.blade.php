@@ -112,6 +112,17 @@
     <img src="{{ asset('img/logo.png') }}" alt="logo" />
     <h1>Futsal Booking System</h1>
     <p>Book your favorite futsal ground with ease and enjoy the game with friends and family!</p>
+    <br>
+    @if(auth()->check())
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong style="color: white">Hey there!</strong> <p style="color: red">You are already logged in. If you wish to log in with a different account, please log out first your previous account.</p>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn" style="color: red; font-weight: bold; text-decoration: none;">Log out</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="GET" style="display: none;">
+                @csrf
+            </form>
+        </div>
+    @endif
+
     <a href="{{ route('register') }}" class="btn">Sign Up Now</a>
     <a href="{{ route('login') }}" class="btn">Login</a>
 </header>

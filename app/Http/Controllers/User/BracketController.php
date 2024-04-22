@@ -17,10 +17,8 @@ class BracketController extends Controller
             // Retrieve tournament matches from the database
             $matches = TournamentMatch::with(['team1', 'team2', 'winner'])->get();
 
-            // Return the view with bracket matches
             return view('user.tournaments.bracket', ['matches' => $matches]);
         } catch (\Exception $e) {
-            // Handle any exceptions
             return redirect()->route('user.tournaments.index')->with('error', 'An error occurred.');
         }
     }
@@ -78,7 +76,6 @@ class BracketController extends Controller
             // Download PDF
             return $dompdf->stream($fileName);
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->route('user.tournaments.index')->with('error', 'An error occurred in downloading certificate.');
         }
     }

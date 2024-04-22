@@ -7,14 +7,15 @@
     "require": {
         "php": "^8.1",
         "anhskohbo/no-captcha": "^3.6",
-        "barryvdh/laravel-dompdf": "^2.0",
+        "barryvdh/laravel-dompdf": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.8",
         "spatie/laravel-google-calendar": "^3.7",
-        "spatie/laravel-permission": "^6.3"
+        "spatie/laravel-permission": "^6.3",
+        "stripe/stripe-php": "^13.17"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

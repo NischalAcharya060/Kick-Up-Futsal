@@ -70,6 +70,15 @@
                             <input type="time" id="time" name="time" class="form-control" required>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="hours">Booking Duration:</label>
+                            <select id="hours" name="hours" class="form-control" required>
+                                <option value="1">1 hour</option>
+                                <option value="2">2 hours</option>
+                                <option value="3">3 hours</option>
+                            </select>
+                        </div>
+
                         <button type="submit" class="book-btn"><i class='bx bx-calendar'></i> Proceed to Book</button>
                     </form>
                 </div>

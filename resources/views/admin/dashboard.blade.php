@@ -12,13 +12,15 @@
             </div>
         @endif
 
-        <div class="alert alert-success mt-4" role="alert">
-            All systems are running smoothly! @if($unreadNotificationCount > 0)
-                You have <a style="text-decoration: none;" href="{{ route('admin.notifications.index') }}" class="alert-link">{{ $unreadNotificationCount }} unread notification(s)</a>.
-            @else
-                No unread notifications.
-            @endif
-        </div>
+        @if(auth()->check() && auth()->user()->user_type === 'admin')
+            <div class="alert alert-success mt-4" role="alert">
+                All systems are running smoothly! @if($unreadNotificationCount > 0)
+                    You have <a style="text-decoration: none;" href="{{ route('admin.notifications.index') }}" class="alert-link">{{ $unreadNotificationCount }} unread notification(s)</a>.
+                @else
+                    No unread notifications.
+                @endif
+            </div>
+        @endif
 
         <div class="row mt-4">
             <div class="col-md-6 col-lg-3">
@@ -76,6 +78,7 @@
             </div>
         </div>
 
+        @if(auth()->check() && auth()->user()->user_type === 'admin')
         <div class="row mt-4">
             <div class="col-md-12">
                 <a href="{{ route('admin.calendar') }}" style="text-decoration: none; color: black;">
@@ -84,6 +87,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
