@@ -33,7 +33,7 @@
                                     @if($facility->image_path)
                                         <img src="{{ asset('storage/facility_images/' . basename($facility->image_path)) }}" class="rounded-4 img-fluid" alt="{{ $facility->name }}" style="max-width: 100px;">
                                     @else
-                                        No Image Available
+                                        <img src="{{ asset('img/img-1.jpg') }}"  width="200" class="img-fluid" alt="{{ $facility->name }}">
                                     @endif
                                 </a>
                             </td>

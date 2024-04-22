@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BookingConfirmation;
 use App\Rules\NotInPast;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Response;
@@ -87,7 +89,6 @@ class BookingController extends Controller
     {
         $facility = Facility::findOrFail($facilityId);
 
-        // Retrieve bookings with ratings and reviews for the specific facility
         $ratingsAndReviews = Booking::where('facility_id', $facility->id)
             ->whereNotNull('ratings')
             ->whereNotNull('reviews')
@@ -122,16 +123,13 @@ class BookingController extends Controller
                     ->withInput();
             }
 
-            // Retrieve price_per_hour from the facility
             $pricePerHour = $facility->price_per_hour;
 
-            // Retrieve the number of hours from the request
             $hours = $request->input('hours');
 
             // Calculate the total price
             $totalPrice = $pricePerHour * $hours;
 
-            // Create a new Booking instance
             $user = auth()->user();
             $booking = new Booking();
             $booking->user_id = auth()->user()->id;
@@ -145,7 +143,6 @@ class BookingController extends Controller
             $booking->hours = $hours;
 
 
-            // Save the booking to the database
             $booking->save();
 
             // Set the booking ID in the session
@@ -208,12 +205,10 @@ class BookingController extends Controller
             $bookingAmount = session('booking.amount');
 
 
-            // Ensure all required data is present
             if (!$facilityId || !$bookingDate || !$bookingTime || !$bookingHour || !$bookingAmount) {
                 throw new \Exception('Incomplete or missing booking information in session.');
             }
 
-            // Retrieve booking data from the database using the facility ID, date, and time
             $booking = Booking::where('facility_id', $facilityId)
                 ->where('booking_date', $bookingDate)
                 ->where('booking_time', $bookingTime)
@@ -230,6 +225,10 @@ class BookingController extends Controller
             $booking->payment_method = $paymentMethod;
 
             $booking->save();
+
+            // Send booking confirmation email
+            $user = auth()->user();
+            Mail::to($user->email)->send(new BookingConfirmation($booking));
 
             return view('user.booking.payment-success');
         } catch (\Exception $e) {
@@ -278,6 +277,7 @@ class BookingController extends Controller
         $bookingTime = $request->session()->get('booking.time');
         $bookingAmount = $request->session()->get('booking.amount');
         $bookingHour = $request->session()->get('booking.hours');
+        $paymentMethod = 'Stripe';
 
         // Ensure all required data is present
         if (!$facilityId || !$bookingDate || !$bookingTime || !$bookingAmount || !$bookingHour) {
@@ -318,7 +318,16 @@ class BookingController extends Controller
             ],
             'mode' => 'payment',
             'success_url' => route('user.bookings.stripe.success'),
+            'cancel_url' => route('user.bookings.stripe.cancel'),
         ]);
+
+        $booking->payment_method = $paymentMethod;
+        $booking->status = 'Payment Completed';
+        $booking->save();
+
+        // Send booking confirmation email
+        $user = auth()->user();
+        Mail::to($user->email)->send(new BookingConfirmation($booking));
 
         // Redirect to the Stripe Checkout session URL
         return redirect()->away($session->url);
@@ -328,5 +337,10 @@ class BookingController extends Controller
     public function Stripe_success()
     {
         return view('user.booking.payment-success');
+    }
+
+    public function Stripe_cancel(Request $request)
+    {
+        return redirect()->route('user.booking.index')->with('error', 'Payment process was canceled.');
     }
 }

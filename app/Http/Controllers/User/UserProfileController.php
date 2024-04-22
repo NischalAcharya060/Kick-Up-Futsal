@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AccountDeleted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class UserProfileController extends Controller
@@ -99,6 +102,35 @@ class UserProfileController extends Controller
         } catch (\Exception $e) {
             // Handle the exception as per your requirement
             return redirect()->route('user.profile')->with('error', 'An error occurred while updating the password.');
+        }
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        // Retrieve the authenticated user
+        $user = Auth::user();
+
+        if ($user) {
+            try {
+                // Delete the user account
+                $user->delete();
+
+                // Logout the user
+                Auth::logout();
+
+                // Send email notification
+                Mail::to($user->email)->send(new AccountDeleted());
+
+                // Redirect the user to the login page with a success message
+                return redirect('/login')->with('success', 'Your account has been successfully deleted.');
+            } catch (\Exception $e) {
+                dd($e);
+                // Handle any exceptions that occur during the deletion process
+                return redirect()->back()->with('error', 'Failed to delete your account. Please try again later.');
+            }
+        } else {
+            // If the user is not authenticated, redirect to the login page
+            return redirect('/login');
         }
     }
 }

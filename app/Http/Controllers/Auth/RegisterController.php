@@ -54,7 +54,7 @@ class RegisterController extends Controller
             return redirect()->route('verification.code')->with('success', 'Registration successful. Please check your email for the verification code.');
         } catch (\Exception $e) {
             // Handle registration errors
-            return redirect()->back()->with('error', 'An error occurred during registration.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

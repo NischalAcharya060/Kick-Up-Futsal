@@ -54,7 +54,6 @@ class TeamController extends Controller
         if ($user->teams->isNotEmpty()) {
             return redirect()->route('user.teams.index')->with('error', 'You are already a member of a team. Please leave your current team before joining another.');
         }
-        // Add the authenticated user to the team
         $team->users()->attach($user->id);
 
         return redirect()->route('user.teams.index')->with('success', 'Joined the team successfully.');
@@ -63,7 +62,6 @@ class TeamController extends Controller
 
     public function leaveTeam(Team $team)
     {
-        // Remove the authenticated user from the team
         $team->users()->detach(Auth::id());
 
         return redirect()->route('user.teams.index')->with('success', 'Left the team successfully.');

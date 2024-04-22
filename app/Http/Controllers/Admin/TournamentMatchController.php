@@ -13,7 +13,7 @@ class TournamentMatchController extends Controller
     public function index($tournamentId)
     {
         $tournaments = Tournament::all();
-        $tournament = Tournament::find(1);
+        $tournament = Tournament::find($tournamentId);
         $team1 = Team::find(1);
         $team2 = Team::find(2);
         $tournamentMatches = TournamentMatch::where('tournament_id', $tournamentId)->get();
@@ -71,13 +71,11 @@ class TournamentMatchController extends Controller
     public function update(Request $request, $tournamentId, $matchId)
     {
         try {
-            // Retrieve the tournament associated with the match
             $tournament = Tournament::findOrFail($tournamentId);
 
             // Check if the match belongs to the tournament
             $matchToUpdate = $tournament->matches()->findOrFail($matchId);
 
-            // Validate the request data
             $request->validate([
                 'team1_score' => 'nullable|numeric',
                 'team2_score' => 'nullable|numeric',
@@ -91,7 +89,7 @@ class TournamentMatchController extends Controller
             $matchToUpdate->team1_score = $team1Score;
             $matchToUpdate->team2_score = $team2Score;
 
-            // Determine the winner based on scores
+            // The winner based on scores
             if ($team1Score > $team2Score) {
                 $matchToUpdate->winner_id = $matchToUpdate->team1_id;
             } elseif ($team2Score > $team1Score) {
@@ -101,7 +99,6 @@ class TournamentMatchController extends Controller
                 $matchToUpdate->winner_id = null;
             }
 
-            // Save the updated match
             $matchToUpdate->save();
 
             return redirect()->back()->with('success', 'Tournament match scores updated successfully');

@@ -119,6 +119,8 @@ Route::middleware(['auth', 'log.last.active'])->group(function () {
     Route::post('/profile/update-details', [UserProfileController::class, 'updateDetails'])->name('profile.update.details');
     Route::post('/profile/additional-details', [UserProfileController::class, 'additionalDetails'])->name('profile.update.additionaldetails');
     Route::post('/profile/update-password', [UserProfileController::class, 'updatePassword'])->name('profile.update.password');
+    Route::delete('/delete-account', [UserProfileController::class, 'deleteAccount'])->name('delete.account');
+
 });
 
 //Calendar Route
@@ -151,8 +153,9 @@ Route::middleware(['auth', 'log.last.active'])->group(function () {
     Route::post('/bookings/{booking}/store-review', [BookingController::class, 'storeReview'])
         ->name('user.bookings.storeReview');
     Route::delete('/user/bookings/{booking}', [BookingController::class, 'cancel'])->name('user.bookings.cancel');
-    Route::post('/stripe_payment', [BookingController::class, 'Stripe_initiate'])->name('user.bookings.stripe.payment');
-    Route::get('/stripe_success', [BookingController::class, 'Stripe_success'])->name('user.bookings.stripe.success');
+    Route::post('/user/bookings/stripe/initiate', [BookingController::class, 'Stripe_initiate'])->name('user.bookings.stripe.payment');
+    Route::get('/user/bookings/stripe/success', [BookingController::class, 'Stripe_success'])->name('user.bookings.stripe.success');
+    Route::get('/user/bookings/stripe/cancel', [BookingController::class, 'Stripe_cancel'])->name('user.bookings.stripe.cancel');
 });
 
 //Bookmark
