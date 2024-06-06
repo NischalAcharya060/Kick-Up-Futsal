@@ -71,7 +71,7 @@ class BracketController extends Controller
             $dompdf->render();
 
             // Generate file name
-            $fileName = $winningTeam->name . '_certificate.pdf';
+            $fileName = 'Kick Up Futsal Tournament_certificate.pdf';
 
             // Download PDF
             return $dompdf->stream($fileName);
