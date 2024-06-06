@@ -14,17 +14,13 @@
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.8",
         "spatie/laravel-google-calendar": "^3.7",
-        "spatie/laravel-permission": "^6.3",
         "stripe/stripe-php": "^13.17"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.9",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.1",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
